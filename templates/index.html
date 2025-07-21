@@ -1,0 +1,206 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dannybase - Winter Haven Updated Roster</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <!-- Tailwind CSS CDN with teal theme -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: '#14b8a6', // teal-500
+                dark: '#0f766e',   // teal-700
+                light: '#5eead4',  // teal-300
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Custom hover styles for buttons */
+      .btn {
+        transition: background 0.2s, box-shadow 0.2s;
+      }
+      .btn:hover {
+        background-color: #0f766e !important;
+        box-shadow: 0 2px 8px rgba(20,184,166,0.15);
+      }
+      .btn:focus {
+        outline: 2px solid #14b8a6;
+        outline-offset: 2px;
+      }
+      .btn-edit {
+        background-color: #facc15 !important; /* yellow-400 */
+      }
+      .btn-edit:hover {
+        background-color: #ca8a04 !important; /* yellow-700 */
+      }
+      .btn-delete {
+        background-color: #dc2626 !important; /* red-600 */
+      }
+      .btn-delete:hover {
+        background-color: #991b1b !important; /* red-800 */
+      }
+      .logo-bounce {
+        transition: transform 0.2s;
+      }
+      .logo-bounce:hover {
+        transform: translateY(-8px) scale(1.08);
+      }
+    </style>
+</head>
+<body class="bg-teal-50 min-h-screen font-sans">
+    <!-- Header Band -->
+    <div class="bg-primary-dark py-4 px-6 mb-8 rounded-b-xl shadow flex items-center justify-between">
+        <a href="https://www.mywinterhaven.com/" target="_blank" rel="noopener" title="Winter Haven Website">
+            <img src="/static/WHlogo.png" alt="Winter Haven Logo" class="h-16 w-auto logo-bounce" style="border-radius:8px;">
+        </a>
+        <h1 class="text-3xl font-bold text-white drop-shadow text-center w-full" style="font-family: 'Times New Roman', Times, serif; font-style: italic;">Dannybase</h1>
+        <a href="http://127.0.0.1:8080/" target="_blank" rel="noopener" title="Tech Services">
+            <img src="/static/logo_tech.png" alt="Technology Services Logo" class="h-16 w-auto logo-bounce" style="border-radius:8px;">
+        </a>
+    </div>
+    <div class="container mx-auto py-8">
+        <!-- Search Bar -->
+        <form method="get" action="/" class="mb-4 flex gap-2">
+            <input type="text" name="q" value="{{ search }}" placeholder="Search employees..." class="border rounded px-3 py-2 w-full focus:ring-primary-dark" aria-label="Search employees">
+            <button type="submit" class="btn bg-primary text-white px-4 py-2 rounded shadow">🔍 Search</button>
+        </form>
+        <!-- Add Employee Button -->
+        <div class="mb-6">
+            <a href="/add" class="btn bg-primary text-white px-4 py-2 rounded shadow hover:bg-primary-dark">➕ Add New Employee</a>
+            <span class="ml-2 text-sm text-gray-600">Existing employees can be seen below.</span>
+        </div>
+        <!-- Employee Table with Show/Hide Columns -->
+        <div class="overflow-x-auto">
+            <div class="mb-4 p-4 bg-white rounded shadow border border-primary-light">
+                <div class="flex flex-wrap gap-4 items-center">
+                    <span class="font-semibold text-primary-dark text-lg mr-2">Show/Hide Columns:</span>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full">
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Employee ID" checked> <span>Employee ID</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Work Email" checked> <span>Work Email</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="First Name" checked> <span>First Name</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Last Name" checked> <span>Last Name</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Nickname" checked> <span>Nickname</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Department Code" checked> <span>Department Code</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Department / Department Description" checked> <span>Department / Description</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Position" checked> <span>Position</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Join Date" checked> <span>Join Date</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Birthday" checked> <span>Birthday</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Office Location" checked> <span>Office Location</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Supervisor" checked> <span>Supervisor</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Office Phone & Extension" checked> <span>Office Phone & Extension</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Mobile Phone (if applicable)" checked> <span>Mobile Phone</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Employment Type" checked> <span>Employment Type</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Employment Status" checked> <span>Employment Status</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Years of Service" checked> <span>Years of Service</span></label>
+                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Actions" checked> <span>Actions</span></label>
+                    </div>
+                </div>
+            </div>
+            <table class="min-w-full bg-white rounded shadow border border-primary-light table-auto" id="employee-table">
+                <thead class="bg-primary-light">
+                    <tr>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Employee ID">Employee ID</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Work Email">Work Email</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="First Name">First Name</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Last Name">Last Name</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Nickname">Nickname</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Department Code">Department Code</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Department / Department Description">Department / Description</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Position">Position</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Join Date">Join Date</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Birthday">Birthday</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Office Location">Office Location</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Supervisor">Supervisor</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Office Phone & Extension">Office Phone & Extension</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Mobile Phone (if applicable)">Mobile Phone</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Employment Type">Employment Type</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Employment Status">Employment Status</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Years of Service">Years of Service</th>
+                        <th class="py-2 px-4 text-primary-dark" data-col="Actions">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emp in employees %}
+                    <tr class="border-b hover:bg-teal-100">
+                        <td class="py-2 px-4" data-col="Employee ID">{{ emp['Employee ID'] | default(emp['ID']) }}</td>
+                        <td class="py-2 px-4" data-col="Work Email">{{ emp['Work Email'] | default(emp['Email']) }}</td>
+                        <td class="py-2 px-4" data-col="First Name">{{ emp['First Name'] | default(emp['Name']) }}</td>
+                        <td class="py-2 px-4" data-col="Last Name">{{ emp['Last Name'] | default('') }}</td>
+                        <td class="py-2 px-4" data-col="Nickname">{{ emp['Nickname'] | default('') }}</td>
+                        <td class="py-2 px-4" data-col="Department Code">{{ emp['Department Code'] | default('') }}</td>
+                        <td class="py-2 px-4" data-col="Department / Department Description">{{ emp['Department / Department Description'] | default('') }}</td>
+                        <td class="py-2 px-4" data-col="Position">{{ emp['Position'] | default(emp['Title']) }}</td>
+                        <td class="py-2 px-4" data-col="Join Date">{{ emp['Join Date'] | default('') }}</td>
+                        <td class="py-2 px-4" data-col="Birthday">{{ emp['Birthday'] | default('') }}</td>
+                        <td class="py-2 px-4" data-col="Office Location">{{ emp['Office Location'] | default('') }}</td>
+                        <td class="py-2 px-4" data-col="Supervisor">{{ emp['Supervisor'] | default('') }}</td>
+                        <td class="py-2 px-4" data-col="Office Phone & Extension">{{ emp['Office Phone & Extension'] | default('') }}</td>
+                        <td class="py-2 px-4" data-col="Mobile Phone (if applicable)">{{ emp['Mobile Phone (if applicable)'] | default('') }}</td>
+                        <td class="py-2 px-4" data-col="Employment Type">{{ emp['Employment Type'] | default('') }}</td>
+                        <td class="py-2 px-4" data-col="Employment Status">{{ emp['Employment Status'] | default('') }}</td>
+                        <td class="py-2 px-4" data-col="Years of Service">{{ emp['Years of Service'] | default('') }}</td>
+                        <td class="py-2 px-4 flex gap-2" data-col="Actions">
+                            <!-- Edit Form (inline) -->
+                            <form method="post" action="/edit/{{ emp['Employee ID'] | default(emp['ID']) }}" class="flex gap-1">
+                                <input name="name" value="{{ emp['First Name'] | default(emp['Name']) }}" class="border rounded px-2 py-1 w-24 focus:ring-primary-dark" aria-label="Edit Name">
+                                <input name="title" value="{{ emp['Position'] | default(emp['Title']) }}" class="border rounded px-2 py-1 w-24 focus:ring-primary-dark" aria-label="Edit Title">
+                                <input name="email" value="{{ emp['Work Email'] | default(emp['Email']) }}" class="border rounded px-2 py-1 w-32 focus:ring-primary-dark" aria-label="Edit Email">
+                                <button type="submit" class="btn btn-edit text-white px-2 py-1 rounded shadow">📝 Edit</button>
+                            </form>
+                            <!-- Delete Form -->
+                            <form method="post" action="/delete/{{ emp['Employee ID'] | default(emp['ID']) }}" onsubmit="return confirm('Delete employee?');">
+                                <button type="submit" class="btn btn-delete text-white px-2 py-1 rounded shadow">❌ Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="18" class="py-4 text-center text-gray-500">No employees found.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <script>
+        // Show/hide columns
+        document.querySelectorAll('.toggle-col').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                var col = this.getAttribute('data-col');
+                var ths = document.querySelectorAll('th[data-col="' + col + '"]');
+                var tds = document.querySelectorAll('td[data-col="' + col + '"]');
+                if (this.checked) {
+                    ths.forEach(e => e.style.display = '');
+                    tds.forEach(e => e.style.display = '');
+                } else {
+                    ths.forEach(e => e.style.display = 'none');
+                    tds.forEach(e => e.style.display = 'none');
+                }
+            });
+        });
+        // Responsive table: make table scroll horizontally on small screens
+        window.addEventListener('resize', function() {
+            var table = document.getElementById('employee-table');
+            if (window.innerWidth < 900) {
+                table.parentElement.style.overflowX = 'auto';
+            } else {
+                table.parentElement.style.overflowX = '';
+            }
+        });
+        window.dispatchEvent(new Event('resize'));
+        </script>
+        <div class="mt-6 flex justify-end">
+            <a href="/download" class="text-primary-dark underline">Download Excel (Backup)</a>
+        </div>
+        <!-- removed image troubleshooting message -->
+    </div>
+</body>
+</html>

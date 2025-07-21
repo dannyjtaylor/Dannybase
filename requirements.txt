@@ -1,0 +1,8 @@
+watchfiles
+# requirements.txt
+fastapi
+uvicorn
+jinja2
+pandas
+openpyxl
+python-multipart
