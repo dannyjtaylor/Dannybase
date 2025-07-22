@@ -3,6 +3,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Material Icons for toast notifications -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dannybase - Winter Haven Updated Roster</title>
@@ -16,16 +18,41 @@
           extend: {
             colors: {
               primary: {
-                DEFAULT: '#14b8a6', // teal-500
-                dark: '#0f766e',   // teal-700
-                light: '#5eead4',  // teal-300
-              }
+                DEFAULT: '#007B7F', // header-bg
+                dark: '#004c4f',    // button-bg
+                light: '#b2dfdb',   // bubble-user-bg
+              },
+              header: {
+                DEFAULT: '#007B7F',
+                text: '#fff',
+              },
+              button: {
+                DEFAULT: '#004c4f',
+                text: '#fff',
+              },
+              link: {
+                DEFAULT: '#007B7F',
+              },
             }
           }
         }
       }
     </script>
     <style>
+      .toast-box {
+        min-width: 260px;
+        max-width: 400px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+        border-radius: 0.5rem;
+        border-left-width: 6px;
+        background: #fff;
+        font-size: 1rem;
+        align-items: center;
+      }
+      .toast-box .material-icons {
+        font-size: 2rem;
+        vertical-align: middle;
+      }
       /* Custom hover styles for buttons */
       .btn {
         transition: background 0.2s, box-shadow 0.2s;
@@ -59,8 +86,10 @@
     </style>
 </head>
 <body class="bg-teal-50 min-h-screen font-sans">
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2"></div>
     <!-- Header Band -->
-    <div class="bg-primary-dark py-4 px-6 mb-8 rounded-b-xl shadow flex items-center justify-between">
+    <div class="bg-header py-4 px-6 mb-8 rounded-b-xl shadow flex items-center justify-between" style="background-color: #007B7F; color: #fff; border-bottom: 1px solid #ccc;">
         <a href="https://www.mywinterhaven.com/" target="_blank" rel="noopener" title="Winter Haven Website">
             <img src="/static/WHlogo.png" alt="Winter Haven Logo" class="h-16 w-auto logo-bounce" style="border-radius:8px;">
         </a>
@@ -69,137 +98,251 @@
             <img src="/static/logo_tech.png" alt="Technology Services Logo" class="h-16 w-auto logo-bounce" style="border-radius:8px;">
         </a>
     </div>
-    <div class="container mx-auto py-8">
-        <!-- Search Bar -->
-        <form method="get" action="/" class="mb-4 flex gap-2">
-            <input type="text" name="q" value="{{ search }}" placeholder="Search employees..." class="border rounded px-3 py-2 w-full focus:ring-primary-dark" aria-label="Search employees">
-            <button type="submit" class="btn bg-primary text-white px-4 py-2 rounded shadow">🔍 Search</button>
-        </form>
-        <!-- Add Employee Button -->
-        <div class="mb-6">
-            <a href="/add" class="btn bg-primary text-white px-4 py-2 rounded shadow hover:bg-primary-dark">➕ Add New Employee</a>
-            <span class="ml-2 text-sm text-gray-600">Existing employees can be seen below.</span>
-        </div>
-        <!-- Employee Table with Show/Hide Columns -->
-        <div class="overflow-x-auto">
-            <div class="mb-4 p-4 bg-white rounded shadow border border-primary-light">
-                <div class="flex flex-wrap gap-4 items-center">
-                    <span class="font-semibold text-primary-dark text-lg mr-2">Show/Hide Columns:</span>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full">
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Employee ID" checked> <span>Employee ID</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Work Email" checked> <span>Work Email</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="First Name" checked> <span>First Name</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Last Name" checked> <span>Last Name</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Nickname" checked> <span>Nickname</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Department Code" checked> <span>Department Code</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Department / Department Description" checked> <span>Department / Description</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Position" checked> <span>Position</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Join Date" checked> <span>Join Date</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Birthday" checked> <span>Birthday</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Office Location" checked> <span>Office Location</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Supervisor" checked> <span>Supervisor</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Office Phone & Extension" checked> <span>Office Phone & Extension</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Mobile Phone (if applicable)" checked> <span>Mobile Phone</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Employment Type" checked> <span>Employment Type</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Employment Status" checked> <span>Employment Status</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Years of Service" checked> <span>Years of Service</span></label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Actions" checked> <span>Actions</span></label>
-                    </div>
-                </div>
+    <!-- Top Controls Row: View Settings, Add, Search, Import -->
+    <div class="w-full flex flex-row flex-wrap items-center justify-center gap-3 mt-4 mb-8 px-4 max-w-6xl mx-auto">
+      <button id="open-settings" type="button" class="btn bg-primary text-white px-4 py-2 rounded shadow hover:bg-primary-dark" aria-haspopup="dialog" aria-controls="settings-modal">&#9881; View Settings</button>
+      <a href="/add" class="btn bg-primary text-white px-4 py-2 rounded shadow hover:bg-primary-dark">Add New Employee</a>
+      <form method="get" action="/" class="flex-1 min-w-[220px] max-w-lg flex items-center" style="margin:0;">
+        <input type="text" id="search-input" name="q" value="{{ search }}" placeholder="Search employees..." class="border rounded px-3 py-2 w-full focus:ring-primary-dark" aria-label="Search employees">
+      </form>
+      <button id="open-import-modal" type="button" class="btn bg-primary text-white px-4 py-2 rounded shadow hover:bg-primary-dark" aria-haspopup="dialog" aria-controls="import-modal">&#8595; Import</button>
+    </div>
+    <!-- Import Modal -->
+    <div id="import-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden" role="dialog" aria-modal="true" aria-labelledby="import-title">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative max-h-[90vh] overflow-y-auto">
+        <h2 id="import-title" class="text-2xl font-bold mb-4 text-primary-dark">Import Employees</h2>
+        <button id="close-import-modal" class="absolute top-2 right-2 text-gray-500 hover:text-primary-dark text-2xl" aria-label="Close import">&times;</button>
+        <form method="post" action="/import" enctype="multipart/form-data" class="mb-4">
+          <div class="mb-4 text-gray-700 text-sm">
+            <div class="mb-2">Download the <a href="/static/import/dannybaseTemplate.csv" class="text-blue-700 underline ml-1 font-semibold">CSV Template</a> and fill out all required fields using a spreadsheet editor.</div>
+            <div class="font-semibold mb-1">Required columns and formats (WorkEmail and YearsOfService are auto-calculated and not in the import file):</div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm border-separate border-spacing-y-1">
+                <tbody>
+                  <tr><td class="font-bold pr-4 text-left">EmployeeID</td><td class="text-right">numbers only</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">Username</td><td class="text-right">lowercase letters only</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">FirstName</td><td class="text-right">required</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">LastName</td><td class="text-right">required</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">Nickname</td><td class="text-right">optional, but header required</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">DepartmentCode</td><td class="text-right">numbers only</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">Department</td><td class="text-right">Technology Services, Human Resources, or Fire Department</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">Position</td><td class="text-right">must match a valid position</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">JoinDate</td><td class="text-right">MM/DD/YYYY</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">Birthday</td><td class="text-right">MM/DD/YYYY</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">OfficeLocation</td><td class="text-right">optional, but header required</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">Supervisor</td><td class="text-right">required</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">OfficePhoneAndExtension</td><td class="text-right">123-1234 x1234 or blank</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">MobilePhone</td><td class="text-right">optional, but header required</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">EmploymentType</td><td class="text-right">Full Time, Part Time, Intern, Volunteer, or N/A</td></tr>
+                  <tr><td class="font-bold pr-4 text-left">EmploymentStatus</td><td class="text-right">Active or Inactive</td></tr>
+                </tbody>
+              </table>
             </div>
-            <table class="min-w-full bg-white rounded shadow border border-primary-light table-auto" id="employee-table">
+            <div class="mt-2">After upload, you will be shown a preview to confirm before importing.</div>
+          </div>
+          <input type="file" name="file" accept=".csv" required class="mb-4">
+          <button type="submit" class="btn bg-teal-600 text-white px-4 py-2 rounded shadow w-full hover:bg-teal-700">Import CSV</button>
+        </form>
+      </div>
+    </div>
+    <div class="w-full px-2 md:px-8 max-w-7xl mx-auto">
+        <!-- Settings Modal (moved outside table area) -->
+        <div id="settings-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+          <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative">
+            <h2 id="settings-title" class="text-2xl font-bold mb-4 text-primary-dark">Employee Table Settings</h2>
+            <button id="close-settings" class="absolute top-2 right-2 text-gray-500 hover:text-primary-dark text-2xl" aria-label="Close settings">&times;</button>
+            <div class="mb-4">
+              <span class="font-semibold text-primary-dark text-lg mr-2">Employee Attributes</span>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full min-w-fit" id="column-toggles">
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="EmployeeID" checked> <span>EmployeeID</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Username" checked> <span>Username</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="WorkEmail" checked> <span>WorkEmail</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="FirstName" checked> <span>First Name</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="LastName" checked> <span>Last Name</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Nickname" checked> <span>Nickname</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="DepartmentCode" checked> <span>DepartmentCode</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Department" checked> <span>Department</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Position" checked> <span>Position</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Join Date" checked> <span>Join Date</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Birthday" checked> <span>Birthday</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="OfficeLocation" checked> <span>OfficeLocation</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Supervisor" checked> <span>Supervisor</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="OfficePhoneAndExtension" checked> <span>OfficePhoneAndExtension</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="MobilePhone" checked> <span>MobilePhone</span> <span class="text-xs text-gray-500"></span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="EmploymentType" checked> <span>EmploymentType</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="EmploymentStatus" checked> <span>EmploymentStatus</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="YearsOfService" checked> <span>YearsOfService</span></label>
+              </div>
+              <div class="flex gap-2 mt-6 justify-end">
+                <button id="show-all-cols" class="btn bg-primary text-white px-3 py-1 rounded shadow">Show All</button>
+                <button id="hide-all-cols" class="btn bg-red-600 text-white px-3 py-1 rounded shadow">Hide All</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal open/close logic is handled in dannybase.js -->
+        <style>
+          /* Consistent header and cell width for all columns */
+          #employee-table th, #employee-table td {
+            min-width: 140px;
+            max-width: 180px;
+            text-align: center;
+            white-space: nowrap;
+          }
+          #employee-table th {
+            background-color: #f0fdfa;
+            font-weight: 700;
+            font-size: 1rem;
+            border-bottom: 2px solid #14b8a6;
+          }
+          #employee-table td {
+            background-color: #fff;
+            font-size: 0.98rem;
+          }
+        </style>
+        <div class="overflow-x-auto overflow-y-auto bg-white rounded shadow border border-primary-light w-full max-w-7xl mx-auto" style="max-height: 70vh;">
+            <table class="min-w-full table-auto mx-auto" id="employee-table">
                 <thead class="bg-primary-light">
                     <tr>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Employee ID">Employee ID</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Work Email">Work Email</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="First Name">First Name</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Last Name">Last Name</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Nickname">Nickname</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Department Code">Department Code</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Department / Department Description">Department / Description</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Position">Position</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Join Date">Join Date</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Birthday">Birthday</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Office Location">Office Location</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Supervisor">Supervisor</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Office Phone & Extension">Office Phone & Extension</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Mobile Phone (if applicable)">Mobile Phone</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Employment Type">Employment Type</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Employment Status">Employment Status</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Years of Service">Years of Service</th>
-                        <th class="py-2 px-4 text-primary-dark" data-col="Actions">Actions</th>
+                        <th class="py-2 px-4 text-white" data-col="EmployeeID" style="background-color:#007B7F;">EmployeeID</th>
+                        <th class="py-2 px-4 text-white" data-col="Username" style="background-color:#14b8a6;">Username</th>
+                        <th class="py-2 px-4 text-white" data-col="WorkEmail" style="background-color:#007B7F;">WorkEmail</th>
+                        <th class="py-2 px-4 text-white" data-col="FirstName" style="background-color:#14b8a6;">FirstName</th>
+                        <th class="py-2 px-4 text-white" data-col="LastName" style="background-color:#007B7F;">LastName</th>
+                        <th class="py-2 px-4 text-white" data-col="Nickname" style="background-color:#14b8a6;">Nickname</th>
+                        <th class="py-2 px-4 text-white" data-col="DepartmentCode" style="background-color:#007B7F;">DepartmentCode</th>
+                        <th class="py-2 px-4 text-white" data-col="Department" style="background-color:#14b8a6;">Department</th>
+                        <th class="py-2 px-4 text-white" data-col="Position" style="background-color:#007B7F;">Position</th>
+                        <th class="py-2 px-4 text-white" data-col="JoinDate" style="background-color:#14b8a6;">JoinDate</th>
+                        <th class="py-2 px-4 text-white" data-col="Birthday" style="background-color:#007B7F;">Birthday</th>
+                        <th class="py-2 px-4 text-white" data-col="OfficeLocation" style="background-color:#14b8a6;">OfficeLocation</th>
+                        <th class="py-2 px-4 text-white" data-col="Supervisor" style="background-color:#007B7F;">Supervisor</th>
+                        <th class="py-2 px-4 text-white" data-col="OfficePhoneAndExtension" style="background-color:#14b8a6;">OfficePhoneAndExtension</th>
+                        <th class="py-2 px-4 text-white" data-col="MobilePhone" style="background-color:#007B7F;">MobilePhone</th>
+                        <th class="py-2 px-4 text-white" data-col="EmploymentType" style="background-color:#14b8a6;">EmploymentType</th>
+                        <th class="py-2 px-4 text-white" data-col="EmploymentStatus" style="background-color:#007B7F;">EmploymentStatus</th>
+                        <th class="py-2 px-4 text-white" data-col="YearsOfService" style="background-color:#14b8a6;">YearsOfService</th>
+                        <th class="py-2 px-4 text-white text-center" style="background-color:#007B7F;">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for emp in employees %}
                     <tr class="border-b hover:bg-teal-100">
-                        <td class="py-2 px-4" data-col="Employee ID">{{ emp['Employee ID'] | default(emp['ID']) }}</td>
-                        <td class="py-2 px-4" data-col="Work Email">{{ emp['Work Email'] | default(emp['Email']) }}</td>
-                        <td class="py-2 px-4" data-col="First Name">{{ emp['First Name'] | default(emp['Name']) }}</td>
-                        <td class="py-2 px-4" data-col="Last Name">{{ emp['Last Name'] | default('') }}</td>
-                        <td class="py-2 px-4" data-col="Nickname">{{ emp['Nickname'] | default('') }}</td>
-                        <td class="py-2 px-4" data-col="Department Code">{{ emp['Department Code'] | default('') }}</td>
-                        <td class="py-2 px-4" data-col="Department / Department Description">{{ emp['Department / Department Description'] | default('') }}</td>
-                        <td class="py-2 px-4" data-col="Position">{{ emp['Position'] | default(emp['Title']) }}</td>
-                        <td class="py-2 px-4" data-col="Join Date">{{ emp['Join Date'] | default('') }}</td>
-                        <td class="py-2 px-4" data-col="Birthday">{{ emp['Birthday'] | default('') }}</td>
-                        <td class="py-2 px-4" data-col="Office Location">{{ emp['Office Location'] | default('') }}</td>
-                        <td class="py-2 px-4" data-col="Supervisor">{{ emp['Supervisor'] | default('') }}</td>
-                        <td class="py-2 px-4" data-col="Office Phone & Extension">{{ emp['Office Phone & Extension'] | default('') }}</td>
-                        <td class="py-2 px-4" data-col="Mobile Phone (if applicable)">{{ emp['Mobile Phone (if applicable)'] | default('') }}</td>
-                        <td class="py-2 px-4" data-col="Employment Type">{{ emp['Employment Type'] | default('') }}</td>
-                        <td class="py-2 px-4" data-col="Employment Status">{{ emp['Employment Status'] | default('') }}</td>
-                        <td class="py-2 px-4" data-col="Years of Service">{{ emp['Years of Service'] | default('') }}</td>
-                        <td class="py-2 px-4 flex gap-2" data-col="Actions">
-                            <!-- Edit Form (inline) -->
-                            <form method="post" action="/edit/{{ emp['Employee ID'] | default(emp['ID']) }}" class="flex gap-1">
-                                <input name="name" value="{{ emp['First Name'] | default(emp['Name']) }}" class="border rounded px-2 py-1 w-24 focus:ring-primary-dark" aria-label="Edit Name">
-                                <input name="title" value="{{ emp['Position'] | default(emp['Title']) }}" class="border rounded px-2 py-1 w-24 focus:ring-primary-dark" aria-label="Edit Title">
-                                <input name="email" value="{{ emp['Work Email'] | default(emp['Email']) }}" class="border rounded px-2 py-1 w-32 focus:ring-primary-dark" aria-label="Edit Email">
-                                <button type="submit" class="btn btn-edit text-white px-2 py-1 rounded shadow">📝 Edit</button>
-                            </form>
-                            <!-- Delete Form -->
-                            <form method="post" action="/delete/{{ emp['Employee ID'] | default(emp['ID']) }}" onsubmit="return confirm('Delete employee?');">
-                                <button type="submit" class="btn btn-delete text-white px-2 py-1 rounded shadow">❌ Delete</button>
-                            </form>
+                        <td class="py-2 px-4" data-col="EmployeeID">{{ emp['EmployeeID'] }}</td>
+                        <td class="py-2 px-4" data-col="Username">{{ emp['Username'] }}</td>
+                        <td class="py-2 px-4" data-col="WorkEmail">{% if emp['Username'] and emp['Username'] != 'N/A' %}{{ emp['Username'] }}@mywinterhaven.com{% else %}{{ emp['WorkEmail'] }}{% endif %}</td>
+                        <td class="py-2 px-4" data-col="FirstName">{{ emp['FirstName'] }}</td>
+                        <td class="py-2 px-4" data-col="LastName">{{ emp['LastName'] }}</td>
+                        <td class="py-2 px-4" data-col="Nickname">{{ emp['Nickname'] }}</td>
+                        <td class="py-2 px-4" data-col="DepartmentCode">{{ emp['DepartmentCode'] }}</td>
+                        <td class="py-2 px-4" data-col="Department">{{ emp['Department'] }}</td>
+                        <td class="py-2 px-4" data-col="Position">{{ emp['Position'] }}</td>
+                        <td class="py-2 px-4" data-col="JoinDate">{{ emp['JoinDate'] }}</td>
+                        <td class="py-2 px-4" data-col="Birthday">{{ emp['Birthday'] }}</td>
+                        <td class="py-2 px-4" data-col="OfficeLocation">{{ emp['OfficeLocation'] }}</td>
+                        <td class="py-2 px-4" data-col="Supervisor">{{ emp['Supervisor'] }}</td>
+                        <td class="py-2 px-4" data-col="OfficePhoneAndExtension">{{ emp['OfficePhoneAndExtension'] }}</td>
+                        <td class="py-2 px-4" data-col="MobilePhone">{{ emp['MobilePhone'] }}</td>
+                        <td class="py-2 px-4" data-col="EmploymentType">{{ emp['EmploymentType'] }}</td>
+                        <td class="py-2 px-4" data-col="EmploymentStatus">{{ emp['EmploymentStatus'] }}</td>
+                        <td class="py-2 px-4" data-col="YearsOfService">{{ emp['YearsOfService'] }}</td>
+                        <td class="py-2 px-4 text-center">
+                          <button class="btn btn-delete text-white px-2 py-1 rounded shadow flex items-center gap-1 delete-row-btn" type="button" title="Delete this row">
+                            <span class="material-icons">delete</span>
+                          </button>
                         </td>
                     </tr>
                     {% else %}
-                    <tr><td colspan="18" class="py-4 text-center text-gray-500">No employees found.</td></tr>
+                    <tr><td colspan="19" class="py-4 text-center text-gray-500">No employees found.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        <script>
-        // Show/hide columns
-        document.querySelectorAll('.toggle-col').forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                var col = this.getAttribute('data-col');
-                var ths = document.querySelectorAll('th[data-col="' + col + '"]');
-                var tds = document.querySelectorAll('td[data-col="' + col + '"]');
-                if (this.checked) {
-                    ths.forEach(e => e.style.display = '');
-                    tds.forEach(e => e.style.display = '');
-                } else {
-                    ths.forEach(e => e.style.display = 'none');
-                    tds.forEach(e => e.style.display = 'none');
-                }
-            });
-        });
-        // Responsive table: make table scroll horizontally on small screens
-        window.addEventListener('resize', function() {
-            var table = document.getElementById('employee-table');
-            if (window.innerWidth < 900) {
-                table.parentElement.style.overflowX = 'auto';
-            } else {
-                table.parentElement.style.overflowX = '';
-            }
-        });
-        window.dispatchEvent(new Event('resize'));
-        </script>
-        <div class="mt-6 flex justify-end">
-            <a href="/download" class="text-primary-dark underline">Download Excel (Backup)</a>
+        <!-- Save All Button (only once, below the table) -->
+        <div class="flex justify-end mb-4 max-w-7xl mx-auto" id="save-all-container" style="display:none;">
+          <button id="save-all-btn" class="btn bg-emerald-600 text-white px-6 py-2 rounded shadow flex items-center gap-2 hover:bg-emerald-700" type="button">
+            <span class="material-icons">save</span>
+            <span>Save All Changes</span>
+          </button>
         </div>
+        <!-- Export button bottom right, grayed out if no data -->
+        <div style="position: fixed; right: 0; bottom: 0; margin: 24px; z-index: 20;">
+          <div class="relative inline-block text-left">
+            <a id="export-btn" href="/export" class="btn bg-primary text-white px-4 py-2 rounded shadow hover:bg-primary-dark flex items-center opacity-100 cursor-pointer" download>
+              <span class="mr-2">&#8593; Export CSV</span>
+            </a>
+          </div>
+        </div>
+        <script src="/static/dannybase.js" defer></script>
+        <script>
+        // Toast notification logic (professional, dismissible)
+        function showToast(message, type = 'success') {
+          const container = document.getElementById('toast-container');
+          if (!container) return;
+          const toast = document.createElement('div');
+          toast.className = `toast-box flex items-center gap-3 px-5 py-3 rounded-lg shadow-lg font-semibold mb-2 border-l-4 animate-fade-in ${type === 'error' ? 'bg-red-50 border-red-600 text-red-800' : 'bg-white border-teal-600 text-teal-900'}`;
+          toast.style.transition = 'opacity 0.5s';
+          toast.innerHTML = `
+            <span class="material-icons text-2xl">${type === 'error' ? 'error_outline' : 'check_circle'}</span>
+            <span class="flex-1">${message}</span>
+            <button class="ml-2 text-xl text-gray-400 hover:text-gray-700 focus:outline-none" aria-label="Close notification">&times;</button>
+          `;
+          // Close on X click
+          toast.querySelector('button').onclick = () => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 500);
+          };
+          container.appendChild(toast);
+          setTimeout(() => {
+            if (toast.parentNode) {
+              toast.style.opacity = '0';
+              setTimeout(() => toast.remove(), 500);
+            }
+          }, 4000);
+        }
+        // Auto-trigger toast after import/export/edit/delete
+        document.addEventListener('DOMContentLoaded', function() {
+          // Import success (AJAX or form)
+          if (window.location.search.includes('imported=1')) {
+            showToast('Employees imported successfully!');
+          }
+          // Export success (simulate, as download is not AJAX)
+          const exportBtn = document.getElementById('export-btn');
+          if (exportBtn) {
+            exportBtn.addEventListener('click', function(e) {
+              if (!exportBtn.classList.contains('opacity-50')) {
+                showToast('Downloading CSV!');
+              }
+            });
+          }
+          // Edit/Delete (simulate, should be called in dannybase.js after AJAX)
+          window.addEventListener('employee-edited', () => showToast('Employee updated!'));
+          window.addEventListener('employee-deleted', () => showToast('Employee deleted!'));
+        });
+        </script>
+        <!-- fade-in animation style block kept only once above -->
+        <script>
+          // Import Modal open/close logic
+          document.addEventListener('DOMContentLoaded', function() {
+            const openBtn = document.getElementById('open-import-modal');
+            const closeBtn = document.getElementById('close-import-modal');
+            const modal = document.getElementById('import-modal');
+            if (openBtn && closeBtn && modal) {
+              openBtn.addEventListener('click', function() {
+                modal.classList.remove('hidden');
+              });
+              closeBtn.addEventListener('click', function() {
+                modal.classList.add('hidden');
+              });
+              // Close modal on outside click
+              modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                  modal.classList.add('hidden');
+                }
+              });
+            }
+          });
+        </script>
         <!-- removed image troubleshooting message -->
     </div>
 </body>

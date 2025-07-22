@@ -1,0 +1,70 @@
+<!-- Step 1: Enter Employee ID -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Employee</title>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-teal-50 min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-md">
+      <form method="post" action="/add_id" class="bg-white p-8 rounded shadow w-full border border-teal-200">
+          <h2 class="text-2xl font-bold text-teal-700 mb-4">Step (1/2)</h2>
+          <label for="emp_id" class="block mb-2 font-semibold">Employee ID <span class="text-red-600">*</span></label>
+          <input type="text" id="emp_id" name="emp_id" required class="border rounded px-3 py-2 w-full mb-1 focus:ring-teal-700" placeholder="Enter Employee ID">
+          <div id="emp_id_error" class="text-red-600 text-sm mb-3" style="display:none;"></div>
+          <label for="work_email" class="block mb-2 font-semibold mt-4">Work Email <span class="text-red-600">*</span></label>
+          <div class="flex mb-1">
+            <input type="text" id="work_email" name="work_email" required class="border rounded-l px-3 py-2 w-full focus:ring-teal-700" placeholder="username" pattern="^[a-z]+$" autocomplete="off" autocapitalize="none" spellcheck="false">
+            <span class="inline-flex items-center px-3 rounded-r border border-l-0 border-gray-300 bg-gray-100 text-gray-600">@mywinterhaven.com</span>
+          </div>
+          <div id="work_email_error" class="text-red-600 text-sm mb-3" style="display:none;"></div>
+          <div id="work_email_format_error" class="text-red-600 text-sm mb-3" style="display:none;"></div>
+          {% if error %}<div class="text-red-600 mb-2">{{ error }}</div>{% endif %}
+          <button type="submit" class="btn bg-teal-600 text-white px-4 py-2 rounded shadow w-full hover:bg-teal-700">Next</button>
+      </form>
+      <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const empId = document.getElementById('emp_id');
+        const empIdError = document.getElementById('emp_id_error');
+        const workEmail = document.getElementById('work_email');
+        const workEmailError = document.getElementById('work_email_error');
+        const workEmailFormatError = document.getElementById('work_email_format_error');
+        function trimInput(input) {
+          return input.value.replace(/^\s+|\s+$/g, '');
+        }
+        form.addEventListener('submit', function(e) {
+          let valid = true;
+          // Employee ID: numbers only, trim
+          empId.value = trimInput(empId);
+          if (!/^\d+$/.test(empId.value)) {
+            empIdError.textContent = 'Employee ID must be numbers only.';
+            empIdError.style.display = '';
+            valid = false;
+          } else {
+            empIdError.textContent = '';
+            empIdError.style.display = 'none';
+          }
+          // Work Email: strictly lowercase letters, trim
+          workEmail.value = trimInput(workEmail);
+          if (!/^[a-z]+$/.test(workEmail.value)) {
+            workEmailError.textContent = 'Work Email username must be all lowercase letters (a-z) only.';
+            workEmailError.style.display = '';
+            valid = false;
+          } else {
+            workEmailError.textContent = '';
+            workEmailError.style.display = 'none';
+          }
+          if (!valid) e.preventDefault();
+        });
+        workEmail.addEventListener('input', function() {
+          workEmail.value = workEmail.value.replace(/[^a-z]/g, '');
+        });
+      });
+      </script>
+      </form>
+    </div>
+</body>
+</html>
