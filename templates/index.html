@@ -105,6 +105,7 @@
       <form method="get" action="/" class="flex-1 min-w-[220px] max-w-lg flex items-center" style="margin:0;">
         <input type="text" id="search-input" name="q" value="{{ search }}" placeholder="Search employees..." class="border rounded px-3 py-2 w-full focus:ring-primary-dark" aria-label="Search employees">
       </form>
+      <button id="open-sort-modal" type="button" class="btn bg-primary text-white px-4 py-2 rounded shadow hover:bg-primary-dark">Sort Table</button>
       <button id="open-import-modal" type="button" class="btn bg-primary text-white px-4 py-2 rounded shadow hover:bg-primary-dark" aria-haspopup="dialog" aria-controls="import-modal">&#8595; Import</button>
     </div>
     <!-- Import Modal -->
@@ -112,37 +113,60 @@
       <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative max-h-[90vh] overflow-y-auto">
         <h2 id="import-title" class="text-2xl font-bold mb-4 text-primary-dark">Import Employees</h2>
         <button id="close-import-modal" class="absolute top-2 right-2 text-gray-500 hover:text-primary-dark text-2xl" aria-label="Close import">&times;</button>
-        <form method="post" action="/import" enctype="multipart/form-data" class="mb-4">
-          <div class="mb-4 text-gray-700 text-sm">
-            <div class="mb-2">Download the <a href="/static/import/dannybaseTemplate.csv" class="text-blue-700 underline ml-1 font-semibold">CSV Template</a> and fill out all required fields using a spreadsheet editor.</div>
-            <div class="font-semibold mb-1">Required columns and formats (WorkEmail and YearsOfService are auto-calculated and not in the import file):</div>
-            <div class="overflow-x-auto">
-              <table class="w-full text-sm border-separate border-spacing-y-1">
-                <tbody>
-                  <tr><td class="font-bold pr-4 text-left">EmployeeID</td><td class="text-right">numbers only</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">Username</td><td class="text-right">lowercase letters only</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">FirstName</td><td class="text-right">required</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">LastName</td><td class="text-right">required</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">Nickname</td><td class="text-right">optional, but header required</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">DepartmentCode</td><td class="text-right">numbers only</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">Department</td><td class="text-right">Technology Services, Human Resources, or Fire Department</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">Position</td><td class="text-right">must match a valid position</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">JoinDate</td><td class="text-right">MM/DD/YYYY</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">Birthday</td><td class="text-right">MM/DD/YYYY</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">OfficeLocation</td><td class="text-right">optional, but header required</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">Supervisor</td><td class="text-right">required</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">OfficePhoneAndExtension</td><td class="text-right">123-1234 x1234 or blank</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">MobilePhone</td><td class="text-right">optional, but header required</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">EmploymentType</td><td class="text-right">Full Time, Part Time, Intern, Volunteer, or N/A</td></tr>
-                  <tr><td class="font-bold pr-4 text-left">EmploymentStatus</td><td class="text-right">Active or Inactive</td></tr>
-                </tbody>
-              </table>
+        <!-- Step 1: Upload Form -->
+        <div id="import-step-1">
+          <form id="import-form" enctype="multipart/form-data" class="mb-4">
+            <div class="mb-4 text-gray-700 text-sm">
+              <div class="mb-2">Download the <a href="/static/import/dannybaseTemplate.csv" class="text-blue-700 underline ml-1 font-semibold">CSV Template</a> and fill out all required fields using a spreadsheet editor.</div>
+              <div class="font-semibold mb-1">Required columns and formats (WorkEmail and YearsOfService are auto-calculated and not in the import file):</div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm border-separate border-spacing-y-1">
+                  <tbody>
+                    <tr><td class="font-bold pr-4 text-left">EmployeeID</td><td class="text-right">numbers only</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">Username</td><td class="text-right">lowercase letters only</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">FirstName</td><td class="text-right">required</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">LastName</td><td class="text-right">required</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">Nickname</td><td class="text-right">optional, but header required</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">DepartmentCode</td><td class="text-right">numbers only</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">Department</td><td class="text-right">Technology Services, Human Resources, or Fire Department</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">Position</td><td class="text-right">must match a valid position</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">JoinDate</td><td class="text-right">MM/DD/YYYY</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">Birthday</td><td class="text-right">MM/DD/YYYY</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">OfficeLocation</td><td class="text-right">optional, but header required</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">Supervisor</td><td class="text-right">required</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">OfficePhoneAndExtension</td><td class="text-right">123-1234 x1234 or blank</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">MobilePhone</td><td class="text-right">optional, but header required</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">EmploymentType</td><td class="text-right">Full Time, Part Time, Intern, Volunteer, or N/A</td></tr>
+                    <tr><td class="font-bold pr-4 text-left">EmploymentStatus</td><td class="text-right">Active or Inactive</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="mt-2">After upload, you will be shown a preview to confirm before importing.</div>
             </div>
-            <div class="mt-2">After upload, you will be shown a preview to confirm before importing.</div>
-          </div>
-          <input type="file" name="file" accept=".csv" required class="mb-4">
-          <button type="submit" class="btn bg-teal-600 text-white px-4 py-2 rounded shadow w-full hover:bg-teal-700">Import CSV</button>
-        </form>
+            <input type="file" name="file" accept=".csv" required class="mb-4">
+            <button type="submit" class="btn bg-teal-600 text-white px-4 py-2 rounded shadow w-full hover:bg-teal-700">Preview Import</button>
+          </form>
+        </div>
+        <!-- Step 2: Preview & Confirm -->
+        <div id="import-step-2" class="hidden">
+          <!-- This content will be generated by JavaScript -->
+        </div>
+      </div>
+    </div>
+    <!-- Sort Modal -->
+    <div id="sort-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden" role="dialog" aria-modal="true" aria-labelledby="sort-title">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+        <h2 id="sort-title" class="text-2xl font-bold mb-4 text-primary-dark">Sort Employees By...</h2>
+        <button id="close-sort-modal" class="absolute top-2 right-2 text-gray-500 hover:text-primary-dark text-2xl" aria-label="Close sort menu">&times;</button>
+        <ul class="space-y-2">
+          <li><button class="sort-btn w-full text-left p-2 rounded hover:bg-teal-100" data-sort-by="id" data-sort-dir="asc">Employee ID (Ascending)</button></li>
+          <li><button class="sort-btn w-full text-left p-2 rounded hover:bg-teal-100" data-sort-by="id" data-sort-dir="desc">Employee ID (Descending)</button></li>
+          <li><button class="sort-btn w-full text-left p-2 rounded hover:bg-teal-100" data-sort-by="department">Department (A-Z)</button></li>
+          <li><button class="sort-btn w-full text-left p-2 rounded hover:bg-teal-100" data-sort-by="birthday" data-sort-dir="calendar">Birthday (Calendar Order)</button></li>
+          <li><button class="sort-btn w-full text-left p-2 rounded hover:bg-teal-100" data-sort-by="birthday" data-sort-dir="next">Birthday (Next Up)</button></li>
+          <li><button class="sort-btn w-full text-left p-2 rounded hover:bg-teal-100" data-sort-by="joindate" data-sort-dir="asc">Join Date (Oldest First)</button></li>
+          <li><button class="sort-btn w-full text-left p-2 rounded hover:bg-teal-100" data-sort-by="joindate" data-sort-dir="desc">Join Date (Newest First)</button></li>
+        </ul>
       </div>
     </div>
     <div class="w-full px-2 md:px-8 max-w-7xl mx-auto">
@@ -163,11 +187,11 @@
                 <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="DepartmentCode" checked> <span>DepartmentCode</span></label>
                 <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Department" checked> <span>Department</span></label>
                 <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Position" checked> <span>Position</span></label>
-                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Join Date" checked> <span>Join Date</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="JoinDate" checked> <span>Join Date</span></label>
                 <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Birthday" checked> <span>Birthday</span></label>
                 <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="OfficeLocation" checked> <span>OfficeLocation</span></label>
                 <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Supervisor" checked> <span>Supervisor</span></label>
-                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="OfficePhoneAndExtension" checked> <span>OfficePhoneAndExtension</span></label>
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="OfficePhoneAndExtension" checked> <span>Office#AndExt.</span></label>
                 <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="MobilePhone" checked> <span>MobilePhone</span> <span class="text-xs text-gray-500"></span></label>
                 <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="EmploymentType" checked> <span>EmploymentType</span></label>
                 <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="EmploymentStatus" checked> <span>EmploymentStatus</span></label>
@@ -184,70 +208,86 @@
         <style>
           /* Consistent header and cell width for all columns */
           #employee-table th, #employee-table td {
-            min-width: 140px;
-            max-width: 180px;
             text-align: center;
+            vertical-align: middle;
             white-space: nowrap;
           }
           #employee-table th {
-            background-color: #f0fdfa;
             font-weight: 700;
             font-size: 1rem;
             border-bottom: 2px solid #14b8a6;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
           }
           #employee-table td {
             background-color: #fff;
             font-size: 0.98rem;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+          }
+          /* Responsive table container: always fits window */
+          .responsive-table-container {
+            width: 100vw;
+            max-width: 100vw;
+            min-width: 0;
+            overflow-x: auto;
+            overflow-y: auto;
+            margin-left: calc(-50vw + 50%);
+            margin-right: calc(-50vw + 50%);
           }
         </style>
-        <div class="overflow-x-auto overflow-y-auto bg-white rounded shadow border border-primary-light w-full max-w-7xl mx-auto" style="max-height: 70vh;">
+        <div class="responsive-table-container bg-white rounded shadow border border-primary-light" style="max-height: 70vh;">
             <table class="min-w-full table-auto mx-auto" id="employee-table">
                 <thead class="bg-primary-light">
                     <tr>
-                        <th class="py-2 px-4 text-white" data-col="EmployeeID" style="background-color:#007B7F;">EmployeeID</th>
-                        <th class="py-2 px-4 text-white" data-col="Username" style="background-color:#14b8a6;">Username</th>
-                        <th class="py-2 px-4 text-white" data-col="WorkEmail" style="background-color:#007B7F;">WorkEmail</th>
-                        <th class="py-2 px-4 text-white" data-col="FirstName" style="background-color:#14b8a6;">FirstName</th>
-                        <th class="py-2 px-4 text-white" data-col="LastName" style="background-color:#007B7F;">LastName</th>
-                        <th class="py-2 px-4 text-white" data-col="Nickname" style="background-color:#14b8a6;">Nickname</th>
-                        <th class="py-2 px-4 text-white" data-col="DepartmentCode" style="background-color:#007B7F;">DepartmentCode</th>
-                        <th class="py-2 px-4 text-white" data-col="Department" style="background-color:#14b8a6;">Department</th>
-                        <th class="py-2 px-4 text-white" data-col="Position" style="background-color:#007B7F;">Position</th>
-                        <th class="py-2 px-4 text-white" data-col="JoinDate" style="background-color:#14b8a6;">JoinDate</th>
-                        <th class="py-2 px-4 text-white" data-col="Birthday" style="background-color:#007B7F;">Birthday</th>
-                        <th class="py-2 px-4 text-white" data-col="OfficeLocation" style="background-color:#14b8a6;">OfficeLocation</th>
-                        <th class="py-2 px-4 text-white" data-col="Supervisor" style="background-color:#007B7F;">Supervisor</th>
-                        <th class="py-2 px-4 text-white" data-col="OfficePhoneAndExtension" style="background-color:#14b8a6;">OfficePhoneAndExtension</th>
-                        <th class="py-2 px-4 text-white" data-col="MobilePhone" style="background-color:#007B7F;">MobilePhone</th>
-                        <th class="py-2 px-4 text-white" data-col="EmploymentType" style="background-color:#14b8a6;">EmploymentType</th>
-                        <th class="py-2 px-4 text-white" data-col="EmploymentStatus" style="background-color:#007B7F;">EmploymentStatus</th>
-                        <th class="py-2 px-4 text-white" data-col="YearsOfService" style="background-color:#14b8a6;">YearsOfService</th>
-                        <th class="py-2 px-4 text-white text-center" style="background-color:#007B7F;">Delete</th>
+                        <th class="text-white text-center font-bold w-36" data-col="EmployeeID" style="background-color:#007B7F;">EmployeeID</th>
+                        <th class="text-primary text-center font-bold w-36" data-col="Username" style="background-color:#b2dfdb;">Username</th>
+                        <th class="text-white text-center font-bold w-36" data-col="WorkEmail" style="background-color:#007B7F;">WorkEmail</th>
+                        <th class="text-primary text-center font-bold w-36" data-col="FirstName" style="background-color:#b2dfdb;">FirstName</th>
+                        <th class="text-white text-center font-bold w-36" data-col="LastName" style="background-color:#007B7F;">LastName</th>
+                        <th class="text-primary text-center font-bold w-36" data-col="Nickname" style="background-color:#b2dfdb;">Nickname</th>
+                        <th class="text-white text-center font-bold w-36" data-col="DepartmentCode" style="background-color:#007B7F;">DepartmentCode</th>
+                        <th class="text-primary text-center font-bold w-36" data-col="Department" style="background-color:#b2dfdb;">Department</th>
+                        <th class="text-white text-center font-bold w-36" data-col="Position" style="background-color:#007B7F;">Position</th>
+                        <th class="text-primary text-center font-bold w-36" data-col="JoinDate" style="background-color:#b2dfdb;">JoinDate</th>
+                        <th class="text-white text-center font-bold w-36" data-col="Birthday" style="background-color:#007B7F;">Birthday</th>
+                        <th class="text-primary text-center font-bold w-36" data-col="OfficeLocation" style="background-color:#b2dfdb;">OfficeLocation</th>
+                        <th class="text-white text-center font-bold w-36" data-col="Supervisor" style="background-color:#007B7F;">Supervisor</th>
+                        <th class="text-primary text-center font-bold w-36" data-col="OfficePhoneAndExtension" style="background-color:#b2dfdb;">OfficePhoneAndExtension</th>
+                        <th class="text-white text-center font-bold w-36" data-col="MobilePhone" style="background-color:#007B7F;">MobilePhone</th>
+                        <th class="text-primary text-center font-bold w-36" data-col="EmploymentType" style="background-color:#b2dfdb;">EmploymentType</th>
+                        <th class="text-white text-center font-bold w-36" data-col="EmploymentStatus" style="background-color:#007B7F;">EmploymentStatus</th>
+                        <th class="text-primary text-center font-bold w-36" data-col="YearsOfService" style="background-color:#b2dfdb;">YearsOfService</th>
+                        <th class="text-white text-center font-bold w-36" data-col="Delete" style="background-color:#007B7F;">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for emp in employees %}
                     <tr class="border-b hover:bg-teal-100">
-                        <td class="py-2 px-4" data-col="EmployeeID">{{ emp['EmployeeID'] }}</td>
-                        <td class="py-2 px-4" data-col="Username">{{ emp['Username'] }}</td>
-                        <td class="py-2 px-4" data-col="WorkEmail">{% if emp['Username'] and emp['Username'] != 'N/A' %}{{ emp['Username'] }}@mywinterhaven.com{% else %}{{ emp['WorkEmail'] }}{% endif %}</td>
-                        <td class="py-2 px-4" data-col="FirstName">{{ emp['FirstName'] }}</td>
-                        <td class="py-2 px-4" data-col="LastName">{{ emp['LastName'] }}</td>
-                        <td class="py-2 px-4" data-col="Nickname">{{ emp['Nickname'] }}</td>
-                        <td class="py-2 px-4" data-col="DepartmentCode">{{ emp['DepartmentCode'] }}</td>
-                        <td class="py-2 px-4" data-col="Department">{{ emp['Department'] }}</td>
-                        <td class="py-2 px-4" data-col="Position">{{ emp['Position'] }}</td>
-                        <td class="py-2 px-4" data-col="JoinDate">{{ emp['JoinDate'] }}</td>
-                        <td class="py-2 px-4" data-col="Birthday">{{ emp['Birthday'] }}</td>
-                        <td class="py-2 px-4" data-col="OfficeLocation">{{ emp['OfficeLocation'] }}</td>
-                        <td class="py-2 px-4" data-col="Supervisor">{{ emp['Supervisor'] }}</td>
-                        <td class="py-2 px-4" data-col="OfficePhoneAndExtension">{{ emp['OfficePhoneAndExtension'] }}</td>
-                        <td class="py-2 px-4" data-col="MobilePhone">{{ emp['MobilePhone'] }}</td>
-                        <td class="py-2 px-4" data-col="EmploymentType">{{ emp['EmploymentType'] }}</td>
-                        <td class="py-2 px-4" data-col="EmploymentStatus">{{ emp['EmploymentStatus'] }}</td>
-                        <td class="py-2 px-4" data-col="YearsOfService">{{ emp['YearsOfService'] }}</td>
-                        <td class="py-2 px-4 text-center">
-                          <button class="btn btn-delete text-white px-2 py-1 rounded shadow flex items-center gap-1 delete-row-btn" type="button" title="Delete this row">
+                        <td data-col="EmployeeID">{{ emp['EmployeeID'] }}</td>
+                        <td data-col="Username">{{ emp['Username'] }}</td>
+                        <td data-col="WorkEmail">{{ emp['WorkEmail'] }}</td>
+                        <td data-col="FirstName">{{ emp['FirstName'] }}</td>
+                        <td data-col="LastName">{{ emp['LastName'] }}</td>
+                        <td data-col="Nickname">{{ emp['Nickname'] }}</td>
+                        <td data-col="DepartmentCode">{{ emp['DepartmentCode'] }}</td>
+                        <td data-col="Department">{{ emp['Department'] }}</td>
+                        <td data-col="Position">{{ emp['Position'] }}</td>
+                        <td data-col="JoinDate">{{ emp['JoinDate'] }}</td>
+                        <td data-col="Birthday">{{ emp['Birthday'] }}</td>
+                        <td data-col="OfficeLocation">{{ emp['OfficeLocation'] }}</td>
+                        <td data-col="Supervisor">{{ emp['Supervisor'] }}</td>
+                        <td data-col="OfficePhoneAndExtension">{{ emp['OfficePhoneAndExtension'] }}</td>
+                        <td data-col="MobilePhone">{{ emp['MobilePhone'] }}</td>
+                        <td data-col="EmploymentType">{{ emp['EmploymentType'] }}</td>
+                        <td data-col="EmploymentStatus">{{ emp['EmploymentStatus'] }}</td>
+                        <td data-col="YearsOfService">{{ emp['YearsOfService'] }}</td>
+                        <td data-col="Delete">
+                          <button class="btn btn-delete text-white px-2 py-1 rounded shadow flex items-center gap-1 delete-row-btn" data-emp-id="{{ emp['EmployeeID'] }}" type="button" title="Delete this row">
                             <span class="material-icons">delete</span>
                           </button>
                         </td>
@@ -268,81 +308,14 @@
         <!-- Export button bottom right, grayed out if no data -->
         <div style="position: fixed; right: 0; bottom: 0; margin: 24px; z-index: 20;">
           <div class="relative inline-block text-left">
-            <a id="export-btn" href="/export" class="btn bg-primary text-white px-4 py-2 rounded shadow hover:bg-primary-dark flex items-center opacity-100 cursor-pointer" download>
+            <a id="export-btn" href="/export"
+               class="btn bg-primary text-white px-4 py-2 rounded shadow hover:bg-primary-dark flex items-center {% if not employees %}opacity-50 cursor-not-allowed{% else %}opacity-100 cursor-pointer{% endif %}"
+               download>
               <span class="mr-2">&#8593; Export CSV</span>
             </a>
           </div>
         </div>
         <script src="/static/dannybase.js" defer></script>
-        <script>
-        // Toast notification logic (professional, dismissible)
-        function showToast(message, type = 'success') {
-          const container = document.getElementById('toast-container');
-          if (!container) return;
-          const toast = document.createElement('div');
-          toast.className = `toast-box flex items-center gap-3 px-5 py-3 rounded-lg shadow-lg font-semibold mb-2 border-l-4 animate-fade-in ${type === 'error' ? 'bg-red-50 border-red-600 text-red-800' : 'bg-white border-teal-600 text-teal-900'}`;
-          toast.style.transition = 'opacity 0.5s';
-          toast.innerHTML = `
-            <span class="material-icons text-2xl">${type === 'error' ? 'error_outline' : 'check_circle'}</span>
-            <span class="flex-1">${message}</span>
-            <button class="ml-2 text-xl text-gray-400 hover:text-gray-700 focus:outline-none" aria-label="Close notification">&times;</button>
-          `;
-          // Close on X click
-          toast.querySelector('button').onclick = () => {
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 500);
-          };
-          container.appendChild(toast);
-          setTimeout(() => {
-            if (toast.parentNode) {
-              toast.style.opacity = '0';
-              setTimeout(() => toast.remove(), 500);
-            }
-          }, 4000);
-        }
-        // Auto-trigger toast after import/export/edit/delete
-        document.addEventListener('DOMContentLoaded', function() {
-          // Import success (AJAX or form)
-          if (window.location.search.includes('imported=1')) {
-            showToast('Employees imported successfully!');
-          }
-          // Export success (simulate, as download is not AJAX)
-          const exportBtn = document.getElementById('export-btn');
-          if (exportBtn) {
-            exportBtn.addEventListener('click', function(e) {
-              if (!exportBtn.classList.contains('opacity-50')) {
-                showToast('Downloading CSV!');
-              }
-            });
-          }
-          // Edit/Delete (simulate, should be called in dannybase.js after AJAX)
-          window.addEventListener('employee-edited', () => showToast('Employee updated!'));
-          window.addEventListener('employee-deleted', () => showToast('Employee deleted!'));
-        });
-        </script>
-        <!-- fade-in animation style block kept only once above -->
-        <script>
-          // Import Modal open/close logic
-          document.addEventListener('DOMContentLoaded', function() {
-            const openBtn = document.getElementById('open-import-modal');
-            const closeBtn = document.getElementById('close-import-modal');
-            const modal = document.getElementById('import-modal');
-            if (openBtn && closeBtn && modal) {
-              openBtn.addEventListener('click', function() {
-                modal.classList.remove('hidden');
-              });
-              closeBtn.addEventListener('click', function() {
-                modal.classList.add('hidden');
-              });
-              // Close modal on outside click
-              modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                  modal.classList.add('hidden');
-                }
-              });
-            }
-          });
-        </script>
         <!-- removed image troubleshooting message -->
     </div>
 </body>

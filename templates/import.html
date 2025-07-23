@@ -1,0 +1,63 @@
+{# templates/import.html #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Import Employees</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-teal-50 p-8">
+  <h1 class="text-2xl font-bold mb-4">Import Employees</h1>
+
+  {# Step 1: upload form #}
+  {% if not step or step!='confirm' %}
+    <form method="post" action="/import/preview" enctype="multipart/form-data"
+          class="bg-white p-6 rounded shadow w-full max-w-md mx-auto">
+      <input type="file" name="file" accept=".csv" required
+             class="mb-4 w-full border rounded px-3 py-2">
+      <button type="submit"
+              class="btn bg-teal-600 text-white px-4 py-2 rounded shadow hover:bg-teal-700">
+        Upload &amp; Preview
+      </button>
+    </form>
+  {% endif %}
+
+  {# Step 2: preview table + confirm/cancel #}
+  {% if step=='confirm' %}
+    <div class="mt-8">
+      <h2 class="text-xl mb-2">Please confirm these {{ preview|length }} rows:</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border rounded shadow text-sm">
+          <thead class="bg-teal-100">
+            <tr>
+              {% for col in columns %}
+                <th class="px-2 py-1 border text-left">{{ col }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in preview %}
+              <tr class="hover:bg-teal-50">
+                {% for col in columns %}
+                  <td class="px-2 py-1 border">{{ row[col] }}</td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <form method="post" action="/import/confirm" class="mt-4 flex gap-2">
+        <input type="hidden" name="csv_b64" value="{{ csv_b64 }}">
+        <button type="submit"
+                class="btn bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700">
+          Confirm Import
+        </button>
+        <a href="/import"
+           class="btn bg-gray-400 text-white px-4 py-2 rounded shadow hover:bg-gray-600">
+          Cancel
+        </a>
+      </form>
+    </div>
+  {% endif %}
+</body>
+</html>

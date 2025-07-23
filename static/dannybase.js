@@ -1,503 +1,447 @@
 // dannybase.js - All main interactive logic for Dannybase UI
-// --- Import Modal AJAX logic ---
-// Excel-like table logic: show Save All button only after a change, handle row delete, and keep best practices
-document.addEventListener('DOMContentLoaded', function() {
-  const importForm = document.querySelector('#import-modal form');
-  const importModal = document.getElementById('import-modal');
-  if (importForm && importModal) {
-    importForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const fileInput = importForm.querySelector('input[type="file"]');
-      if (!fileInput.files.length) return;
-      const formData = new FormData();
-      formData.append('file', fileInput.files[0]);
-      // Step 1: Preview
-      fetch('/import/preview', { method: 'POST', body: formData })
-        .then(r => r.json())
-        .then(data => {
-          if (data.error) throw new Error(data.error);
-          // Show preview table and confirm button in modal
-          showImportPreview(data.preview, data.columns, data.csv_b64);
-        })
-        .catch(err => {
-          alert('Import error: ' + err.message);
-        });
-    });
-  }
 
-function showImportPreview(preview, columns, csv_b64) {
-  const modal = document.getElementById('import-modal');
-  const form = modal.querySelector('form');
-  form.style.display = 'none';
-  // Canonical columns for preview (including auto-calculated)
-  const canonicalCols = [
-    'EmployeeID','Username','WorkEmail','FirstName','LastName','Nickname','DepartmentCode','Department','Position','JoinDate','Birthday','OfficeLocation','Supervisor','OfficePhoneAndExtension','MobilePhone','EmploymentType','EmploymentStatus','YearsOfService'
-  ];
-  // Map possible CSV headers to canonical
-  const headerMap = {
-    'EmployeeID': ['EmployeeID','Employee Id','Employee ID','ID'],
-    'Username': ['Username','User Name','User'],
-    'FirstName': ['FirstName','First Name','First'],
-    'LastName': ['LastName','Last Name','Last'],
-    'Nickname': ['Nickname','Nick Name'],
-    'DepartmentCode': ['DepartmentCode','Department Code'],
-    'Department': ['Department','Department / Department Description','Department Description'],
-    'Position': ['Position','Title'],
-    'JoinDate': ['JoinDate','Join Date'],
-    'Birthday': ['Birthday','Birth Date'],
-    'OfficeLocation': ['OfficeLocation','Office Location'],
-    'Supervisor': ['Supervisor'],
-    'OfficePhoneAndExtension': ['OfficePhoneAndExtension','Office Phone & Extension','Office Phone'],
-    'MobilePhone': ['MobilePhone','Mobile Phone'],
-    'EmploymentType': ['EmploymentType','Employment Type'],
-    'EmploymentStatus': ['EmploymentStatus','Employment Status'],
-  };
-  // Build preview rows with correct mapping and calculated fields
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const previewRows = preview.map(row => {
-    let r = {};
-    // Map all canonical fields from possible CSV headers
-    canonicalCols.forEach(col => {
-      if (col === 'WorkEmail') return; // handled below
-      if (col === 'YearsOfService') return; // handled below
-      let found = null;
-      if (headerMap[col]) {
-        for (const h of headerMap[col]) {
-          if (row[h] !== undefined && row[h] !== null && row[h] !== '') {
-            found = row[h];
-            break;
-          }
-        }
-      } else if (row[col] !== undefined && row[col] !== null && row[col] !== '') {
-        found = row[col];
-      }
-      r[col] = found !== null ? found : '';
-    });
-    // WorkEmail: username@mywinterhaven.com
-    r.WorkEmail = r.Username ? (r.Username + '@mywinterhaven.com') : '';
-    // YearsOfService: current year - join year (from MM/DD/YYYY)
-    let joinYear = null;
-    if (r.JoinDate && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(r.JoinDate)) {
-      joinYear = parseInt(r.JoinDate.split('/')[2], 10);
-    }
-    r.YearsOfService = (joinYear && !isNaN(joinYear)) ? (currentYear - joinYear).toString() : '';
-    // Only fill N/A for truly missing fields
-    canonicalCols.forEach(col => { if (r[col] === undefined || r[col] === null || r[col] === '') r[col] = 'N/A'; });
-    return r;
-  });
-  // Build preview table with canonical columns, center data
-  let previewDiv = document.createElement('div');
-  previewDiv.className = 'mb-4 w-full h-full flex flex-col items-center justify-center';
-  let table = `<table class=\"w-full bg-white border border-teal-200 rounded shadow text-xs max-h-[60vh] overflow-y-auto\"><thead class=\"bg-teal-100\"><tr>`;
-  canonicalCols.forEach(col => { table += `<th class='py-2 px-3 border-b text-center whitespace-nowrap'>${col}</th>`; });
-  table += '</tr></thead><tbody>';
-  previewRows.forEach(row => {
-    table += '<tr class=\"border-b hover:bg-teal-50\">';
-    canonicalCols.forEach(col => { table += `<td class='py-1 px-2 text-center'>${row[col]}</td>`; });
-    table += '</tr>';
-  });
-  table += '</tbody></table>';
-  previewDiv.innerHTML = `<h3 class='text-lg font-semibold text-primary-dark mb-4 text-center'>Please confirm the import:</h3>${table}`;
-  // Confirm/cancel buttons
-  let btns = document.createElement('div');
-  btns.className = 'flex gap-2 justify-center mt-6';
-  let confirmBtn = document.createElement('button');
-  confirmBtn.className = 'btn bg-emerald-600 text-white px-6 py-3 rounded shadow hover:bg-emerald-700 text-lg font-bold';
-  confirmBtn.textContent = 'Confirm Import';
-  let cancelBtn = document.createElement('button');
-  cancelBtn.className = 'btn bg-gray-400 text-white px-6 py-3 rounded shadow hover:bg-gray-600 text-lg font-bold';
-  cancelBtn.textContent = 'Cancel';
-  btns.appendChild(confirmBtn);
-  btns.appendChild(cancelBtn);
-  previewDiv.appendChild(btns);
-  // Make modal fill screen and match preview size
-  const modalContent = modal.querySelector('.bg-white');
-  modalContent.innerHTML = '';
-  modalContent.classList.add('w-full','h-full','max-w-none','flex','flex-col','justify-center','items-center','p-0');
-  modalContent.appendChild(previewDiv);
-  // Confirm import
-  confirmBtn.onclick = function(ev) {
-    ev.preventDefault();
-    fetch('/import/confirm', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ csv_b64 })
-    })
-      .then(r => r.json())
-      .then(data => {
-        if (data.error) throw new Error(data.error);
-        window.location.reload();
-      })
-      .catch(err => {
-        alert('Import error: ' + err.message);
-      });
-  };
-  // Cancel import
-  cancelBtn.onclick = function(ev) {
-    ev.preventDefault();
-    // Close the modal overlay
-    const modal = document.getElementById('import-modal');
-    if (modal) {
-      modal.classList.add('hidden');
-    }
-    // Reset modal content for next open (restore upload form)
+// ---- Toast Notification Logic ----
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    const toast = document.createElement('div');
+    toast.className = `toast-box flex items-center gap-3 px-5 py-3 rounded-lg shadow-lg font-semibold mb-2 border-l-4 animate-fade-in ${type === 'error' ? 'bg-red-50 border-red-600 text-red-800' : 'bg-white border-teal-600 text-teal-900'}`;
+    toast.style.transition = 'opacity 0.5s';
+    toast.innerHTML = `
+    <span class="material-icons text-2xl">${type === 'error' ? 'error_outline' : 'check_circle'}</span>
+    <span class="flex-1">${message}</span>
+    <button class="ml-2 text-xl text-gray-400 hover:text-gray-700 focus:outline-none" aria-label="Close notification">&times;</button>
+  `;
+    toast.querySelector('button').onclick = () => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 500);
+    };
+    container.appendChild(toast);
     setTimeout(() => {
-      if (modalContent && form) {
-        modalContent.innerHTML = '';
-        form.reset();
-        form.style.display = '';
-        modalContent.appendChild(form);
-      }
-    }, 200);
-  };
+        if (toast.parentNode) {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 500);
+        }
+    }, 4000);
 }
 
-// Show/hide columns with persistence and scroll sync (modal version)
+// ---- Import Preview Logic ----
+function displayImportPreview(data, modal, resetImportModal) {
+    const { preview, columns, csv_b64 } = data;
+    const step1Div = document.getElementById('import-step-1');
+    const step2Div = document.getElementById('import-step-2');
+    if (!preview || preview.length === 0) {
+        showToast('The uploaded file is empty or could not be read.', 'error');
+        return;
+    }
+    let tableHTML = `
+      <h3 class="text-xl mb-2 font-semibold">Confirm Import (${preview.length} rows)</h3>
+      <div class="overflow-auto border rounded" style="max-height: 40vh;">
+        <table class="min-w-full bg-white text-sm">
+          <thead class="bg-teal-100 sticky top-0"><tr>${columns.map(col => `<th class="px-2 py-1 border text-left">${col}</th>`).join('')}</tr></thead>
+          <tbody>${preview.map(row => `
+            <tr class="hover:bg-teal-50">${columns.map(col => `<td class="px-2 py-1 border whitespace-nowrap">${row[col] || 'N/A'}</td>`).join('')}</tr>
+          `).join('')}</tbody>
+        </table>
+      </div>`;
+    let formHTML = `
+      <div class="mt-4 flex gap-2">
+        <button id="confirm-import-btn" class="btn bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700">Confirm</button>
+        <button id="cancel-import-btn" type="button" class="btn bg-gray-400 text-white px-4 py-2 rounded shadow hover:bg-gray-600">Cancel</button>
+      </div>`;
+    step2Div.innerHTML = tableHTML + formHTML;
+    step1Div.classList.add('hidden');
+    step2Div.classList.remove('hidden');
+    document.getElementById('confirm-import-btn').addEventListener('click', async function() {
+        this.disabled = true;
+        this.textContent = 'Importing...';
+        try {
+            const confirmResponse = await fetch('/import/confirm', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    csv_b64: csv_b64
+                })
+            });
+            const confirmData = await confirmResponse.json();
+            if (!confirmResponse.ok) {
+                throw new Error(confirmData.error || 'Failed to confirm import.');
+            }
+            showToast(confirmData.message || 'Import successful!');
+            modal.classList.add('hidden');
+            window.location.reload();
+        } catch (error) {
+            showToast(`Confirmation Error: ${error.message}`, 'error');
+            this.disabled = false;
+            this.textContent = 'Confirm';
+        }
+    });
+    document.getElementById('cancel-import-btn').addEventListener('click', resetImportModal);
+}
+
+// ---- Column Visibility Persistence ----
 const COL_KEY = 'dannybase_visible_columns';
-const allCols = [
-    "EmployeeID", "Username", "WorkEmail", "FirstName", "LastName", "Nickname", "DepartmentCode", "Department", "Position", "JoinDate", "Birthday", "Office Location", "Supervisor", "OfficePhone&Extension", "MobilePhone", "EmploymentType", "EmploymentStatus", "YearsOfService"
-];
+
 function saveColPrefs() {
-    const checked = Array.from(document.querySelectorAll('.toggle-col')).filter(cb => cb.checked).map(cb => cb.getAttribute('data-col'));
+    const checked = Array.from(document.querySelectorAll('.toggle-col'))
+        .filter(cb => cb.checked).map(cb => cb.getAttribute('data-col'));
     localStorage.setItem(COL_KEY, JSON.stringify(checked));
 }
+
 function loadColPrefs() {
     try {
         return JSON.parse(localStorage.getItem(COL_KEY));
-    } catch { return null; }
-}
-function setColVisibility(col, visible) {
-    var ths = document.querySelectorAll('th[data-col="' + col + '"]');
-    var tds = document.querySelectorAll('td[data-col="' + col + '"]');
-    if (visible) {
-        ths.forEach(e => e.style.display = '');
-        tds.forEach(e => e.style.display = '');
-    } else {
-        ths.forEach(e => e.style.display = 'none');
-        tds.forEach(e => e.style.display = 'none');
+    } catch {
+        return null;
     }
 }
+
+function setColVisibility(col, visible) {
+    document.querySelectorAll(`th[data-col="${col}"], td[data-col="${col}"]`)
+        .forEach(el => el.style.display = visible ? '' : 'none');
+}
+
 function updateColVisibilityFromPrefs() {
     const prefs = loadColPrefs();
     document.querySelectorAll('.toggle-col').forEach(cb => {
         const col = cb.getAttribute('data-col');
-        cb.checked = !prefs || prefs.includes(col);
-        setColVisibility(col, cb.checked);
+        const show = !prefs || prefs.includes(col);
+        cb.checked = show;
+        setColVisibility(col, show);
     });
 }
-function attachToggleListeners() {
-    document.querySelectorAll('.toggle-col').forEach(function(checkbox) {
-        checkbox.addEventListener('change', function() {
-            var col = this.getAttribute('data-col');
-            setColVisibility(col, this.checked);
-            saveColPrefs();
-        });
-    });
-}
-function attachShowHideAllListeners() {
-    document.getElementById('show-all-cols').onclick = function() {
-        document.querySelectorAll('.toggle-col').forEach(cb => { cb.checked = true; setColVisibility(cb.getAttribute('data-col'), true); });
-        saveColPrefs();
-    };
-    document.getElementById('hide-all-cols').onclick = function() {
-        document.querySelectorAll('.toggle-col').forEach(cb => { cb.checked = false; setColVisibility(cb.getAttribute('data-col'), false); });
-        saveColPrefs();
-    };
-}
-// On load, apply saved prefs and attach listeners
-updateColVisibilityFromPrefs();
-attachToggleListeners();
-attachShowHideAllListeners();
 
-// Responsive table: make table scroll horizontally on small screens
-window.addEventListener('resize', function() {
-    var table = document.getElementById('employee-table');
-    if (window.innerWidth < 900) {
-        table.parentElement.style.overflowX = 'auto';
-    } else {
-        table.parentElement.style.overflowX = '';
-    }
-});
-window.dispatchEvent(new Event('resize'));
-
-// Make table cells editable like Excel
-function makeCellsEditable() {
-    var table = document.getElementById('employee-table');
+// ---- Auto-fit Columns ----
+function autoFitColumns() {
+    const table = document.getElementById('employee-table');
     if (!table) return;
-    const rows = table.querySelectorAll('tbody tr');
-    rows.forEach(function(row, idx) {
-        row.querySelectorAll('td').forEach(function(cell) {
-            cell.setAttribute('contenteditable', 'true');
-            cell.classList.add('editable-cell');
-            cell.addEventListener('blur', function() {
-                // On cell exit, save the row to backend
-                saveRowToBackend(row);
-            });
+    const ths = table.querySelectorAll('thead th');
+    const rows = Array.from(table.querySelectorAll('tbody tr'));
+    if (rows.length === 0 || (rows.length === 1 && rows[0].textContent.includes('No employees found'))) {
+        return;
+    }
+    ths.forEach((th, idx) => {
+        let maxLen = th.innerText.length;
+        rows.forEach(row => {
+            const text = row.children[idx]?.innerText || '';
+            if (text.length > maxLen) maxLen = text.length;
         });
-        // Alternate row color (Excel style)
-        if (idx % 2 === 0) {
-            row.classList.add('bg-gray-100');
-        } else {
-            row.classList.remove('bg-gray-100');
+        const width = Math.max(120, maxLen * 9 + 40);
+        th.style.width = th.style.minWidth = width + 'px';
+        rows.forEach(row => {
+            const c = row.children[idx];
+            if (c) c.style.width = c.style.minWidth = width + 'px';
+        });
+    });
+}
+
+// ---- Save Row on Blur ----
+function saveRowToBackend(row) {
+    const headers = Array.from(document.querySelectorAll('#employee-table thead th'))
+        .map(th => th.getAttribute('data-col'));
+    const emp = {};
+    row.querySelectorAll('td[data-col]').forEach((cell, i) => {
+        if (headers[i] !== 'Delete') { // Exclude the 'Delete' action column
+            emp[headers[i]] = cell.innerText.trim();
         }
     });
-// Save a single row to backend (on cell blur)
-function saveRowToBackend(row) {
-    const cells = row.querySelectorAll('td');
-    const headers = Array.from(document.querySelectorAll('#employee-table thead th')).map(th => th.getAttribute('data-col'));
-    let emp = {};
-    cells.forEach((cell, i) => {
-        if (headers[i]) emp[headers[i]] = cell.innerText.trim();
-    });
-    // Use EmployeeID as unique key
-    if (emp.EmployeeID) {
-        fetch(`/api/employees/${emp.EmployeeID}`, {
+
+    const empId = emp['EmployeeID'];
+    if (!empId) {
+        showToast('Cannot save row without an EmployeeID.', 'error');
+        return;
+    }
+
+    fetch(`/api/employees/${empId}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(emp)
         })
-        .then(r => r.json())
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => {
+                    throw new Error(err.detail || 'Save failed')
+                });
+            }
+            return response.json();
+        })
         .then(data => {
-            if (data.error) showToast('Save failed: ' + data.error, 'error');
-            else showToast('Row saved!', 'success');
+            showToast(data.message || 'Row saved!', 'success');
         })
-        .catch(() => showToast('Save failed', 'error'));
-    }
-}
-// Save all rows to backend (bulk save)
-document.addEventListener('DOMContentLoaded', function() {
-    const saveAllBtn = document.getElementById('save-all-btn');
-    var table = document.getElementById('employee-table');
-    const saveAllContainer = document.getElementById('save-all-container');
-  if (saveAllBtn) {
-    saveAllBtn.addEventListener('click', function() {
-      const rows = document.querySelectorAll('#employee-table tbody tr');
-      const headers = Array.from(document.querySelectorAll('#employee-table thead th')).map(th => th.getAttribute('data-col'));
-      let allEmps = [];
-      rows.forEach(row => {
-        let emp = {};
-        row.querySelectorAll('td').forEach((cell, i) => {
-          if (headers[i]) emp[headers[i]] = cell.innerText.trim();
+        .catch(error => {
+            showToast(error.message, 'error');
         });
-        if (emp.EmployeeID) allEmps.push(emp);
-      });
-      fetch('/api/employees', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ employees: allEmps })
-      })
-      .then(r => r.json())
-      .then(data => {
-        if (data.error) showToast('Bulk save failed: ' + data.error, 'error');
-        else showToast('All changes saved!', 'success');
-      })
-      .catch(() => showToast('Bulk save failed', 'error'));
-    });
-  }
-});
 }
-    // Show Save All button if any change
-    function showSaveAll() {
-      if (saveAllContainer) saveAllContainer.style.display = 'flex';
-    }
-    function hideSaveAll() {
-      if (saveAllContainer) saveAllContainer.style.display = 'none';
-      changedRows.clear();
-      deletedRows.clear();
-    }
-    // Mark row as changed on cell edit
-    table.addEventListener('blur', function (e) {
-      if (e.target && e.target.matches('td[contenteditable]')) {
-        const row = e.target.closest('tr');
-        if (row && row.dataset.rowid) {
-          changedRows.add(row.dataset.rowid);
-          showSaveAll();
-        }
-      }
-    }, true);
-    // Handle delete button
-    table.addEventListener('click', function (e) {
-      if (e.target.closest('.delete-row-btn')) {
-        const btn = e.target.closest('.delete-row-btn');
-        const row = btn.closest('tr');
-        if (row && row.dataset.rowid) {
-          // Remove visually
-          row.remove();
-          // Remove from backend immediately
-          fetch(`/api/employees/${row.dataset.rowid}`, {
-            method: 'DELETE',
-          })
-            .then(r => r.json())
-            .then(data => {
-              if (data.error) showToast('Delete failed: ' + data.error, 'error');
-              else showToast('Employee deleted!', 'success');
-            })
-            .catch(() => showToast('Delete failed', 'error'));
-          showSaveAll();
-        }
-      }
-    });
-    // Save All logic
-    if (saveAllBtn) {
-      saveAllBtn.addEventListener('click', function () {
-        // Gather all changed and deleted rows
-        const rows = Array.from(table.querySelectorAll('tbody tr'));
-        const data = rows.map(row => {
-          if (deletedRows.has(row.dataset.rowid)) {
-            return { _rowid: row.dataset.rowid, _delete: true };
-          }
-          // Gather cell data
-          const cells = row.querySelectorAll('td[data-col]');
-          const rowData = { _rowid: row.dataset.rowid };
-          cells.forEach(cell => {
-            rowData[cell.dataset.col] = cell.innerText.trim();
-          });
-          return rowData;
-        });
-        // Send to backend (bulk update endpoint)
-        fetch('/api/employees/bulk_update', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ data })
-        })
-          .then(res => res.json())
-          .then(resp => {
-            if (resp.success) {
-              window.dispatchEvent(new Event('employee-edited'));
-              // Optionally reload table
-              location.reload();
-            } else {
-              showToast('Save failed: ' + (resp.error || 'Unknown error'), 'error');
-            }
-          })
-          .catch(() => showToast('Save failed', 'error'));
-      });
-    }
-    // Optionally, hide Save All on page load
-    hideSaveAll();
-    // Add data-rowid to each row for tracking (assume EmployeeID is unique)
-    Array.from(table.querySelectorAll('tbody tr')).forEach(row => {
-      const idCell = row.querySelector('td[data-col="EmployeeID"]');
-      if (idCell) row.dataset.rowid = idCell.innerText.trim();
-    });
-    // Make all cells editable except delete column
-    Array.from(table.querySelectorAll('tbody tr')).forEach(row => {
-      Array.from(row.querySelectorAll('td[data-col]')).forEach(cell => {
-        cell.setAttribute('contenteditable', 'true');
-      });
-    });
-    // Always show EmployeeID and WorkEmail columns on load
-    setColVisibility('EmployeeID', true);
-    setColVisibility('WorkEmail', true);
-  // End of DOMContentLoaded for Excel-like logic
-});
-// Ensure search input triggers live filtering (in case of dynamic reloads)
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('search-input');
-    var table = document.getElementById('employee-table');
-  if (searchInput && table) {
-    searchInput.addEventListener('input', function() {
-      const filter = searchInput.value.toLowerCase();
-      const rows = table.querySelectorAll('tbody tr');
-      rows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(filter) ? '' : 'none';
-      });
-    });
-  }
-});
 
-// Edit button: focus first cell, show Save button
-
-// Auto-fit columns based on max content length in each column (like Excel)
-function autoFitColumns() {
-    var table = document.getElementById('employee-table');
+// ---- Make Cells Editable ----
+function makeCellsEditable() {
+    const table = document.getElementById('employee-table');
     if (!table) return;
-    var ths = table.querySelectorAll('thead th');
-    var rows = table.querySelectorAll('tbody tr');
-    ths.forEach(function(th, colIdx) {
-        var maxLen = th.innerText.length;
-        rows.forEach(function(row) {
-            var cell = row.children[colIdx];
-            if (cell) {
-                var text = cell.innerText || '';
-                if (text.length > maxLen) maxLen = text.length;
+    table.querySelectorAll('tbody tr').forEach((row, idx) => {
+        row.querySelectorAll('td[data-col]').forEach(cell => {
+            // The 'Delete' column should not be editable
+            if (cell.getAttribute('data-col') !== 'Delete') {
+                cell.contentEditable = 'true';
+                cell.classList.add('editable-cell');
+                cell.addEventListener('blur', () => saveRowToBackend(row));
+                cell.addEventListener('input', () => {
+                    autoFitColumns();
+                });
             }
         });
-        // Estimate width: 10px per char, min 80px, max 500px
-        var width = Math.max(80, Math.min(500, maxLen * 10));
-        th.style.width = width + 'px';
-        th.style.minWidth = width + 'px';
-        th.style.maxWidth = width + 'px';
-        rows.forEach(function(row) {
-            var cell = row.children[colIdx];
-            if (cell) {
-                cell.style.width = width + 'px';
-                cell.style.minWidth = width + 'px';
-                cell.style.maxWidth = width + 'px';
-            }
-        });
+        row.classList.toggle('bg-gray-100', idx % 2 === 0);
     });
 }
 
-// Initial fit
-autoFitColumns();
-// Re-fit on input
-document.querySelectorAll('#employee-table tbody').forEach(function(tbody) {
-    tbody.addEventListener('input', function() {
-        autoFitColumns();
-    });
-});
+// ---- Table Sorting Logic ----
+function sortTable(sortBy, sortDir = 'asc') {
+    const table = document.getElementById('employee-table');
+    const tbody = table.querySelector('tbody');
+    if (!tbody) return;
 
-// Export button: gray out if no data
-document.addEventListener('DOMContentLoaded', function() {
-  const exportBtn = document.getElementById('export-btn');
-  const table = document.getElementById('employee-table');
-  if (exportBtn && table) {
-    const hasData = table.querySelectorAll('tbody tr').length > 1 || (table.querySelector('tbody tr') && !table.querySelector('tbody tr').textContent.includes('No employees found.'));
-    if (!hasData) {
-      exportBtn.classList.add('opacity-50','cursor-not-allowed');
-      exportBtn.setAttribute('tabindex','-1');
-      exportBtn.setAttribute('aria-disabled','true');
-      exportBtn.onclick = e => e.preventDefault();
-    } else {
-      exportBtn.classList.remove('opacity-50','cursor-not-allowed');
-      exportBtn.removeAttribute('aria-disabled');
-      exportBtn.onclick = null;
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+    // Ignore sorting if table is empty or has the "not found" message
+    if (rows.length <= 1 && rows[0]?.textContent.includes('No employees found')) {
+        return;
     }
-  }
-});
 
-// Modal open/close logic (moved here for proper functioning)
+    const getCellValue = (row, colName) => {
+        const cell = row.querySelector(`td[data-col="${colName}"]`);
+        return cell ? cell.innerText.trim() : '';
+    };
+
+    rows.sort((a, b) => {
+        let valA, valB;
+
+        switch (sortBy) {
+            case 'id':
+                valA = parseInt(getCellValue(a, 'EmployeeID'), 10) || 0;
+                valB = parseInt(getCellValue(b, 'EmployeeID'), 10) || 0;
+                return sortDir === 'asc' ? valA - valB : valB - valA;
+
+            case 'department':
+                valA = getCellValue(a, 'Department');
+                valB = getCellValue(b, 'Department');
+                return valA.localeCompare(valB);
+
+            case 'joindate':
+                valA = new Date(getCellValue(a, 'JoinDate'));
+                valB = new Date(getCellValue(b, 'JoinDate'));
+                if (isNaN(valA)) valA = sortDir === 'asc' ? new Date('9999-12-31') : new Date('1000-01-01');
+                if (isNaN(valB)) valB = sortDir === 'asc' ? new Date('9999-12-31') : new Date('1000-01-01');
+                return sortDir === 'asc' ? valA - valB : valB - valA;
+
+            case 'birthday':
+                const today = new Date();
+                const todayMonth = today.getMonth() + 1;
+                const todayDay = today.getDate();
+                const getBirthdaySortValue = (dateStr) => {
+                    if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateStr)) return 99999;
+                    const [month, day] = dateStr.split('/').map(Number);
+                    if (sortDir === 'calendar') return month * 100 + day;
+                    const isUpcoming = (month > todayMonth) || (month === todayMonth && day >= todayDay);
+                    return isUpcoming ? (month * 100 + day) : 10000 + (month * 100 + day);
+                };
+                return getBirthdaySortValue(getCellValue(a, 'Birthday')) - getBirthdaySortValue(getCellValue(b, 'Birthday'));
+            default:
+                return 0;
+        }
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+    showToast(`Table sorted by ${sortBy}.`, 'success');
+}
+
+// ---- Single Initialization ----
 document.addEventListener('DOMContentLoaded', function() {
-  const settingsModal = document.getElementById('settings-modal');
-  const openSettingsBtn = document.getElementById('open-settings');
-  const closeSettingsBtn = document.getElementById('close-settings');
-  if (openSettingsBtn && settingsModal && closeSettingsBtn) {
-    openSettingsBtn.addEventListener('click', () => {
-      settingsModal.classList.remove('hidden');
-      document.body.classList.add('overflow-hidden');
-      document.getElementById('settings-title').focus();
-    });
-    closeSettingsBtn.addEventListener('click', () => {
-      settingsModal.classList.add('hidden');
-      document.body.classList.remove('overflow-hidden');
-      openSettingsBtn.focus();
-    });
-    settingsModal.addEventListener('click', (e) => {
-      if (e.target === settingsModal) {
-        settingsModal.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-        openSettingsBtn.focus();
-      }
-    });
-    document.addEventListener('keydown', (e) => {
-      if (!settingsModal.classList.contains('hidden') && e.key === 'Escape') {
-        settingsModal.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-        openSettingsBtn.focus();
-      }
-    });
-  }
+    // --- Element Selectors ---
+    const table = document.getElementById('employee-table');
+    const openImportBtn = document.getElementById('open-import-modal');
+    const closeImportBtn = document.getElementById('close-import-modal');
+    const importForm = document.getElementById('import-form');
+    const importModal = document.getElementById('import-modal');
+    const settingsModal = document.getElementById('settings-modal');
+    const openSettingsBtn = document.getElementById('open-settings');
+    const closeSettingsBtn = document.getElementById('close-settings');
+    const searchInput = document.getElementById('search-input');
+    const exportBtn = document.getElementById('export-btn');
+    const openSortBtn = document.getElementById('open-sort-modal');
+    const closeSortBtn = document.getElementById('close-sort-modal');
+    const sortModal = document.getElementById('sort-modal');
+
+    // --- Initial Setup ---
+    updateColVisibilityFromPrefs();
+    makeCellsEditable();
+    autoFitColumns();
+
+    // --- Event Listeners ---
+
+    // 1) Import Modal Logic
+    if (openImportBtn && closeImportBtn && importModal) {
+        const step1Div = document.getElementById('import-step-1');
+        const step2Div = document.getElementById('import-step-2');
+
+        const resetImportModal = () => {
+            if (step2Div) {
+                step2Div.innerHTML = '';
+                step2Div.classList.add('hidden');
+            }
+            if (step1Div) step1Div.classList.remove('hidden');
+            if (importForm) importForm.reset();
+            importModal.classList.add('hidden');
+        };
+
+        openImportBtn.addEventListener('click', () => importModal.classList.remove('hidden'));
+        closeImportBtn.addEventListener('click', resetImportModal);
+        importModal.addEventListener('click', (e) => {
+            if (e.target === importModal) resetImportModal();
+        });
+
+        importForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            const fileInput = importForm.querySelector('input[name="file"]');
+            if (!fileInput.files.length) {
+                return showToast('Please choose a CSV to import.', 'error');
+            }
+            const fd = new FormData();
+            fd.append('file', fileInput.files[0]);
+            const submitButton = importForm.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Uploading...';
+            try {
+                const resp = await fetch('/import/preview', {
+                    method: 'POST',
+                    body: fd
+                });
+                const data = await resp.json();
+                if (!resp.ok) {
+                    throw new Error(data.error || 'Unknown error during preview.');
+                }
+                displayImportPreview(data, importModal, resetImportModal);
+            } catch (err) {
+                showToast(`Import Error: ${err.message}`, 'error');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Preview Import';
+            }
+        });
+    }
+
+    // 2) Settings Modal & Column Preferences
+    if (settingsModal && openSettingsBtn && closeSettingsBtn) {
+        const openModal = () => {
+            settingsModal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        };
+        const closeModal = () => {
+            settingsModal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        };
+
+        openSettingsBtn.addEventListener('click', openModal);
+        closeSettingsBtn.addEventListener('click', closeModal);
+        settingsModal.addEventListener('click', e => {
+            if (e.target === settingsModal) closeModal();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && !settingsModal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+
+        document.querySelectorAll('.toggle-col').forEach(cb => {
+            cb.addEventListener('change', () => {
+                setColVisibility(cb.getAttribute('data-col'), cb.checked);
+                saveColPrefs();
+            });
+        });
+
+        document.getElementById('show-all-cols')?.addEventListener('click', () => {
+            document.querySelectorAll('.toggle-col').forEach(cb => {
+                cb.checked = true;
+                setColVisibility(cb.getAttribute('data-col'), true);
+            });
+            saveColPrefs();
+        });
+
+        document.getElementById('hide-all-cols')?.addEventListener('click', () => {
+            document.querySelectorAll('.toggle-col').forEach(cb => {
+                cb.checked = false;
+                setColVisibility(cb.getAttribute('data-col'), false);
+            });
+            saveColPrefs();
+        });
+    }
+
+    // 3) Sort Modal Logic
+    if (openSortBtn && closeSortBtn && sortModal) {
+        const openModal = () => sortModal.classList.remove('hidden');
+        const closeModal = () => sortModal.classList.add('hidden');
+
+        openSortBtn.addEventListener('click', openModal);
+        closeSortBtn.addEventListener('click', closeModal);
+        sortModal.addEventListener('click', e => {
+            if (e.target === sortModal) closeModal();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && !sortModal.classList.contains('hidden')) closeModal();
+        });
+
+        sortModal.addEventListener('click', e => {
+            const sortBtn = e.target.closest('.sort-btn');
+            if (sortBtn) {
+                sortTable(sortBtn.dataset.sortBy, sortBtn.dataset.sortDir);
+                closeModal();
+            }
+        });
+    }
+
+    // 3) Table-specific listeners (Delete and Search)
+    if (table) {
+        // Delete listener using event delegation
+        table.addEventListener('click', async function(e) {
+            const btn = e.target.closest('.delete-row-btn');
+            if (!btn) return;
+            
+            const row = btn.closest('tr');
+            const empId = btn.dataset.empId;
+            const firstName = row.querySelector('td[data-col="FirstName"]')?.innerText || '';
+            const lastName = row.querySelector('td[data-col="LastName"]')?.innerText || '';
+            const fullName = `${firstName} ${lastName}`.trim();
+
+            if (!empId) {
+                showToast('Cannot delete row: Employee ID is missing.', 'error');
+                return;
+            }
+
+            // Use a standard confirm dialog for the yes/no option
+            if (confirm(`Are you sure you want to delete ${fullName || `employee ${empId}`}?`)) {
+                // Optimistic UI update: remove the row immediately
+                row.remove();
+                autoFitColumns(); // Adjust column widths after removal
+
+                try {
+                    const response = await fetch(`/api/employees/${encodeURIComponent(empId)}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        showToast('Employee deleted successfully.', 'success');
+                    } else {
+                        // If the delete failed, show an error. The user may need to refresh.
+                        const errorData = await response.json();
+                        showToast(errorData.detail || 'Failed to delete employee.', 'error');
+                    }
+                } catch (error) {
+                    showToast('A network error occurred. Could not delete employee.', 'error');
+                }
+            }
+            // If the user clicks "Cancel", the `if` block is skipped and nothing happens.
+        });
+    }
 });

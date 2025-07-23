@@ -1,8 +1,6 @@
-watchfiles
-# requirements.txt
 fastapi
-uvicorn
-jinja2
+uvicorn[standard]
+aiosqlite
 pandas
-openpyxl
+jinja2
 python-multipart

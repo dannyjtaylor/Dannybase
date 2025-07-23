@@ -1,5 +1,3 @@
-# Bulk update all employees (overwrite db.csv)
-
 """
 FastAPI backend for Winter Haven Database
 - Serves static frontend (HTML/JS/CSS)
@@ -13,115 +11,100 @@ import os
 import io
 import logging
 import re
+import asyncio
 import base64
-import pandas as pd
-from fastapi import FastAPI, Request, Form, HTTPException, UploadFile, File, status
+import datetime
+from contextlib import asynccontextmanager
+import aiosqlite
+from fastapi import FastAPI, Request, Form, HTTPException, UploadFile, File
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel
-from starlette.requests import Request as StarletteRequest
-from starlette.responses import HTMLResponse as StarletteHTMLResponse
-
 
 logging.basicConfig(level=logging.INFO)
 
+# Use a lock to prevent race conditions when reading/writing the CSV file
+DB_LOCK = asyncio.Lock()
+DB_PATH = os.path.join(os.path.dirname(__file__), "dannybase.db")
 
-CSV_PATH = os.path.join(os.path.dirname(__file__), "db.csv")
-
-
-# --- Canonical CSV Helpers ---
-def load_employees():
-    try:
-        df = pd.read_csv(CSV_PATH)
-        # Enrich every row with WorkEmail and YearsOfService
-        df = df.fillna('')
-        records = df.to_dict(orient='records')
-        enriched = [enrich_employee_row(dict(row)) for row in records]
-        df = pd.DataFrame(enriched)
-        # Replace NaN/None/empty with 'N/A' for frontend display
-        df = df.where(pd.notnull(df), 'N/A')
-        df = df.replace('', 'N/A')
-        return df
-    except Exception as e:
-        print(f"Error loading CSV: {e}")
-        return pd.DataFrame()
-
-def save_employees(df, source=None, added=None):
-    try:
-        # Canonical column order
-        canonical_cols = [
-            'EmployeeID', 'Username', 'WorkEmail', 'FirstName', 'LastName', 'Nickname', 'DepartmentCode', 'Department',
-            'Position', 'JoinDate', 'Birthday', 'OfficeLocation', 'Supervisor', 'OfficePhoneAndExtension',
-            'MobilePhone', 'EmploymentType', 'EmploymentStatus', 'YearsOfService'
-        ]
-        for col in canonical_cols:
-            if col not in df.columns:
-                df[col] = 'N/A'
-        df = df[canonical_cols]
-        # Enrich every row before saving
-        df = df.fillna('')
-        records = df.to_dict(orient='records')
-        enriched = [enrich_employee_row(dict(row)) for row in records]
-        df = pd.DataFrame(enriched)
-        # Replace NaN/None/empty with 'N/A' before saving
-        df = df.where(pd.notnull(df), 'N/A')
-        df = df.replace('', 'N/A')
-        df.to_csv(CSV_PATH, index=False)
-        # Logging
-        import inspect
-        frame = inspect.currentframe().f_back
-        source = frame.f_locals.get('source', None)
-        added = frame.f_locals.get('added', None)
-        logging.info(f"[db.csv] Database updated. {len(df)} total rows written. Source: {source or 'unknown'}")
-        if added is not None:
-            logging.info(f"[db.csv] Added: {added}")
-        for idx, row in df.iterrows():
-            logging.debug(f"[db.csv] Row {idx+1}: {row.to_dict()}")
-    except Exception as e:
-        print(f"Error saving CSV: {e}")
-
+CANONICAL_COLS = [
+    'EmployeeID', 'Username', 'FirstName', 'LastName', 'Nickname', 'DepartmentCode', 'Department',
+    'Position', 'JoinDate', 'Birthday', 'OfficeLocation', 'Supervisor', 'OfficePhoneAndExtension',
+    'MobilePhone', 'EmploymentType', 'EmploymentStatus'
+]
 
 # --- FastAPI app and setup ---
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-# Bulk update all employees (overwrite db.csv)
-@app.post("/api/employees")
-async def api_bulk_update_employees(data: dict):
-    employees = data.get('employees')
-    if not employees or not isinstance(employees, list):
-        return JSONResponse({"error": "Invalid data"}, status_code=400)
-    canonical_cols = [
-        'EmployeeID', 'Username', 'WorkEmail', 'FirstName', 'LastName', 'Nickname', 'DepartmentCode', 'Department',
-        'Position', 'JoinDate', 'Birthday', 'OfficeLocation', 'Supervisor', 'OfficePhoneAndExtension',
-        'MobilePhone', 'EmploymentType', 'EmploymentStatus', 'YearsOfService'
-    ]
-    for emp in employees:
-        for col in canonical_cols:
-            if col not in emp:
-                emp[col] = 'N/A'
-    df = pd.DataFrame(employees)[canonical_cols]
-    # Replace NaN/None/empty with 'N/A' for canonical storage
-    df = df.where(pd.notnull(df), 'N/A')
-    df = df.replace('', 'N/A')
-    save_employees(df, source="api_bulk_update_employees", added=f"{len(employees)} employees")
-    logging.info(f"[API] Bulk update: {len(df)} employees saved to db.csv")
-    return {"message": f"Bulk update: {len(df)} employees saved."}
-app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+@asynccontextmanager
+async def db_connection():
+    db = await aiosqlite.connect(DB_PATH)
+    db.row_factory = aiosqlite.Row
+    try:
+        yield db
+    finally:
+        await db.close()
 
-# --- REST API Models ---
-from pydantic import BaseModel
+@app.on_event("startup")
+async def startup_db():
+    async with db_connection() as db:
+        await db.execute(f"""
+            CREATE TABLE IF NOT EXISTS employees (
+                {', '.join([f'{col} TEXT' for col in CANONICAL_COLS])},
+                PRIMARY KEY (EmployeeID)
+            )
+        """)
+        await db.commit()
+    logging.info("Database connection established and table verified.")
 
+# --- Database Helpers ---
+async def load_employees():
+    async with db_connection() as db:
+        cursor = await db.execute("SELECT * FROM employees")
+        rows = await cursor.fetchall()
+        employees = [dict(row) for row in rows]
+    
+    enriched_employees = [enrich_employee_row(emp) for emp in employees]
+    return enriched_employees
 
-from fastapi import Body
+def normalize_for_db(employee_data):
+    """Ensures a dictionary has all canonical columns before DB insertion."""
+    return {col: employee_data.get(col, 'N/A') or 'N/A' for col in CANONICAL_COLS}
+
+# --- Data Enrichment ---
+def enrich_employee_row(row):
+    # Make a copy to avoid modifying the original dict if it's a Row object
+    row = dict(row)
+    # WorkEmail: username@mywinterhaven.com if Username present
+    if 'Username' in row and row.get('Username') and row['Username'] not in ['N/A', '']:
+        row['WorkEmail'] = f"{str(row['Username']).lower()}@mywinterhaven.com"
+    else:
+        row['WorkEmail'] = 'N/A'
+
+    # YearsOfService: calculate from JoinDate if possible
+    join_date_str = row.get('JoinDate')
+    if join_date_str and join_date_str not in ['N/A', '']:
+        try:
+            # Accommodate different date formats if necessary, but stick to MM/DD/YYYY
+            join_date = datetime.datetime.strptime(join_date_str, '%m/%d/%Y')
+            today = datetime.datetime.today()
+            # This logic correctly calculates full years passed
+            years = today.year - join_date.year - ((today.month, today.day) < (join_date.month, join_date.day))
+            row['YearsOfService'] = str(years)
+        except (ValueError, TypeError):
+            row['YearsOfService'] = 'N/A' # Invalid date format
+    else:
+        row['YearsOfService'] = 'N/A' # No join date
+
+    return row
+
 # --- Import/Export (AJAX/JSON for modal) ---
 @app.post("/import/preview")
 async def import_preview(file: UploadFile = File(...)):
     """AJAX: Upload file, return preview and columns as JSON."""
+    import pandas as pd
     try:
         if file.filename.endswith('.csv'):
             import io
@@ -132,9 +115,14 @@ async def import_preview(file: UploadFile = File(...)):
         # Always strip spaces from all column names after reading
         df_new.columns = [c.strip() for c in df_new.columns]
         # Do NOT strip spaces from values; allow values to have spaces
-        # Replace NaN/None/empty with 'N/A' for preview
+        # Replace NaN/None with 'N/A' for preview
         df_new = df_new.where(pd.notnull(df_new), 'N/A')
         df_new = df_new.replace('', 'N/A')
+        # Enrich the preview data so the frontend doesn't have to
+        if not df_new.empty:
+            records = df_new.to_dict(orient='records')
+            enriched_records = [enrich_employee_row(dict(row)) for row in records]
+            df_new = pd.DataFrame(enriched_records)
         logging.info(f"[Import Preview] CSV Header: {list(df_new.columns)}")
         for idx, row in df_new.iterrows():
             logging.debug(f"[Import Preview] Row {idx+1}: {row.to_dict()}")
@@ -152,18 +140,15 @@ async def import_preview(file: UploadFile = File(...)):
 
 @app.post("/import/confirm")
 async def import_confirm(request: Request):
-    """AJAX or form: Confirm import, save data, update Excel/CSV."""
+    """AJAX: Confirm import from base64 encoded CSV, save data."""
+    import pandas as pd
     try:
-        # Try to get csv_b64 from JSON body (AJAX)
-        try:
-            data = await request.json()
-            csv_b64 = data.get('csv_b64')
-        except Exception:
-            # Fallback: get from form data
-            form = await request.form()
-            csv_b64 = form.get('csv_b64')
+        data = await request.json()
+        csv_b64 = data.get('csv_b64')
+
         if not csv_b64:
-            return JSONResponse({"error": "Missing csv_b64"}, status_code=400)
+            raise HTTPException(status_code=400, detail="Missing csv_b64 data in request body.")
+
         csv_bytes = base64.b64decode(csv_b64)
         df_new = pd.read_csv(io.BytesIO(csv_bytes))
         # Always strip spaces from all column names after reading
@@ -173,15 +158,18 @@ async def import_confirm(request: Request):
         df_new = df_new.where(pd.notnull(df_new), 'N/A')
         df_new = df_new.replace('', 'N/A')
         logging.info(f"[Import Confirm] CSV Header: {list(df_new.columns)}")
-        for idx, row in df_new.iterrows():
-            logging.debug(f"[Import Confirm] Row {idx+1}: {row.to_dict()}")
-        df = load_employees()
-        df = df.where(pd.notnull(df), 'N/A')
-        df = df.replace('', 'N/A')
-        # Append new employees
-        df = pd.concat([df, df_new], ignore_index=True)
-        save_employees(df, source="import_confirm", added=df_new.to_dict(orient="records"))
-        logging.info(f"[Import Confirm] Confirmed import of {len(df_new)} employees. db.csv updated.")
+        
+        employees_to_import = [normalize_for_db(row) for row in df_new.to_dict(orient='records')]
+
+        async with db_connection() as db:
+            for emp in employees_to_import:
+                placeholders = ', '.join(['?'] * len(CANONICAL_COLS))
+                cols = ', '.join(CANONICAL_COLS)
+                sql = f"INSERT OR REPLACE INTO employees ({cols}) VALUES ({placeholders})"
+                await db.execute(sql, tuple(emp.values()))
+            await db.commit()
+
+        logging.info(f"[Import Confirm] Confirmed import of {len(df_new)} employees.")
         return JSONResponse({"message": f"Imported {len(df_new)} employees."})
     except Exception as e:
         logging.error(f"[Import] Confirm error: {e}")
@@ -191,216 +179,92 @@ async def import_confirm(request: Request):
 # POST (create new employee)
 @app.post("/api/employees")
 async def api_create_employee(emp: dict):
-    df = load_employees()
-    if emp.get('EmployeeID') in df['EmployeeID'].astype(str).values:
-        raise HTTPException(status_code=400, detail="EmployeeID already exists")
-    # Canonicalize columns and fill missing
-    canonical_cols = [
-        'EmployeeID', 'Username', 'WorkEmail', 'FirstName', 'LastName', 'Nickname', 'DepartmentCode', 'Department',
-        'Position', 'JoinDate', 'Birthday', 'OfficeLocation', 'Supervisor', 'OfficePhoneAndExtension',
-        'MobilePhone', 'EmploymentType', 'EmploymentStatus', 'YearsOfService'
-    ]
-    for col in canonical_cols:
-        if col not in emp:
-            emp[col] = 'N/A'
-    emp = {col: emp.get(col, 'N/A') for col in canonical_cols}
-    df = pd.concat([df, pd.DataFrame([emp])], ignore_index=True)
-    save_employees(df, source="api_create_employee", added=emp)
+    emp_id = emp.get("EmployeeID")
+    if not emp_id:
+        raise HTTPException(status_code=400, detail="EmployeeID is required.")
+
+    normalized_emp = normalize_for_db(emp)
+    
+    async with db_connection() as db:
+        placeholders = ', '.join(['?'] * len(CANONICAL_COLS))
+        cols = ', '.join(CANONICAL_COLS)
+        sql = f"INSERT INTO employees ({cols}) VALUES ({placeholders})"
+        await db.execute(sql, tuple(normalized_emp.values()))
+        await db.commit()
+
     logging.info(f"[API] Employee added: {emp}")
     return {"message": "Employee created"}
 
-# PUT (update employee)
+# --- PUT (upsert employee) ---
 @app.put("/api/employees/{emp_id}")
 async def api_update_employee(emp_id: str, emp: dict):
-    df = load_employees()
-    idx = df.index[df["EmployeeID"].astype(str) == emp_id].tolist()
-    if not idx:
-        raise HTTPException(status_code=404, detail="Employee not found")
-    i = idx[0]
-    before = df.loc[i].to_dict()
-    changes = {}
-    for col in df.columns:
-        old = df.at[i, col]
-        new = emp.get(col, 'N/A')
-        if old != new:
-            changes[col] = {'old': old, 'new': new}
-        df.at[i, col] = new
-    import logging
-    logging.info(f"[Update Employee] EmployeeID={emp_id} changes: {changes if changes else 'No changes'}")
-    save_employees(df, source="api_update_employee", added=changes)
+    """
+    Upsert an employee by EmployeeID:
+     - If exists, update fields.
+     - If not, create new row.
+    """
+    logging.info(f"[Upsert Employee] Received PUT for EmployeeID={emp_id}")
+    
+    # Filter out derived fields from the incoming payload
+    update_data = {k: v for k, v in emp.items() if k in CANONICAL_COLS}
+
+    if not update_data:
+        raise HTTPException(status_code=400, detail="No valid fields to update.")
+
+    set_clause = ', '.join([f"{key} = ?" for key in update_data.keys()])
+    values = list(update_data.values())
+    values.append(emp_id)
+
+    sql = f"UPDATE employees SET {set_clause} WHERE EmployeeID = ?"
+
+    async with db_connection() as db:
+        cursor = await db.execute(sql, tuple(values))
+        if cursor.rowcount == 0:
+            # If no rows were updated, it means the employee doesn't exist. Let's create it.
+            normalized_emp = normalize_for_db(emp)
+            await api_create_employee(normalized_emp)
+            return {"message": "Employee created via PUT"}
+        await db.commit()
+
     return {"message": "Employee updated"}
 
-# DELETE (delete employee)
+# --- DELETE employee ---
 @app.delete("/api/employees/{emp_id}")
 async def api_delete_employee(emp_id: str):
-    df = load_employees()
-    idx = df.index[df["EmployeeID"].astype(str) == str(emp_id)].tolist()
-    if not idx:
-        raise HTTPException(status_code=404, detail="Employee not found")
-    deleted_rows = df.loc[idx].to_dict(orient='records')
-    import logging
-    logging.info(f"[Delete Employee] Deleting EmployeeID={emp_id}: {deleted_rows}")
-    df = df.drop(idx)
-    save_employees(df, source="api_delete_employee", added=f"Deleted {emp_id}")
-    return {"message": "Employee deleted"}
+    """
+    Delete an employee by EmployeeID.
+    """
+    logging.info(f"[Delete Employee] Received DELETE for EmployeeID={emp_id}")
+    async with db_connection() as db:
+        cursor = await db.execute("DELETE FROM employees WHERE EmployeeID = ?", (emp_id,))
+        await db.commit()
+        if cursor.rowcount == 0:
+            logging.warning(f"[Delete Employee] EmployeeID={emp_id} not found")
+            raise HTTPException(status_code=404, detail="Employee not found")
 
-# XSS (Cross-Site Scripting) is a vulnerability where attackers inject malicious scripts into web pages viewed by others. Always escape user input in templates and sanitize data before rendering.
+    return JSONResponse({"message": "Employee deleted"}, status_code=200)
 
-# Toast notifications: To be implemented in the frontend (index.html/dannybase.js) for user feedback on actions like add, edit, delete, import, export.
-
-@app.delete("/api/employees/{emp_id}")
-async def api_delete_employee(emp_id: str):
-    """Delete an employee by ID via API."""
-    df = load_employees()
-    idx = df.index[df["Employee ID"] == emp_id].tolist()
-    if not idx:
-        logging.warning(f"[API] Delete failed: Employee {emp_id} not found.")
-        raise HTTPException(status_code=404, detail="Employee not found")
-    df = df.drop(idx)
-    save_employees(df)
-    logging.info(f"[API] Deleted employee {emp_id} (Excel/CSV updated)")
-    return JSONResponse({"message": "Employee deleted"})
-
-# --- Import/Export ---
-@app.get("/import", response_class=HTMLResponse)
-async def import_form(request: Request):
-    """Show the import form."""
-    logging.info("[Import] Form displayed.")
-    return templates.TemplateResponse("import.html", {"request": request})
-
-
-
-
-@app.post("/import")
-async def import_employees(request: Request, file: UploadFile = File(...)):
-    """Step 1: Upload file, show preview and confirm."""
-    try:
-        if file.filename.endswith('.csv'):
-            df_new = pd.read_csv(file.file)
-        else:
-            df_new = pd.read_excel(file.file)
-        # Replace NaN/None/empty with 'N/A' for preview
-        df_new = df_new.where(pd.notnull(df_new), 'N/A')
-        df_new = df_new.replace('', 'N/A')
-        # Log the extracted data
-        logging.info(f"[Import] Previewing {len(df_new)} employees: {df_new.to_dict(orient='records')}")
-        # Store the data as base64 CSV in a hidden field for confirmation
-        csv_bytes = df_new.to_csv(index=False).encode('utf-8')
-        csv_b64 = base64.b64encode(csv_bytes).decode('utf-8')
-        # Render confirmation page
-        return templates.TemplateResponse("import.html", {
-            "request": request,
-            "preview": df_new.to_dict(orient="records"),
-            "columns": list(df_new.columns),
-            "csv_b64": csv_b64,
-            "step": "confirm"
-        })
-    except Exception as e:
-        logging.error(f"[Import] Error: {e}")
-        return HTMLResponse(f"<h2>Error importing file: {e}</h2>", status_code=400)
-
-@app.post("/import/confirm")
-async def import_employees_confirm(request: Request, csv_b64: str = Form(...)):
-    """Step 2: Confirm import, save data, update Excel/CSV, redirect."""
-    try:
-        csv_bytes = base64.b64decode(csv_b64)
-        df_new = pd.read_csv(io.BytesIO(csv_bytes))
-        # Replace NaN/None/empty with 'N/A' for import
-        df_new = df_new.where(pd.notnull(df_new), 'N/A')
-        df_new = df_new.replace('', 'N/A')
-        df = load_employees()
-        df = df.where(pd.notnull(df), 'N/A')
-        df = df.replace('', 'N/A')
-        # Remove WorkEmail and YearsOfService if present
-        if 'WorkEmail' in df_new.columns:
-            df_new = df_new.drop(columns=['WorkEmail'])
-        if 'YearsOfService' in df_new.columns:
-            df_new = df_new.drop(columns=['YearsOfService'])
-        # Auto-generate WorkEmail and YearsOfService
-        from datetime import datetime
-        current_year = datetime.now().year
-        def calc_years(join_date):
-            try:
-                year = int(str(join_date).split('/')[-1])
-                return str(current_year - year)
-            except Exception:
-                return 'N/A'
-        df_new['WorkEmail'] = df_new['Username'].astype(str).str.lower() + '@mywinterhaven.com'
-        df_new['YearsOfService'] = df_new['JoinDate'].apply(calc_years)
-        # Ensure imported columns match canonical headers (order)
-        canonical_cols = [
-            'EmployeeID', 'Username', 'WorkEmail', 'FirstName', 'LastName', 'Nickname', 'DepartmentCode', 'Department',
-            'Position', 'JoinDate', 'Birthday', 'OfficeLocation', 'Supervisor', 'OfficePhoneAndExtension',
-            'MobilePhone', 'EmploymentType', 'EmploymentStatus', 'YearsOfService'
-        ]
-        for col in canonical_cols:
-            if col not in df_new.columns:
-                df_new[col] = 'N/A'
-        df_new = df_new[canonical_cols]
-        # Replace any remaining blanks with 'N/A'
-        df_new = df_new.where(pd.notnull(df_new), 'N/A')
-        df_new = df_new.replace('', 'N/A')
-        df = pd.concat([df, df_new], ignore_index=True)
-        save_employees(df)
-        logging.info(f"[Import] Confirmed and imported {len(df_new)} employees (total now {len(df)}). CSV updated.")
-        return RedirectResponse("/?imported=1", status_code=303)
-    except Exception as e:
-        logging.error(f"[Import] Confirm error: {e}")
-        return HTMLResponse(f"<h2>Error confirming import: {e}</h2>", status_code=400)
-
-import datetime
-def enrich_employee_row(row):
-    # WorkEmail: username@mywinterhaven.com if Username present
-    if 'Username' in row and row['Username'] not in [None, '', 'N/A']:
-        row['WorkEmail'] = f"{row['Username']}@mywinterhaven.com"
-    else:
-        row['WorkEmail'] = 'N/A'
-    # YearsOfService: calculate from JoinDate if possible
-    join_date = row.get('JoinDate') or row.get('Join Date')
-    if join_date and join_date not in ['N/A', '', None]:
-        try:
-            dt = datetime.datetime.strptime(join_date, '%m/%d/%Y')
-            today = datetime.datetime.today()
-            years = today.year - dt.year - ((today.month, today.day) < (dt.month, dt.day))
-            row['YearsOfService'] = str(years)
-        except Exception:
-            row['YearsOfService'] = 'N/A'
-    else:
-        row['YearsOfService'] = 'N/A'
-    return row
-
+# --- Page-serving Routes (HTML out) ---
 @app.get("/export")
 async def export():
     """Export all employees as a CSV file (even if empty)."""
-    df = load_employees()
+    df = await load_employees()
     # Ensure export matches canonical headers
-    canonical_cols = [
+    export_cols = [
         'EmployeeID', 'Username', 'WorkEmail', 'FirstName', 'LastName', 'Nickname', 'DepartmentCode', 'Department',
         'Position', 'JoinDate', 'Birthday', 'OfficeLocation', 'Supervisor', 'OfficePhoneAndExtension',
         'MobilePhone', 'EmploymentType', 'EmploymentStatus', 'YearsOfService'
     ]
-    for col in canonical_cols:
-        if col not in df.columns:
-            df[col] = 'N/A'
-    df = df[canonical_cols]
-    # Enrich each row with correct WorkEmail and YearsOfService
-    if not df.empty:
-        for idx, row in df.iterrows():
-            enriched = enrich_employee_row(row.to_dict())
-            for k, v in enriched.items():
-                if k in df.columns:
-                    df.at[idx, k] = v
-    # Replace NaN/None/empty with 'N/A' for export
-    df = df.where(pd.notnull(df), 'N/A')
-    df = df.replace('', 'N/A')
+    
+    # Create a pandas DataFrame for easy CSV export
+    import pandas as pd
+    df_export = pd.DataFrame(df, columns=export_cols).fillna('N/A')
+
     stream = io.StringIO()
-    df.to_csv(stream, index=False)
-    logging.info(f"[Export] Exported {len(df)} employees as CSV. (Visual table will refresh to match db.csv)")
-    for idx, row in df.iterrows():
+    df_export.to_csv(stream, index=False)
+    logging.info(f"[Export] Exported {len(df_export)} employees as CSV.")
+    for idx, row in df_export.iterrows():
         logging.debug(f"[Export] Row {idx+1}: {row.to_dict()}")
-    response = StreamingResponse(iter([stream.getvalue()]), media_type="text/csv")
-    response.headers["Content-Disposition"] = "attachment; filename=employees_export.csv"
-    return response
     response = StreamingResponse(iter([stream.getvalue()]), media_type="text/csv")
     response.headers["Content-Disposition"] = "attachment; filename=employees_export.csv"
     return response
@@ -410,10 +274,10 @@ async def index(request: Request, q: str = ""):
     """
     Home page: View/search employee table
     """
-    df = load_employees()
+    employees = await load_employees()
     if q:
-        df = df[df.apply(lambda row: row.astype(str).str.contains(q, case=False).any(), axis=1)]
-    employees = df.to_dict(orient="records")
+        q_lower = q.lower()
+        employees = [emp for emp in employees if any(str(val).lower().find(q_lower) != -1 for val in emp.values())]
     return templates.TemplateResponse("index.html", {"request": request, "employees": employees, "search": q})
 
 
@@ -427,13 +291,17 @@ async def add_employee_id_form(request: Request):
 
 # Step 2: Enter all other fields
 @app.post("/add_id")
-async def add_employee_id(request: Request, emp_id: str = Form(...)):
+async def add_employee_id(
+    request: Request, 
+    emp_id: str = Form(...),
+    work_email: str = Form(...)):
     """
     Step 2: Redirect to full form with Employee ID
     """
     if not emp_id:
         return templates.TemplateResponse("addEmployee1.html", {"request": request, "error": "Employee ID is required."})
-    return templates.TemplateResponse("addEmployee2.html", {"request": request, "emp_id": emp_id})
+    # pass username along - FIX: Correct indentation
+    return templates.TemplateResponse("addEmployee2.html", {"request": request, "emp_id": emp_id, "work_email": work_email})
 
 @app.post("/add_fields")
 async def add_employee_fields(
@@ -511,6 +379,7 @@ async def add_employee_fields(
     try:
         # Compose full work email
         full_email = f"{work_email}@mywinterhaven.com"
+        username = work_email.lower()
         # Auto-calculate YearsOfService from JoinDate (MM/DD/YYYY)
         from datetime import datetime
         try:
@@ -518,12 +387,11 @@ async def add_employee_fields(
             years_of_service = str(datetime.now().year - join_year)
         except Exception:
             years_of_service = ''
-        # Logging all fields
-        logging.info(f"Adding employee: ID={emp_id}, Email={full_email}, First={first_name}, Last={last_name}, Nickname={nickname}, DeptCode={dept_code}, Dept={dept_desc}, Position={position}, Join={join_date}, Birthday={birthday}, OfficeLoc={office_location}, Supervisor={supervisor}, OfficePhone={office_phone}, MobilePhone={mobile_phone}, EmpType={employment_type}, EmpStatus={employment_status}, Years={years_of_service}")
-        df = load_employees()
+
+        logging.info(f"Adding employee via form: ID={emp_id}")
         new_row = {
             "EmployeeID": emp_id,
-            "Username": work_email,
+            "Username": username,
             "WorkEmail": full_email,
             "FirstName": first_name,
             "LastName": last_name,
@@ -541,12 +409,15 @@ async def add_employee_fields(
             "EmploymentStatus": employment_status,
             "YearsOfService": years_of_service or ""
         }
-        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
-        logging.info(f"[Add Employee] Adding new row: {new_row}")
-        save_employees(df, source="manual_form", added=new_row)
-        logging.info(f"[Add Employee] Employee {emp_id} added to database (manual form). Current DB:")
-        for idx, row in df.iterrows():
-            logging.debug(f"[Add Employee] Row {idx+1}: {row.to_dict()}")
+
+        normalized_emp = normalize_for_db(new_row)
+        async with db_connection() as db:
+            placeholders = ', '.join(['?'] * len(CANONICAL_COLS))
+            cols = ', '.join(CANONICAL_COLS)
+            sql = f"INSERT INTO employees ({cols}) VALUES ({placeholders})"
+            await db.execute(sql, tuple(normalized_emp.values()))
+            await db.commit()
+
         # Redirect to home page to show updated database
         return RedirectResponse("/", status_code=303)
     except Exception as e:
@@ -554,37 +425,5 @@ async def add_employee_fields(
         # Fallback: redirect to home with error (could be improved to show error page)
         return RedirectResponse("/", status_code=303)
 
-@app.post("/edit/{emp_id}")
-async def edit_employee(request: Request, emp_id: int, name: str = Form(...), title: str = Form(...), email: str = Form(...)):
-    """
-    Edit employee info by ID
-    """
-    df = load_employees()
-    if emp_id not in df["ID"].values:
-        raise HTTPException(status_code=404, detail="Employee not found")
-    df.loc[df["ID"] == emp_id, ["Name", "Title", "Email"]] = [name, title, email]
-    save_employees(df)
-    return RedirectResponse("/", status_code=303)
-
-@app.post("/delete/{emp_id}")
-async def delete_employee(request: Request, emp_id: int):
-    """
-    Delete employee by ID
-    """
-    df = load_employees()
-    idx = df.index[df["EmployeeID"].astype(str) == str(emp_id)].tolist()
-    if not idx:
-        raise HTTPException(status_code=404, detail="Employee not found")
-    df = df.drop(idx)
-    save_employees(df, source="manual_delete", added=f"Deleted {emp_id}")
-    return RedirectResponse("/", status_code=303)
-
-# Debug route: Download Excel file
-@app.get("/download", response_class=HTMLResponse)
-async def download_excel(request: Request):
-    """
-    Download the Excel file for backup/debugging
-    """
-    return RedirectResponse("/static/Dannybase.xlsx", status_code=303)
 
 # Run with: uvicorn main:app --reload
