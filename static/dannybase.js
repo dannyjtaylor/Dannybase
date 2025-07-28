@@ -123,6 +123,9 @@ function autoFitColumns() {
         return;
     }
     ths.forEach((th, idx) => {
+        if (th.getAttribute('data-col') === '#') {
+            return; // Skip auto-sizing for the manually styled index column
+        }
         let maxLen = th.innerText.length;
         rows.forEach(row => {
             const text = row.children[idx]?.innerText || '';
@@ -143,7 +146,7 @@ function saveRowToBackend(row) {
         .map(th => th.getAttribute('data-col'));
     const emp = {};
     row.querySelectorAll('td[data-col]').forEach((cell, i) => {
-        if (headers[i] !== 'Delete') { // Exclude the 'Delete' action column
+        if (headers[i] && headers[i] !== 'Delete' && headers[i] !== '#') { // Exclude action and index columns
             emp[headers[i]] = cell.innerText.trim();
         }
     });
@@ -183,8 +186,8 @@ function makeCellsEditable() {
     if (!table) return;
     table.querySelectorAll('tbody tr').forEach((row, idx) => {
         row.querySelectorAll('td[data-col]').forEach(cell => {
-            // The 'Delete' column should not be editable
-            if (cell.getAttribute('data-col') !== 'Delete') {
+            // The 'Delete' and '#' index columns should not be editable
+            if (cell.getAttribute('data-col') !== 'Delete' && cell.getAttribute('data-col') !== '#') {
                 cell.contentEditable = 'true';
                 cell.classList.add('editable-cell');
                 cell.addEventListener('blur', () => saveRowToBackend(row));
@@ -194,6 +197,32 @@ function makeCellsEditable() {
             }
         });
         row.classList.toggle('bg-gray-100', idx % 2 === 0);
+    });
+}
+
+function reindexTable() {
+    const table = document.getElementById('employee-table');
+    if (!table) return;
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach((row, index) => {
+        const indexCell = row.querySelector('td[data-col="#"]');
+        // Ensure we're not trying to index the "No employees found" row
+        if (indexCell && !row.querySelector('td[colspan]')) {
+            indexCell.textContent = index + 1;
+        }
+    });
+}
+
+function reindexTable() {
+    const table = document.getElementById('employee-table');
+    if (!table) return;
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach((row, index) => {
+        const indexCell = row.querySelector('td[data-col="#"]');
+        // Ensure we're not trying to index the "No employees found" row
+        if (indexCell && !row.querySelector('td[colspan]')) {
+            indexCell.textContent = index + 1;
+        }
     });
 }
 
@@ -254,6 +283,7 @@ function sortTable(sortBy, sortDir = 'asc') {
     });
 
     rows.forEach(row => tbody.appendChild(row));
+    reindexTable(); // Re-apply the index numbers after the sort
     showToast(`Table sorted by ${sortBy}.`, 'success');
 }
 
@@ -423,7 +453,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (confirm(`Are you sure you want to delete ${fullName || `employee ${empId}`}?`)) {
                 // Optimistic UI update: remove the row immediately
                 row.remove();
-                autoFitColumns(); // Adjust column widths after removal
+                reindexTable(); // Re-index the table after a row is removed
 
                 try {
                     const response = await fetch(`/api/employees/${encodeURIComponent(empId)}`, {

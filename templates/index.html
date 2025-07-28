@@ -178,6 +178,7 @@
             <div class="mb-4">
               <span class="font-semibold text-primary-dark text-lg mr-2">Employee Attributes</span>
               <div class="grid grid-cols-2 md:grid-cols-4 gap-2 w-full min-w-fit" id="column-toggles">
+                <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="#" checked> <span>#</span></label>
                 <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="EmployeeID" checked> <span>EmployeeID</span></label>
                 <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="Username" checked> <span>Username</span></label>
                 <label class="flex items-center gap-2"><input type="checkbox" class="toggle-col accent-primary" data-col="WorkEmail" checked> <span>WorkEmail</span></label>
@@ -239,11 +240,25 @@
             margin-left: calc(-50vw + 50%);
             margin-right: calc(-50vw + 50%);
           }
+          /* Styling for the new Index column */
+          th[data-col="#"] {
+            background-color: #6b7280; /* A neutral gray (Tailwind gray-500) */
+            width: 4rem; /* Fixed smaller width */
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+          }
+          td[data-col="#"] {
+            font-weight: 700; /* Bold index number */
+            background-color: #f3f4f6; /* A light gray (Tailwind gray-100) */
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+          }
         </style>
         <div class="responsive-table-container bg-white rounded shadow border border-primary-light" style="max-height: 70vh;">
             <table class="min-w-full table-auto mx-auto" id="employee-table">
                 <thead class="bg-primary-light">
                     <tr>
+                        <th class="text-white text-center font-bold" data-col="#">#</th>
                         <th class="text-white text-center font-bold w-36" data-col="EmployeeID" style="background-color:#007B7F;">EmployeeID</th>
                         <th class="text-primary text-center font-bold w-36" data-col="Username" style="background-color:#b2dfdb;">Username</th>
                         <th class="text-white text-center font-bold w-36" data-col="WorkEmail" style="background-color:#007B7F;">WorkEmail</th>
@@ -268,6 +283,7 @@
                 <tbody>
                     {% for emp in employees %}
                     <tr class="border-b hover:bg-teal-100">
+                        <td data-col="#">{{ loop.index }}</td>
                         <td data-col="EmployeeID">{{ emp['EmployeeID'] }}</td>
                         <td data-col="Username">{{ emp['Username'] }}</td>
                         <td data-col="WorkEmail">{{ emp['WorkEmail'] }}</td>
@@ -293,7 +309,7 @@
                         </td>
                     </tr>
                     {% else %}
-                    <tr><td colspan="19" class="py-4 text-center text-gray-500">No employees found.</td></tr>
+                    <tr><td colspan="21" class="py-4 text-center text-gray-500">No employees found.</td></tr>
                     {% endfor %}
                 </tbody>
             </table>

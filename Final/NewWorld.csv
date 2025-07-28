@@ -1,0 +1,626 @@
+﻿Formal Name,EmployeeID,JoinDate,Birthday,Department,Position,Status
+"BIRDSONG, NATHANIEL J Jr.",2317,2002-11-12,1946-03-22,101 - City Commission,01-1032101 - Mayor,Active
+"HARP, ANNA C",2320,1988-12-05,1969-10-05,111 - Finance,00-6005111 - Acct. Clerk II - Finance,Active
+"OWENS, SHERRY A",2322,1999-11-22,1973-10-10,111 - Finance,00-6005111 - Acct. Clerk II - Finance,Active
+"MCKENZIE, BARBARA J",2329,2010-03-04,1948-07-24,728 - Library Services,00-6056728 - CSR I - Library Assist I PT,Active
+"GREEAR, CORI S",2347,2003-10-27,1981-01-04,728 - Library Services,00-2020728 - Librarian II,Active
+"HAMRIC, TRACI D",2368,2000-01-19,1969-10-10,111 - Finance,00-8011111 - Mail Courier,Active
+"NGUYEN, HIEP",2374,2003-06-03,1972-01-19,923 - Technology Services,00-1092923 - Smart City Officer,Active
+"ADAMS, MICHAEL W",2377,1995-04-10,1969-08-30,923 - Technology Services,00-2067923 - Business Tech Support Coord,Active
+"AYERS, TANYA S",2382,1998-06-30,1974-12-14,217 - Safe Neighborhoods,00-1053217 - Safe Neighborhoods Director,Active
+"DUDLEY, JAMIE D",2415,1989-07-03,1965-05-23,711 - Activity Fields / Stadium,00-8012711 - Maint. Operator I - Act Fields,Active
+"LIGHTSEY, KANDACE M",2462,1998-12-15,1979-01-24,310 - Utility Services Administration,00-2074310 - Utility Financial Specialist,Active
+"KRUG, ADEN A",2488,1999-06-29,1970-10-14,200  - Police Admin,00-2030200 - Police Lieutenant,Active
+"NUNNERY, DONALD D",2491,2000-02-21,1970-07-13,200  - Police Admin,00-2029200 - Police Captain,Active
+"BIRD, CHARLES E",2501,2021-04-19,1967-05-16,200  - Police Admin,00-1087200 - Public Safety Director,Active
+"CEA, JOSEPH A",2502,1990-02-23,1961-08-13,217 - Safe Neighborhoods,00-3006217 - Senior Code Compliance Officer,Active
+"RUSICH, STEPHEN C",2515,2002-09-30,1975-11-29,200  - Police Admin,00-3030200 - Police Sergeant,Active
+"KEIGAN, DAVID",2539,1996-10-16,1969-06-24,200  - Police Admin,00-3030200 - Police Sergeant,Active
+"MERCER, LUCRETIA T",2554,2020-01-13,1949-11-27,101 - City Commission,03-1009101 - City Commissioner,Active
+"IRVIS, DAMON C",2600,1999-05-18,1976-01-18,301 - Water Plants,00-3039301 - Water Plant Chief Operator,Active
+"WARDER, STEVEN D",2602,1989-09-18,1966-07-16,301 - Water Plants,00-1088301 - Water Plant Manager,Active
+"ADAMSON, JONATHAN M",2611,2000-01-04,1975-01-05,316 - Wastewater Treatment Plant  3,00-7031316 - WWTP Operator A - WWTP 3,Active
+"TRINIDAD, ANGEL M",2636,2023-09-11,1955-09-01,971 - Dark Fiber Enterprise,00-3031971 - Fiber Systems Technician,Active
+"PIKE, TRAVIS R",2644,2019-06-24,1980-04-17,322 - Utility Services Maintenance,00-1093322 - US Field Operations Manager,Active
+"BLIND, JASON M",2666,2002-12-02,1977-05-27,301 - Water Plants,00-7037301 - Water Plant Operator C,Active
+"GILLEY, JONATHAN A",2687,2003-04-15,1971-04-30,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"STROUD, MICHAEL",2696,1999-02-01,1977-03-06,213 - Fire Stations,00-4015213 - EMS Coordinator,Active
+"SHIMKUS, ERIC P",2710,2002-08-05,1971-03-07,213 - Fire Stations,00-4007213 - Firefighter III,Active
+"LINDELL, GERALD S",2713,2003-04-15,1970-08-21,213 - Fire Stations,00-4007213 - Firefighter III,Active
+"WATERS, MICHAEL T",2715,2004-03-15,1982-08-31,213 - Fire Stations,00-1107213 - Deputy Fire Chief,Active
+"BEASLEY, BRIAN E",2717,2001-06-18,1970-03-23,213 - Fire Stations,00-1090213 - Battalion Chief,Active
+"JOHNSON, MARTIN L",2719,1999-03-01,1968-09-20,213 - Fire Stations,00-2014213 - Fire Lieutenant,Active
+"RUSKIN, TIMOTHY M",2729,2002-10-07,1971-12-29,711 - Activity Fields / Stadium,00-7004711 - Crew Leader I - Activity Fields,Active
+"CLANTON, STEVEN M",2737,1999-02-01,1977-04-29,213 - Fire Stations,00-2014213 - Fire Lieutenant,Active
+"CAMPBELL, MICHAEL W",2755,2000-09-11,1978-06-28,401 - Streets,00-1044401 - Streets Superintendent,Active
+"HICKS, TAMRA L",2768,2005-12-12,1968-04-25,312 - Parks & Grounds,00-7005312 - Crew Leader II - Landscape,Active
+"WILLIAMS, MICHAEL L",2790,1989-06-05,1969-06-06,704 - Senior Adult Center,00-8000704 - Bldg. Svc. Worker-Senior Ctr.,Active
+"BYERS, SEAN H",2794,1996-12-23,1972-10-11,218 - Growth Management/ Planning,00-1036218 - Planning Manager,Active
+"STRIPLING, CYNTHIA Y",2798,1990-06-13,1962-11-28,401 - Streets,00-1061111 - Administrative Services Manager,Active
+"STAVRES, THOMAS M",2801,2001-11-05,1970-07-28,103 - City Manager,00-1012103 - City Manager,Active
+"BUTLER, ADAM F",2819,2015-08-05,1983-10-09,703 - Aquatics,00-2032703 - Rec. Supervisor II - Aquatics,Active
+"EILERS, SCOTT E",2822,2006-04-03,1971-09-01,700 - Parks & Recreation Admin.,"00-1103700 - Assist Parks, Rec & Culture Dir",Active
+"BURKE, JENNIFER E",2860,2001-03-12,1979-01-05,705 - Fieldhouse and Conference Center,00-1097705 - Fieldhouse/Conf Facility Mgr,Active
+"GRAY, BONNIE A",2866,2002-05-09,1955-08-26,707 - Tennis,00-8030707 - Rec. Attendant (PT)-Tennis,Active
+"RICHARDSON, JACKIE L",2868,1995-05-30,1972-06-24,704 - Senior Adult Center,00-2032704 - Rec. Supervisor II - Senior Ctr,Active
+"RABAGO, JESSICA",2871,2001-08-20,1968-06-30,312 - Parks & Grounds,00-6056312 - CSR I - Staff Assistant I - P&G,Active
+"O'NEAL, FRANK B",2892,1990-06-04,1968-09-10,316 - Wastewater Treatment Plant  3,00-7032316 - WWTP Operator B - WWTP 3,Active
+"GRAHAM, MICHAEL G",2894,1988-01-11,1964-01-30,316 - Wastewater Treatment Plant  3,00-7032316 - WWTP Operator B - WWTP 3,Active
+"SHELTON, CHRISTOPHER K",2899,1998-08-10,1975-08-10,316 - Wastewater Treatment Plant  3,00-3045316 - Ind Pretreatment/FOG Prog Coord,Active
+"GOLDEN, LISA I",2919,2015-05-01,1960-11-09,711 - Activity Fields / Stadium,00-8035711 - Food Service Leader,Active
+"RUSSELL, AARON W",2937,1991-12-02,1970-07-24,907 - Fleet Maintenance,00-1024907 - Fleet Maintenance Manager,Active
+"MINCEY, ANNA M",2938,2021-10-14,1961-08-07,307 - Residential Collection,00-6025307 - Solid Waste Svcs. Coordinator,Active
+"HEBB, DAVID M",2943,1995-12-04,1965-06-04,907 - Fleet Maintenance,00-7017907 - Mechanic III - Fleet Maint.,Active
+"DEAN, DAVID M",2944,1997-03-24,1974-12-14,907 - Fleet Maintenance,00-7017907 - Mechanic III - Fleet Maint.,Active
+"MOREHEAD, CHRISTOPHER A",2947,1992-05-15,1970-10-18,306 - Commercial Collection,00-7005306 - Commercial Coll Crew Leader,Active
+"HURT, BRUCE",2955,2021-10-12,1961-10-09,307 - Residential Collection,00-8042307 - Solid Waste Diversified Operator,Active
+"MCCULLOUGH, ALAN T",2956,2025-02-03,1965-01-16,307 - Residential Collection,00-8042307 - Solid Waste Diversified Operator,Active
+"MEADOWS, MITCHELL L",2989,2004-09-20,1980-10-09,200  - Police Admin,00-2029200 - Police Captain,Active
+"PALMER, ANDREW",2999,2004-12-20,1977-11-25,700 - Parks & Recreation Admin.,00-1100700 - Parks Planning & Strat Int Mgr,Active
+"GONZALEZ, ARIEL C",3002,2005-01-03,1984-08-09,213 - Fire Stations,00-2014213 - Fire Lieutenant,Active
+"BILBREY, NICHOLAS W",3003,2005-01-03,1981-12-08,213 - Fire Stations,00-4007213 - Firefighter III,Active
+"MCKAY, TORRIANCE",3005,2005-01-05,1973-09-02,919 - Meter Services,00-7018919 - Meter Repair Technician I,Active
+"PRUITT, STEVE D",3008,2005-01-18,1968-06-10,312 - Parks & Grounds,00-1030312 - Landscape Srvs. Superintendent,Active
+"RHEINER, STEVE P",3026,2005-02-22,1965-04-13,305 - Utility Engineering,00-3043305 - Utility Const. Project Mgr,Active
+"BARRON, WILLIAM K",3056,2023-10-31,1957-11-14,311 - Cemeteries,00-8001311 - MO I - Cemetery Operator,Active
+"HOUMARD, ROBERT T",3399,2018-08-16,1970-10-01,307 - Residential Collection,00-8028307 - Trashmaster Operator,Active
+"SIMMONS, JOHN E",3818,2020-04-29,1966-06-17,312 - Parks & Grounds,00-7005312 - Crew Leader II - Landscape,Active
+"HARRIS, LaTONYA S",3882,2005-08-03,1976-12-13,105 - City Clerk,01-2055105 - Records Admins/Deputy City Clerk,Active
+"NOUAMI, FELICIA A",3894,2024-01-08,1963-01-05,216 - Building / Permitting,00-6019216 - Permit Specialist,Active
+"POOLE, RAYMOND L",3905,2005-10-24,1964-06-07,213 - Fire Stations,00-4007213 - Firefighter III,Active
+"COHEN, JEREMY R",3907,2005-10-24,1983-05-25,213 - Fire Stations,00-2015213 - Fire Prev. Inspect./Investigator,Active
+"DYKES, SHAWN B",3918,2005-11-07,1974-10-02,910 - Human Resources,00-1026910 - Human Resources Director,Active
+"DUNCAN, TANISHA N",3936,2006-01-19,1986-10-12,705 - Fieldhouse and Conference Center,00-2033705 - Recreation Supervisor III,Active
+"BURNHAM, OKOKI D",3940,2006-02-06,1976-09-25,322 - Utility Services Maintenance,00-3054322 - Lead Locator,Active
+"MILLER, KYLE M",3941,2006-01-30,1984-08-04,213 - Fire Stations,00-1090213 - Battalion Chief,Active
+"NEAL, KRISTOPHER A",3950,2006-02-13,1966-07-19,711 - Activity Fields / Stadium,00-7005711 - Crew Leader II - Activity Fields,Active
+"CHARLES, HODNEY",3955,2006-03-13,1966-02-11,307 - Residential Collection,00-8028307 - Trashmaster Operator,Active
+"CARROLL, JOSHUA D",3964,2006-04-03,1982-05-09,213 - Fire Stations,00-2015213 - Fire Prev. Inspect./Investigator,Active
+"FLETCHER, RONNIE K",3965,2006-04-03,1985-11-08,213 - Fire Stations,00-2014213 - Fire Lieutenant,Active
+"MINSER, JUSTIN R",3970,2006-04-17,1983-04-09,200  - Police Admin,00-2029200 - Police Captain,Active
+"FOSTER, GEORGE M",3978,2006-04-10,1963-03-26,901 - Engineering Services,00-1048901 - Construction Inspector Superint.,Active
+"ROBERTS, HENRY A Jr.",4055,2024-12-26,1973-10-20,312 - Parks & Grounds,00-8012312 - Maint. Operator I - Landscape,Active
+"BOLTON, CHARLES G",4057,2009-03-23,1986-10-06,200  - Police Admin,00-4012200 - Police Inspector,Active
+"PHILLIPS, SAMANTHA",4107,2007-03-12,1984-05-21,200  - Police Admin,00-2030200 - Police Lieutenant,Active
+"MILLER, AISHA",4123,2022-08-10,1977-01-10,709 - WH Rec and Cultural Center,00-8030709 - Rec. Attendant (PT) - WHRCC,Active
+"TATE, DEBORAH",4153,2018-11-13,1967-05-09,111 - Finance,00-1003111 - Asst. Financial Serv Dept. Dir.,Active
+"MURPHY, FREDERICK J III",4171,2007-12-13,1987-07-31,711 - Activity Fields / Stadium,00-8000711 - Bldg. Svc. Worker-Activity Field,Active
+"BALL, KAREN",4182,2008-01-17,1961-05-31,401 - Streets,00-6024401 - CSR III - Sr. Staff Asst,Active
+"HOLLEY, CODY E",4187,2008-02-04,1963-09-10,312 - Parks & Grounds,00-8012312 - Maint. Operator I - Landscape,Active
+"HOWARD, BRADY N",4204,2008-03-03,1969-02-22,301 - Water Plants,00-7036301 - Water Plant Operator B,Active
+"LOPEZ, JOSE L",4222,2008-03-31,1965-05-27,307 - Residential Collection,00-8028307 - Trashmaster Operator,Active
+"BOYD, GARRETT N",4254,2008-06-03,1984-07-23,200  - Police Admin,00-2030200 - Police Lieutenant,Active
+"ROBLES, CHARLIE Jr.",4306,2008-09-08,1982-04-26,213 - Fire Stations,00-1090213 - Battalion Chief,Active
+"NOWLING, CODY W",4314,2008-10-15,1986-02-06,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"OWEN, BETHANY",4319,2008-11-03,1963-07-16,111 - Finance,00-1091111 - Procurement Manager,Active
+"BARNES, LISA",4323,2009-01-05,1974-10-19,918 - Customer Account Services,00-6046918 - Utility Billing Coordinator,Active
+"SCHOFSTOLL, DEBORAH",4362,2009-02-11,1963-11-14,910 - Human Resources,01-6074910 - Human Resources Coordinator,Active
+"HANHAN, AMIN",4375,2009-03-09,1962-09-28,901 - Engineering Services,00-1085901 - City Engineer,Active
+"JONES, DAN T",4377,2009-03-15,1961-12-08,312 - Parks & Grounds,00-7004312 - Crew Leader I - Landscape,Active
+"MARIN, JOSE R",4387,2009-05-18,1965-11-13,919 - Meter Services,00-7046919 - Meter Auditor II,Active
+"CURRAN, CHRISTOPHER L",4409,2009-06-08,1983-10-29,213 - Fire Stations,00-2014213 - Fire Lieutenant,Active
+"LOPEZ, JOSE G",4411,2009-06-08,1983-03-08,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"MONTGOMERY, JASON C",4412,2009-06-08,1979-08-05,216 - Building / Permitting,00-3055216 - Field Insp/Fire Plans Examiner,Active
+"BEAM, BRANDON W",4416,2009-06-08,1988-05-16,213 - Fire Stations,00-4007213 - Firefighter III,Active
+"SCHRENKER, SEAN M",4418,2009-06-08,1979-08-31,213 - Fire Stations,00-2014213 - Fire Lieutenant,Active
+"BOYCE, MATTHEW A",4425,2009-07-27,1982-10-05,213 - Fire Stations,00-2014213 - Fire Lieutenant,Active
+"MAGEE, TIMOTHY F",4427,2009-08-10,1987-10-04,213 - Fire Stations,00-2014213 - Fire Lieutenant,Active
+"WOMACK, ERIC",4431,2009-08-24,1973-02-08,200  - Police Admin,00-4014200 - Police Officer,Active
+"LANGO, MICHAEL",4435,2009-08-31,1986-02-19,200  - Police Admin,00-3030200 - Police Sergeant,Active
+"SALYERS, PHILLIP M",4458,2009-12-28,1972-11-25,307 - Residential Collection,00-7005307 - Residential Coll Crew Leader,Active
+"GREGORY, NICHOLAS B",4459,2010-01-04,1985-06-12,200  - Police Admin,00-2030200 - Police Lieutenant,Active
+"BALDERAS, MARTIN",4465,2016-11-07,1992-10-01,923 - Technology Services,00-2070923 - Network Systems Manager,Active
+"BLANTON, CHARLES D",4476,2010-03-22,1977-02-07,200  - Police Admin,00-2030200 - Police Lieutenant,Active
+"ROE, MICHAEL D II",4479,2010-03-22,1985-12-04,200  - Police Admin,00-4014200 - Police Officer,Active
+"ARTZ, RICHARD B",4483,2010-04-12,1974-03-29,906 - Facility Maintenance,00-1071906 - Facility Maintenance Superintend,Active
+"VAUGHN, ROBERT A",4486,2010-04-26,1973-09-28,400 - Public Service Buildings,00-8000400 - Bldg. Svc. Worker - N M Hall,Active
+"HALL, STANLEY D",4504,2010-07-13,1967-10-15,312 - Parks & Grounds,00-7039312 - Small Engine Mechanic,Active
+"FRAZIER, MARK A",4522,2010-10-18,1972-07-08,200  - Police Admin,00-4014200 - Police Officer,Active
+"LIZALDE, PEDRO A",4524,2010-10-18,1971-09-02,322 - Utility Services Maintenance,00-7004322 - Crew Leader I - Water Dist/Coll,Active
+"LYONS, JOSEPH T",4533,2010-11-29,1960-09-27,200  - Police Admin,00-2011200 - Crime Analyst,Active
+"BROWN, JAMIE E",4538,2010-12-13,1963-10-06,200  - Police Admin,00-5004200 - Public Info & Crime Prev Officer,Active
+"BOSTON, MICHELLE P",4540,2010-12-13,1959-05-25,311 - Cemeteries,00-1066311 - Cemetery Operations Coordinator,Active
+"VAN DRUTEN, ROBERT M",4543,2014-09-22,1993-01-21,923 - Technology Services,00-2068923 - Business Tech Relationship Mgr,Active
+"DICKINSON, KRISTOPHER K",4549,2011-05-16,1989-06-22,200  - Police Admin,00-4014200 - Police Officer,Active
+"LAMONS, STEVEN E",4569,2011-06-27,1950-11-06,316 - Wastewater Treatment Plant  3,00-7031316 - WWTP Operator A - WWTP 3,Active
+"COOPER, LADARIUS K",4575,2011-08-08,1990-05-29,200  - Police Admin,00-3030200 - Police Sergeant,Active
+"THORNHILL, MARY E",4576,2011-08-15,1961-11-18,300 - Stormwater Quality,00-2050300 - Natural Resources Specialist,Active
+"KONDOR, PATRICK J",4580,2011-10-03,1983-06-16,200  - Police Admin,00-3030200 - Police Sergeant,Active
+"CARNEVALE, MICHAEL J",4588,2011-12-05,1987-02-13,103 - City Manager,00-1002103 - Deputy City Manager,Active
+"NEELY, RYAN C",4592,2012-01-09,1983-03-08,200  - Police Admin,00-4014200 - Police Officer,Active
+"COLLAZO, ALEXANDER M",4593,2012-01-23,1986-07-11,200  - Police Admin,00-4014200 - Police Officer,Active
+"HART, HUNTER D",4600,2012-02-27,1987-02-19,213 - Fire Stations,00-1063213 - Fire Marshal,Active
+"RAMKARAN, KAPILDEO",4605,2012-04-16,1985-04-05,711 - Activity Fields / Stadium,00-7004711 - Crew Leader I - Activity Fields,Active
+"MARTIN, JANE A",4639,2012-08-07,1967-04-27,728 - Library Services,00-1011728 - City Librarian,Active
+"HENDRIX, JOSHUA L",4641,2012-08-27,1987-03-31,907 - Fleet Maintenance,00-1076907 - Fleet Maintenance Superintendent,Active
+"HART, CORY A",4647,2012-10-15,1991-01-26,213 - Fire Stations,00-2014213 - Fire Lieutenant,Active
+"BOWMAN, RICKY",4654,2012-12-10,1949-12-11,200  - Police Admin,00-6051200 - Felony Intake Coordinator - FT,Active
+"DANTZLER, BRADLEY T",4672,2013-04-08,1962-02-13,101 - City Commission,01-1009101 - City Commissioner,Active
+"MARTIN, VINCENT G",4676,2013-05-06,1964-11-19,400 - Public Service Buildings,00-7005400 - Crew Leader II,Active
+"BAKER, JOHNNIE Jr.",4682,2013-05-28,1966-12-16,311 - Cemeteries,00-7004311 - Crew Leader I - Cemetery,Active
+"CARSON, CLYDE",4686,2013-05-23,1990-09-28,306 - Commercial Collection,00-1043306 - Solid Waste Superintendent,Active
+"MINARD, TRAVIS T",4711,2013-08-26,1989-02-07,213 - Fire Stations,00-2014213 - Fire Lieutenant,Active
+"MORALES, ROBERTO",4712,2013-08-26,1990-06-02,213 - Fire Stations,00-4007213 - Firefighter III,Active
+"KESTER, EDWARD J Jr.",4716,2013-10-03,1965-06-17,307 - Residential Collection,00-8004307 - Driver Collector,Active
+"CASTILLO, VANESSA",4726,2014-01-06,1976-02-09,105 - City Clerk,01-1008105 - City Clerk,Active
+"PRICE, GEOFFREY",4735,2014-04-07,1978-09-26,200  - Police Admin,00-4014200 - Police Officer,Active
+"VEGA, JOSE",4757,2014-06-09,1981-09-07,971 - Dark Fiber Enterprise,00-3031971 - Fiber Systems Technician,Active
+"MERONI, DONALD",4761,2014-06-23,1987-03-31,919 - Meter Services,00-1048919 - Superintendent - Meter Services,Active
+"MAZURKA, THOMAS J",4769,2014-07-28,1957-10-23,728 - Library Services,00-8000728 - Bldg. Svc. Worker-Library,Active
+"PALM, BETH",4771,2014-08-04,1970-08-11,305 - Utility Engineering,00-3005305 - Utility Inspector,Active
+"JARVIS, LISA",4776,2014-09-02,1976-09-20,306 - Commercial Collection,00-8003306 - Commercial Refuse Operator,Active
+"MAYTAS, JESSICA",4780,2014-09-22,1984-05-04,918 - Customer Account Services,00-2062918 - Administrative System Coord,Active
+"CHARLES, JEAN M",4781,2017-04-17,1976-04-10,316 - Wastewater Treatment Plant  3,00-7032316 - WWTP Operator B - WWTP 3,Active
+"AYALA, FERNANDO",4782,2014-10-06,1977-02-20,200  - Police Admin,00-4014200 - Police Officer,Active
+"CROSBY, JOSHUA",4786,2014-10-27,1990-04-09,299 - Stormwater Maintenance,00-1099299 - Asst Superintendent - Drainage,Active
+"GARDNER, GABRIELLE",4791,2014-11-24,1992-11-03,918 - Customer Account Services,00-6061918 - Utility Customer Serv Supervisor,Active
+"DRUMHELLER, MEGAN D",4799,2015-02-17,1982-02-02,217 - Safe Neighborhoods,01-3002217 - Code Compliance Officer I,Active
+"WELLS, BRIAN A",4803,2015-03-09,1967-02-02,216 - Building / Permitting,00-1007216 - Building Official,Active
+"PHILIS, NEREMIE",4805,2015-04-06,1984-10-15,200  - Police Admin,00-3016200 - Evidence/Property Technician,Active
+"JAIRAM, KISHORE S",4808,2015-04-19,1979-02-12,705 - Fieldhouse and Conference Center,00-7013705 - Maintenance Mechanic II,Active
+"CRESPO, MARIBEL",4810,2015-05-11,1972-06-16,918 - Customer Account Services,00-6068918 - New Build Coordinator,Active
+"DENTEL, JILL M",4835,2015-06-15,1989-09-02,200  - Police Admin,00-3030200 - Police Sergeant,Active
+"HAYNES, SHAQUILLE J",4837,2015-06-15,1993-12-01,200  - Police Admin,00-3030200 - Police Sergeant,Active
+"HALL, JOSHUA D",4841,2015-07-06,1983-11-27,200  - Police Admin,00-2030200 - Police Lieutenant,Active
+"BRACKNELL, CALEB M",4845,2015-08-03,1983-04-06,213 - Fire Stations,01-2014213 - Fire Lieutenant,Active
+"RODRIGUEZ, WILDER J",4847,2015-07-20,1984-05-02,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"REEVES, KYLE A",4854,2015-08-03,1987-03-03,918 - Customer Account Services,00-1096918 - Asst Util Customer Service Mgr,Active
+"RAMNARINE, PARMESHWAR Jr.",4866,2022-07-11,1986-03-23,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"AVALOS, ARTEMIO",4868,2015-11-30,1992-02-07,200  - Police Admin,00-4014200 - Police Officer,Active
+"HERNANDEZ, ELIUD",4871,2015-12-21,1963-06-20,907 - Fleet Maintenance,00-7017907 - Mechanic III - Fleet Maint.,Active
+"MURPHY, FREDERICK J",4875,2003-05-27,1962-09-14,,,Active
+"SHOOK, JUSTIN R",4876,2016-01-18,1989-01-27,200  - Police Admin,00-4014200 - Police Officer,Active
+"ELLEGARD, NIKKI L",4879,2021-05-24,1994-02-23,200  - Police Admin,00-4014200 - Police Officer,Active
+"TORRES-RODRIGUEZ, JORGE",4889,2016-03-14,1973-01-10,323 - Lift Stations / WW Maintenance,00-7030323 - Utility Servicer III,Active
+"LABBE, ERIC C",4895,2016-03-21,1974-04-29,218 - Growth Management/ Planning,00-1104218 - Econ Opp & Comm Inv Director,Active
+"DONNELLY, STEPHEN P",4901,2016-04-18,1986-06-15,323 - Lift Stations / WW Maintenance,00-1048323 - Superintendent - Lift Stations,Active
+"LOZADO, EMILY",4906,2016-04-18,1992-02-06,200  - Police Admin,00-3030200 - Police Sergeant,Active
+"GREENHOW, GARY",4910,2016-05-09,1950-09-13,305 - Utility Engineering,00-3050305 - GIS Technician - PT,Active
+"REUTER, HEATHER",4912,2016-05-16,1985-02-23,218 - Growth Management/ Planning,00-2028218 - Senior Planner,Active
+"FRAZIER, ELYSE H",4917,2016-06-06,1985-08-23,200  - Police Admin,00-4003200 - Detective,Active
+"CROUSE, JEFFREY M",4918,2016-05-31,1965-09-06,216 - Building / Permitting,00-2043216 - Floodplain Manager,Active
+"SANDERS, DEMETRIUS",4928,2018-05-07,1963-01-08,709 - WH Rec and Cultural Center,00-2031709 - Recreation Supervisor I,Active
+"SALTMAN, DAVID",4929,2016-06-13,1966-05-23,707 - Tennis,00-2035707 - Tennis Professional,Active
+"MAYTAS, JEFFERY",4935,2016-06-27,1978-11-13,919 - Meter Services,01-7004919 - Crew Leader I - Field Services,Active
+"WINSTANLEY, SAVANNAH",4939,2016-07-13,1995-04-27,300 - Stormwater Quality,00-2071300 - Ecosystem and Asset Analyst,Active
+"MOORE, DEVON",4944,2016-08-11,1988-09-27,300 - Stormwater Quality,00-2079300 - Senior Environmental Scientist,Active
+"JAROSEK, JEREMIAH",4946,2016-08-08,1979-09-23,316 - Wastewater Treatment Plant  3,00-7032316 - WWTP Operator B - WWTP 3,Active
+"BLITS, JOHN",4953,2016-10-03,1961-12-09,401 - Streets,00-7004401 - Crew Leader I - Streets,Active
+"KING, JAMES",4955,2016-10-11,1966-11-26,312 - Parks & Grounds,00-7005312 - Crew Leader II - Landscape,Active
+"NEIL, CARLA",4960,2016-11-07,1965-02-13,200  - Police Admin,00-6049200 - Accreditation Administrator,Active
+"HOVERKAMP, JACOB",4961,2016-11-04,1998-02-06,200  - Police Admin,00-4014200 - Police Officer,Active
+"EDWARDS, TRAVIS Jr.",4963,2016-11-07,2000-07-08,923 - Technology Services,00-2072923 - Information Security Administrat,Active
+"JAIRAM, CELINA",4966,2016-11-21,1978-06-26,400 - Public Service Buildings,00-2033400 - Recreation Supervisor III,Active
+"MCCULLOUGH, TYLER A",4973,2016-12-27,1995-01-02,304 - Wastewater Treatment Plant  2,00-3037304 - WWTP Chief Operator - WW 2,Active
+"EMRO, WILLIAM",4981,2017-01-23,1990-08-28,213 - Fire Stations,00-2014213 - Fire Lieutenant,Active
+"HUNT, GAYLON II",4982,2017-01-23,1982-01-26,213 - Fire Stations,00-2015213 - Fire Prev. Inspect./Investigator,Active
+"LORA, CARLOS J",4984,2017-01-23,1994-05-13,322 - Utility Services Maintenance,00-7005322 - Crew Leader II - USM,Active
+"ORPHEE-ETIENNE, MICHAEL",4994,2017-03-13,1984-10-19,200  - Police Admin,00-4014200 - Police Officer,Active
+"BLYTHE, DERRY L",4996,2017-03-06,1964-09-22,316 - Wastewater Treatment Plant  3,00-7005316 - Crew Leader - Plant Maint,Active
+"MARTIN, BRETT S",5005,2017-03-27,1970-07-04,316 - Wastewater Treatment Plant  3,00-3037316 - WW Pl. Chief Operator - WW 3,Active
+"LANE, ROBERT D",5012,2017-04-06,1946-01-30,216 - Building / Permitting,00-3001216 - Building Inspector,Active
+"WASMUND, JANA K",5042,2017-06-07,1963-09-07,410 - Airport,00-1079410 - Contract-Fiscal Specialist,Active
+"MARTIN, JAMIE",5044,2018-02-27,1986-04-21,705 - Fieldhouse and Conference Center,00-8031705 - Recreation Leader (FT),Active
+"QUINTANA, ANAGLORIA",5049,2017-07-10,1985-12-27,200  - Police Admin,00-3051200 - Evidence Property Supervisor,Active
+"JOHNSON, PATRICIA",5058,2017-08-14,1961-04-06,216 - Building / Permitting,00-6069216 - Business Tax Specialist,Active
+"CRUMMER, DAVID N Jr.",5067,2017-09-18,1992-05-26,200  - Police Admin,00-4014200 - Police Officer,Active
+"JONES, BRADLEY L",5070,2025-02-18,1985-12-01,323 - Lift Stations / WW Maintenance,00-7004323 - Crew Leader I - Lift Stations,Active
+"LOPEZ-SANCHEZ, SERGIO",5079,2017-12-04,1990-10-07,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"WINDEMAKER, CREDIE F",5080,2017-12-04,1971-11-11,213 - Fire Stations,00-2014213 - Fire Lieutenant,Active
+"CHARNECO, MARIA",5091,2017-12-08,1976-10-18,307 - Residential Collection,00-8046307 - Diversified Op - Residential,Active
+"BORGA, BRANDON",5097,2018-01-10,1979-08-06,216 - Building / Permitting,00-1109216 - Deputy Building Official,Active
+"DEJESUS-ALVARADO, CARLOS",5099,2018-01-07,1990-05-16,312 - Parks & Grounds,00-1099312 - Asst Superintendent - P&G,Active
+"RADER, NATASHA",5105,2018-02-21,1991-11-28,728 - Library Services,00-6033728 - CSR II - Library Assistant II,Active
+"HUBBARD, GARY",5106,2018-03-05,1955-11-27,310 - Utility Services Administration,00-1046310 - Utility Services Dept. Director,Active
+"SOTO VELEZ, YENITZA",5108,2018-03-26,1986-03-09,918 - Customer Account Services,00-6062918 - Utility Billing Clerk,Active
+"HIRDES, JOEL D",5119,2018-04-16,1994-03-14,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"NEVINSKI, MELODY",5121,2018-04-30,1967-07-22,918 - Customer Account Services,00-6062918 - Utility Billing Clerk,Active
+"MALDONADO, BAILEY A",5125,2018-05-14,1990-01-29,200  - Police Admin,00-3030200 - Police Sergeant,Active
+"KING, KASSIDY R",5131,2024-10-14,1999-06-27,310 - Utility Services Administration,00-2076310 - Customer Relations Specialist,Active
+"SIDWELL, TANER K",5143,2022-03-22,2001-03-03,703 - Aquatics,00-7012703 - Aquatics Maintenance Mechanic,Active
+"BOWEN, TERRENCE M",5148,2018-06-01,1972-03-15,307 - Residential Collection,00-7005307 - Residential Coll Crew Leader,Active
+"MILLER, BRIAN",5157,2018-06-18,1995-01-03,305 - Utility Engineering,00-3021305 - GPS Locator,Active
+"SRIRAM, MOHENDRA",5159,2018-06-25,1998-02-13,401 - Streets,00-1099401 - Asst Superintendent - Streets,Active
+"HAMMOND, TIMOTHY W",5160,2018-06-12,1994-06-10,711 - Activity Fields / Stadium,00-8012711 - Maint. Operator I - Act Fields,Active
+"MENDIES, LAWRENCE A Jr.",5164,2018-07-09,1993-09-13,200  - Police Admin,00-4014200 - Police Officer,Active
+"HART, BRITTANY B",5166,2018-08-01,1993-02-16,306 - Commercial Collection,00-1083306 - Public Works Department Director,Active
+"PLAYER, REBECCA E",5173,2018-09-17,1988-01-22,728 - Library Services,00-2020728 - Librarian II,Active
+"PARISELLI, RONALD P Jr.",5175,2023-01-18,1962-04-14,707 - Tennis,00-8030707 - Rec. Attendant (PT)-Tennis,Active
+"STONE, JOSHUA S",5176,2018-09-25,1996-06-21,923 - Technology Services,00-2059923 - Business Tech Support Supervisor,Active
+"SUAREZ, ESTEBAN",5177,2018-09-27,1995-09-23,923 - Technology Services,00-2059923 - Business Tech Support Supervisor,Active
+"BLOUNT, SEAN",5178,2018-10-15,1985-07-28,316 - Wastewater Treatment Plant  3,00-7033316 - WWTP Operator C - WWTP 3,Active
+"JACKSON, RONALD Jr.",5179,2018-10-15,1989-03-28,200  - Police Admin,00-4014200 - Police Officer,Active
+"KOENIG, LEIGH",5182,2018-10-11,1964-06-09,401 - Streets,00-7024401 - Traffic Signal Technician,Active
+"BLACK, JOSEPH",5183,2018-10-21,1988-06-10,312 - Parks & Grounds,00-8014312 - Maint. Operator II - Landscape,Active
+"GARCIA, IVAN",5190,2018-11-19,1994-02-14,401 - Streets,00-7004401 - Crew Leader I - Streets,Active
+"MCCRAE, WILLIE",5198,2018-12-13,1973-03-20,307 - Residential Collection,00-8004307 - Driver Collector,Active
+"NICHOLSON, DAVID",5199,2019-01-07,1972-07-20,316 - Wastewater Treatment Plant  3,00-1078316 - WWTP Manager,Active
+"BOMBARD, MARK W",5202,2019-01-07,1961-12-03,310 - Utility Services Administration,00-1060310 - Assistant Utility Serv Dept Dir,Active
+"JAMES, MATTHEW E Jr.",5203,2023-07-10,1991-10-05,307 - Residential Collection,00-8004307 - Driver Collector,Active
+"JARVIS, ALISSA L",5204,2019-01-28,1991-11-20,200  - Police Admin,00-5002200 - Crime Scene Investigator,Active
+"TURNER, MARK S",5206,2019-02-12,1979-05-22,312 - Parks & Grounds,00-8012312 - Maint. Operator I - Landscape,Active
+"FULGHAM, DYNISHA M",5210,2019-02-25,1997-07-06,200  - Police Admin,00-4014200 - Police Officer,Active
+"MOORE, MEREDITH L",5211,2019-02-25,1975-10-29,200  - Police Admin,00-4014200 - Police Officer,Active
+"HATFIELD, MICHAEL C",5217,2019-03-18,1974-12-25,401 - Streets,00-7041401 - Traffic Operations Crew Leader,Active
+"CLARK, AUSTYNN M",5219,2019-03-25,1995-07-19,200  - Police Admin,00-4003200 - Detective,Active
+"SCHEMMEL, MICHAEL S",5229,2019-04-23,1970-12-22,311 - Cemeteries,00-1099311 - Asst Superintendent - Ath/Cem,Active
+"FENTON, STANLEY M",5230,2019-04-22,1970-04-18,304 - Wastewater Treatment Plant  2,00-7033304 - WWTP Operator C - WWTP 2,Active
+"GARDNER, CAMRYN R",5252,2022-05-30,2002-08-01,707 - Tennis,00-8031707 - Rec. Leader (FT) - Tennis,Active
+"THOMAS, TRACY L",5258,2019-06-17,1972-05-08,316 - Wastewater Treatment Plant  3,00-7014316 - Maint. Mechanic III - WWTP 3,Active
+"WAGNER, JULIANNA L",5263,2021-06-01,2002-02-03,703 - Aquatics,00-5010703 - Lifeguar (FT)-Aquatics,Active
+"WAMPLER, HOLLY F",5264,2019-07-15,1964-06-16,111 - Finance,00-2066111 - Accountant,Active
+"HOWARD, STEPHANIE M",5265,2019-07-29,1980-02-19,918 - Customer Account Services,00-6057918 - Customer Service Rep II,Active
+"MATHIS, KAREN L",5266,2019-07-22,1971-08-26,200  - Police Admin,00-6017200 - Executive Asst. - Police,Active
+"BAUMGARDNER, DONALD L Jr.",5273,2019-08-26,1994-02-23,213 - Fire Stations,02-2014213 - Fire Lieutenant,Active
+"DAVIDSON, MICHAEL A",5275,2019-08-26,1990-02-22,213 - Fire Stations,00-4007213 - Firefighter III,Active
+"OROZCO, ERIKA J",5276,2019-08-26,1989-11-22,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"ZIMMERMAN, KEVIN A Jr.",5277,2019-08-26,1993-02-05,213 - Fire Stations,00-2015213 - Fire Prev. Inspect./Investigator,Active
+"LOWE, MICHAEL L",5279,2019-08-26,1959-07-07,307 - Residential Collection,00-8004307 - Driver Collector,Active
+"FOX, GAVIN A",5287,2019-10-01,1999-09-15,711 - Activity Fields / Stadium,00-8007711 - CSR I - Food Service Worker (PT),Active
+"RIVA, JOSEPH F",5295,2019-11-18,1989-03-31,200  - Police Admin,00-4014200 - Police Officer,Active
+"RUSSELL, DYLAN G",5296,2019-12-02,1993-06-17,919 - Meter Services,00-7000919 - Backflow Technician,Active
+"WISHAM, AMANDA J",5299,2019-12-02,1966-11-06,918 - Customer Account Services,00-1081918 - Utility Customer Srvs Manager,Active
+"MORA, ARELIS M",5300,2019-12-16,2000-08-03,910 - Human Resources,00-6059910 - Human Resources Assistant,Active
+"EVERITT, DUSTIN W",5301,2020-01-08,1981-09-19,300 - Stormwater Quality,00-1080300 - Natural Resources Manager,Active
+"GLOVER, DALTON L",5304,2019-12-19,2000-11-29,323 - Lift Stations / WW Maintenance,00-1048323 - Superintendent - Lift Stations,Active
+"ROMBERGER, NATHANIEL K",5305,2019-12-30,1998-12-29,705 - Fieldhouse and Conference Center,00-8000705 - Bldg. Svc. Worker - COL,Active
+"COHAGEN, NICOLE L",5306,2020-09-21,1974-01-23,728 - Library Services,00-8000728 - Bldg. Svc. Worker-Library,Active
+"YATES, WILLIAM B",5309,2020-01-13,1981-12-06,101 - City Commission,04-1009101 - City Commissioner,Active
+"WINT, BJORN J",5311,2020-01-21,1985-06-25,301 - Water Plants,00-3039301 - Water Plant Chief Operator,Active
+"CLARK, JENNIFER L",5313,2020-01-29,1977-04-19,901 - Engineering Services,00-3005901 - Construction Inspector,Active
+"HEIDEL, TROY M",5315,2023-02-06,1982-12-07,410 - Airport,00-1074410 - Airport Director,Active
+"GROSS, JONATHAN J",5317,2020-02-10,1985-03-18,200  - Police Admin,00-4014200 - Police Officer,Active
+"SPANN, RICHARD B",5318,2020-02-25,1967-07-18,304 - Wastewater Treatment Plant  2,00-7033304 - WWTP Operator C - WWTP 2,Active
+"RAGUSA, JOEY N",5322,2020-02-24,1994-10-24,200  - Police Admin,00-4014200 - Police Officer,Active
+"BERG, PATRICIA D",5323,2020-02-19,1958-03-19,705 - Fieldhouse and Conference Center,00-6056705 - CSR I - Rec Attend - FH Rec,Active
+"RAGUSA, ALEXANDRA G",5324,2020-02-24,1993-02-10,200  - Police Admin,00-4014200 - Police Officer,Active
+"DIETIKER, CHRISTOPHER C",5328,2020-02-24,1964-11-23,705 - Fieldhouse and Conference Center,00-7005705 - Crew Leader II - COL,Active
+"FIGUEROA-ACEVEDO, ELIEXER",5330,2020-02-26,1982-11-24,312 - Parks & Grounds,00-7004312 - Crew Leader I - Landscape,Active
+"SALINAS JR, JOSE",5331,2020-03-16,1994-03-09,200  - Police Admin,00-4014200 - Police Officer,Active
+"BRANNAN, HOPE L",5333,2020-03-16,1997-02-05,910 - Human Resources,00-6059910 - Human Resources Assistant,Active
+"LEACH, JARRED S",5334,2020-04-01,1987-08-04,901 - Engineering Services,00-3059901 - Surveying and Mapping Specialist,Active
+"TALLEY, TERRY L",5349,2020-06-01,1970-02-18,323 - Lift Stations / WW Maintenance,00-7028323 - Utility Servicer I,Active
+"BOATWRIGHT, QUINTON R",5358,2021-01-11,1979-10-01,705 - Fieldhouse and Conference Center,00-6056705 - CSR I - Rec Attend - FH Rec,Active
+"ORTIZ, ARMANDO III",5367,2020-07-06,1979-07-17,305 - Utility Engineering,00-6035305 - Utility Asset Coordinator,Active
+"WEEKS, JOSEPH A",5369,2020-08-03,1961-08-02,111 - Finance,00-2082111 - Budget & Management Officer,Active
+"BERRIOS-CINTRON, PEDRO A",5370,2020-08-03,1977-09-26,305 - Utility Engineering,00-3043305 - Utility Const. Project Mgr,Active
+"FLAYHART CRESPO, SHELLSEA M",5373,2020-08-03,1997-03-16,200  - Police Admin,00-4014200 - Police Officer,Active
+"JIMENEZ MORALES, BRIAN D",5375,2020-08-03,1990-02-15,213 - Fire Stations,00-2015213 - Fire Prev. Inspect./Investigator,Active
+"SPENCE, QUAMISHA M",5376,2020-08-03,1991-11-21,200  - Police Admin,00-4014200 - Police Officer,Active
+"FLAYHART, DYLAN M",5378,2020-08-03,1994-02-17,200  - Police Admin,00-4014200 - Police Officer,Active
+"JUREWICZ, SHARON K",5383,2020-07-27,1965-08-10,910 - Human Resources,02-6074910 - Human Resources Coordinator,Active
+"SACA, TOMMY E II",5385,2020-07-27,1994-07-09,299 - Stormwater Maintenance,00-7004299 - Crew Leader I - Drainage,Active
+"WALDMAN, RYAN A II",5388,2020-08-24,1998-07-01,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"LAFON, STEPHANIE M",5390,2020-08-17,1980-10-10,728 - Library Services,00-2020728 - Librarian II,Active
+"MALDONADO, AWILDA A",5391,2020-08-17,1972-02-09,200  - Police Admin,00-6023200 - Police Support Services Clerk,Active
+"RAMIREZ, CLARISSA",5392,2020-08-17,1995-10-08,200  - Police Admin,00-5002200 - Crime Scene Investigator,Active
+"HEUER, KIMBERLY D",5394,2020-08-31,1987-07-30,200  - Police Admin,00-4003200 - Detective,Active
+"BETANCOURT, EDGARDO N",5396,2020-09-09,1996-09-18,200  - Police Admin,00-5002200 - Crime Scene Investigator,Active
+"BERRY, DEMETRIUS L",5402,2020-11-02,1977-09-11,304 - Wastewater Treatment Plant  2,00-7031304 - WWTP Operator A - WWTP 2,Active
+"ESPOSITO, PATSY A Jr.",5405,2020-10-26,1958-03-16,301 - Water Plants,00-7037301 - Water Plant Operator C,Active
+"WARREN, JORDAN E",5408,2020-11-16,1995-05-27,218 - Growth Management/ Planning,00-6054218 - Planning Assistant,Active
+"SUAREZ, ANGEL L",5411,2022-11-14,1956-06-20,711 - Activity Fields / Stadium,00-8012711 - Maint. Operator I - Act Fields,Active
+"MELNITZKE, ROBERT M",5415,2020-12-28,1967-10-19,301 - Water Plants,00-7005301 - Crew Leader - Plant Maint,Active
+"CHODAZECK, RYAN M",5417,2021-01-04,1990-09-03,213 - Fire Stations,00-4007213 - Firefighter III,Active
+"LEWIS, DEVYN K",5419,2021-01-04,1999-07-11,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"ROBAINA, KEVIN D",5420,2021-01-04,1990-09-07,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"TOLLEY, AVERY M",5422,2021-01-25,1995-05-12,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"PETH, KYLE J",5423,2021-02-01,1989-01-05,216 - Building / Permitting,00-3049216 - Plans Examiner,Active
+"HOLMES-WILFORK, D'AUNDRE T",5425,2025-03-17,1997-09-22,322 - Utility Services Maintenance,00-7028322 - Utility Servicer I,Active
+"ADAMS, JULIE M",5429,2021-03-01,1978-12-13,700 - Parks & Recreation Admin.,"00-1073700 - Parks, Rec & Culture Director",Active
+"VOLPE, MORGAN W",5432,2021-03-22,1993-06-28,200  - Police Admin,00-6072200 - Mental Health Coordinator,Active
+"NEIL, JOHN D",5433,2021-03-22,1965-09-12,200  - Police Admin,00-6064200 - Technical Services Clerk,Active
+"HOGUE, CHASE R",5434,2021-03-19,2001-09-17,703 - Aquatics,00-2031703 - Rec. Supervisor I - Aquatics,Active
+"NICHOLSON, AMANDA J",5436,2021-04-05,1971-09-12,103 - City Manager,00-1005103 - Assistant to the CM,Active
+"MOONEY, ERNEST M III",5437,2021-04-05,1993-02-02,322 - Utility Services Maintenance,00-7004322 - Crew Leader I - Water Dist/Coll,Active
+"ADAMS, TYLER P",5439,2022-01-10,1992-08-29,306 - Commercial Collection,00-8046306 -  Diversified Op - Commercial,Active
+"SAMPEDRO, MIKE B",5441,2021-04-13,1979-09-19,,,Active
+"SCHUWERK, MICHAEL J",5446,2021-05-03,1962-02-03,305 - Utility Engineering,00-3057305 - Asset Manager,Active
+"PAGAN, ARCIDES J",5448,2021-05-19,1977-05-12,307 - Residential Collection,00-8004307 - Driver Collector,Active
+"GOODING, LARRY T",5449,2021-09-07,1973-03-21,307 - Residential Collection,00-1098307 - Assistant Public Works Director,Active
+"CHAPMAN, AUBREY J",5450,2023-03-09,2004-08-27,703 - Aquatics,00-5008703 - Lifeguard (PT) - Aquatics,Active
+"CALERO MELENDEZ, GLORIANGELI",5455,2021-05-24,1997-06-08,200  - Police Admin,00-4014200 - Police Officer,Active
+"BETANCOURT TORRES, JOSHUA",5458,2021-05-24,1994-10-31,200  - Police Admin,00-4003200 - Detective,Active
+"PERRY, DARRIET L Jr.",5462,2021-05-24,1988-09-08,200  - Police Admin,00-4014200 - Police Officer,Active
+"GRIFFIN, PICASSO R",5488,2021-06-14,1991-07-07,919 - Meter Services,00-7019919 - Meter Repair Technician II,Active
+"DAVID, VENITA H",5489,2021-06-14,1962-09-24,307 - Residential Collection,00-6025307 - Solid Waste Svcs. Coordinator,Active
+"KELLEY, JARROD D",5492,2021-06-28,1998-02-12,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"ROOP, BRANDON L",5494,2021-06-28,1995-11-13,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"NOAD, ADAM T",5495,2021-06-28,1993-03-31,213 - Fire Stations,00-2015213 - Fire Prev. Inspect./Investigator,Active
+"DITTY, NICHOLAS T",5499,2021-07-26,1995-10-19,307 - Residential Collection,00-8028307 - Trashmaster Operator,Active
+"TAYLOR, HALEY K",5502,2021-08-23,1995-04-09,728 - Library Services,00-2019728 - Librarian I,Active
+"SPERRY, JORDAN A",5504,2021-09-20,1990-11-27,299 - Stormwater Maintenance,00-3053299 - Stormwater Inspector,Active
+"GRENIER, JOHN R",5506,2021-09-20,1965-04-06,322 - Utility Services Maintenance,00-3047322 - Utility Locator,Active
+"FOX, GABRIEL A",5507,2021-09-18,2001-11-01,711 - Activity Fields / Stadium,00-8007711 - CSR I - Food Service Worker (PT),Active
+"YOUNG, CHRISTOPHER D",5509,2021-10-18,1979-06-12,218 - Growth Management/ Planning,00-2028218 - Senior Planner,Active
+"HOWELL, DAVID C Jr.",5510,2021-10-18,1982-09-10,307 - Residential Collection,00-8046307 - Diversified Op - Residential,Active
+"HILL, KATRINA D",5513,2022-01-03,1986-01-16,110 - Public Affairs and Communication,00-1106110 - Dir. of Public Affairs & Comm,Active
+"BERRY, GABRIELLE",5515,2021-12-13,1989-10-20,907 - Fleet Maintenance,00-6008907 - Buyer,Active
+"JENKINS, AMY",5517,2021-12-02,1979-07-17,310 - Utility Services Administration,00-6017310 - Executive Asst. - Utility Admin.,Active
+"KLINE, TIFFANI N",5518,2021-12-27,1987-11-28,907 - Fleet Maintenance,00-6039907 - Fleet/Facility Maint. Coord.,Active
+"BILLER, DANIEL W",5519,2021-12-27,1990-04-20,305 - Utility Engineering,00-3019305 - GIS Technician,Active
+"LOPEZ, JONATHAN W",5521,2021-12-13,1988-03-17,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"GRENUS, THOMAS J",5522,2021-12-13,1995-04-04,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"WOOD, DOUGLAS J",5523,2021-12-13,1960-05-15,400 - Public Service Buildings,00-8041400 - Building Service Worker - PT,Active
+"DAVIS, COLLIN J",5524,2021-12-20,2000-12-02,410 - Airport,00-2082410 - Airport Operations Supervisor,Active
+"SANTIAGO, DANIEL J",5532,2022-01-24,1995-11-27,707 - Tennis,00-8030707 - Rec. Attendant (PT)-Tennis,Active
+"POTHEMONT, KAREN A",5541,2022-02-22,1972-09-18,200  - Police Admin,00-6045200 - Police Records Clerk,Active
+"BENTLEY, EARL E",5544,2022-02-22,1981-01-19,311 - Cemeteries,00-8001311 - MO I - Cemetery Operator,Active
+"CLARK, CASEY R",5551,2022-03-21,1990-01-23,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"FRANCOIS, KAREN",5553,2022-03-21,1993-03-17,310 - Utility Services Administration,00-6027310 - Staff Asst II-Util Svcs Ad,Active
+"BOLLARD, AMBER M",5554,2022-04-04,1986-08-26,918 - Customer Account Services,00-6056918 - Customer Service Rep I - Utl Ser,Active
+"LAWHON, HYDE G",5556,2022-04-04,2001-04-23,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"PLOTTS, GABRIELLE S",5559,2022-05-19,1998-03-18,728 - Library Services,00-2019728 - Librarian I,Active
+"GRIFFIS, KENNETH D",5560,2022-05-04,1968-11-17,312 - Parks & Grounds,00-8014312 - Maint. Operator II - Landscape,Active
+"FERNANDEZ, LOGAN P",5565,2022-05-16,2002-06-25,213 - Fire Stations,00-5009213 - Firefighter Cadet,Active
+"LEGEE, JAMES A",5567,2022-05-16,1938-12-12,216 - Building / Permitting,00-3001216 - Building Inspector,Active
+"MCCARD, JESSICA L",5596,2022-07-11,1981-07-08,213 - Fire Stations,00-6017213 - Executive Asst.-Fire,Active
+"CABECEIRA, JAMES M",5597,2022-06-27,1972-06-14,299 - Stormwater Maintenance,00-8039299 - Drainage Maintenance II,Active
+"COLLINS, DEVON J",5601,2022-07-11,1992-09-24,322 - Utility Services Maintenance,00-3047322 - Utility Locator,Active
+"GONZALEZ, JULIAN M",5604,2022-07-11,2003-08-27,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"CASTRO-ROBLES, ALEJANDRO J",5606,2022-07-25,1984-12-16,323 - Lift Stations / WW Maintenance,00-7012323 - Maint. Mech. I  - Lift Stations,Active
+"LONGBOY, ANDREW G",5607,2022-07-11,1992-02-10,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"LLOYD, HUNTER M",5609,2022-07-11,1997-06-20,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"BOWDEN, JONAH J",5611,2022-07-11,1997-01-05,213 - Fire Stations,00-4006213 - Firefighter II,Active
+"ZAMORA, REYNALDO Jr.",5615,2022-07-25,2000-01-06,200  - Police Admin,00-4014200 - Police Officer,Active
+"MORSE, EILEEN M",5619,2022-08-08,1976-03-18,200  - Police Admin,00-2025200 - Personnel Selection Coordinator,Active
+"OUTLAW, MURRAY R",5622,2022-09-06,1978-06-04,200  - Police Admin,00-4014200 - Police Officer,Active
+"LARGE, SKYLA N",5628,2022-09-19,1999-01-19,918 - Customer Account Services,00-6056918 - Customer Service Rep I - Utl Ser,Active
+"FORSELL, SCOTT W",5629,2022-09-19,1960-09-25,401 - Streets,00-8039401 - Streets Maintenance II,Active
+"STAUFFER, BRUCE S",5631,2022-09-19,1975-10-27,316 - Wastewater Treatment Plant  3,00-3044316 - Pre-Treatment FOG Specialist,Active
+"DOMINGUEZ, STEPHANIE L",5632,2022-09-19,1990-09-01,918 - Customer Account Services,00-6057918 - Customer Service Rep II,Active
+"RIVERA, HIPOLITO",5634,2022-09-19,1956-04-22,705 - Fieldhouse and Conference Center,00-8041705 - Building Service Worker - PT,Active
+"OLEJNICZAK, ANDREW R",5635,2022-09-19,1984-01-20,200  - Police Admin,00-4013200 - Police Officer Trainee,Active
+"BOVEN, AUSTIN R",5637,2022-09-19,2003-08-29,200  - Police Admin,00-4014200 - Police Officer,Active
+"RIVERA, MYRNA Y",5645,2022-09-19,1996-07-11,200  - Police Admin,00-4014200 - Police Officer,Active
+"SALDANA, ANA D",5648,2022-10-03,1999-12-16,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"HAMMOND, XAVIER D",5649,2022-10-03,1992-11-06,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"HIBBARD, ANGELA C",5650,2022-10-03,1971-04-01,215 - CRA Downtown,00-1102218 - CRA Manager,Active
+"HYMAN, FRANK W",5653,2022-10-03,1963-12-24,307 - Residential Collection,00-8028307 - Trashmaster Operator,Active
+"WILSON, NATALIE K",5655,2022-10-03,1998-04-08,700 - Parks & Recreation Admin.,00-2034700 - Special Events & Init. Coord.,Active
+"LEWIS, DELROY J",5656,2022-10-06,1993-01-05,307 - Residential Collection,00-8028307 - Trashmaster Operator,Active
+"SHEPLEE, CHERYL D",5657,2025-01-21,1969-04-12,705 - Fieldhouse and Conference Center,00-8000705 - Bldg. Svc. Worker - COL,Active
+"SOLEYN, TISHAWNA A",5661,2022-10-17,2004-09-02,110 - Public Affairs and Communication,00-6013110 - Communications Assistance,Active
+"NAVA VENTURA, KENYA J",5662,2022-10-31,1994-04-18,918 - Customer Account Services,00-6056918 - Customer Service Rep I - Utl Ser,Active
+"KEIGAN, EVAN H",5664,2022-11-14,2001-10-02,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"MONZON, DARIUS B",5665,2022-11-07,1972-10-06,906 - Facility Maintenance,00-7005906 - Crew Leader II - Facilities,Active
+"FRANCIS, DALE E",5666,2022-11-14,1971-05-30,200  - Police Admin,00-7013200 - Maintenance Mechanic II,Active
+"DONNELLY, MYRA A",5667,2022-11-14,1964-10-07,200  - Police Admin,00-6022200 - Police Records Clerk Supervisor,Active
+"TURNER, CHRISTOPHER M",5668,2022-11-14,1972-12-19,312 - Parks & Grounds,00-7004312 - Crew Leader I - Landscape,Active
+"SEGARRA, LYNN E",5669,2022-11-28,1966-08-17,709 - WH Rec and Cultural Center,00-8031709 - Rec. Leader (FT) - WHRCC,Active
+"WILLIAMS, CHRISTINA R",5674,2022-12-12,1985-12-23,918 - Customer Account Services,00-6056918 - Customer Service Rep I - Utl Ser,Active
+"WINTERS (BOWLES), KAYLA C",5675,2022-12-12,1995-05-30,918 - Customer Account Services,00-6056918 - Customer Service Rep I - Utl Ser,Active
+"LAFOLLETTE, MICHAEL T",5676,2024-02-05,1999-03-08,923 - Technology Services,00-2057923 - Smart City Computer Scientist,Active
+"SANTIAGO LUGARO, ELLIOTT J",5677,2022-12-12,2000-10-31,310 - Utility Services Administration,00-2056310 - Water Conservation Specialist,Active
+"SIMMONS, JEFFREY W",5678,2022-12-12,1963-10-23,316 - Wastewater Treatment Plant  3,00-7033316 - WWTP Operator C - WWTP 3,Active
+"CASTRO IGARTUA, DEXTER A",5681,2022-12-27,1996-12-02,316 - Wastewater Treatment Plant  3,00-7033316 - WWTP Operator C - WWTP 3,Active
+"JUAREZ, ROBERT C",5683,2024-12-09,1980-03-05,306 - Commercial Collection,00-8003306 - Commercial Refuse Operator,Active
+"GONZALEZ, RONALD",5684,2023-12-27,1979-01-12,711 - Activity Fields / Stadium,00-8012711 - Maint. Operator I - Act Fields,Active
+"MENDEZ, ORELVI",5685,2023-01-11,1968-02-17,312 - Parks & Grounds,00-8012312 - Maint. Operator I - Landscape,Active
+"MORALES, JOSE M",5687,2023-01-09,1987-06-13,307 - Residential Collection,00-8046307 - Diversified Op - Residential,Active
+"DONOHUE, BRIAN R",5690,2023-01-19,1971-09-22,705 - Fieldhouse and Conference Center,00-8000705 - Bldg. Svc. Worker - COL,Active
+"MILLER, WILLIAM P",5691,2023-01-23,1999-08-15,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"SERRANO NIEVES, JEAN C",5693,2023-02-06,1994-10-03,316 - Wastewater Treatment Plant  3,00-7033316 - WWTP Operator C - WWTP 3,Active
+"SANTIBANEZ-RIVERA, LIZVETTE",5695,2023-01-27,1996-08-02,709 - WH Rec and Cultural Center,00-6027709 - CSR II -Staff Assistant II WHRCC,Active
+"SCOTT, COLLEEN J",5697,2023-02-13,1959-12-09,111 - Finance,00-1022111 - CFO - Finance Director,Active
+"LEE, SAMISE P",5698,2023-02-06,1987-09-30,214 - CRA Florence Villa,01-2027214 - CRA Coordinator,Active
+"CRAIG, MICHAEL S",5699,2023-02-06,1980-07-29,401 - Streets,00-7004401 - Crew Leader I - Streets,Active
+"COOMBS, GREGORY C",5702,2023-02-13,1982-01-31,307 - Residential Collection,00-8004307 - Driver Collector,Active
+"ROSARIO, ILIAN",5703,2023-02-22,1980-04-21,704 - Senior Adult Center,00-8031704 - Rec. Leader (FT) - Sr. Adult,Active
+"CABALLERO, JONATHAN J",5706,2023-02-13,1998-06-08,200  - Police Admin,00-4014200 - Police Officer,Active
+"KOESTER, COLLIN W",5707,2023-02-13,1999-07-24,200  - Police Admin,00-4014200 - Police Officer,Active
+"WATSON, BARBARA N",5708,2023-02-21,1968-12-15,307 - Residential Collection,00-6024307 - CSR III - Sr. Staff Asst.,Active
+"PRINE, HARRY R",5711,2023-03-06,1994-07-02,304 - Wastewater Treatment Plant  2,00-7033304 - WWTP Operator C - WWTP 2,Active
+"ILARRAZA, DARREN",5716,2023-03-20,1998-05-27,312 - Parks & Grounds,00-8012312 - Maint. Operator I - Landscape,Active
+"MCKERLEY, DANIEL A",5720,2023-03-20,1964-12-17,901 - Engineering Services,00-3005901 - Construction Inspector,Active
+"KONGER, ROBERT S",5721,2023-03-17,2003-02-24,410 - Airport,00-8045410 - Airport Operations Tech-(PT),Active
+"WILLIAMS, TYLER D",5723,2023-03-27,1998-07-07,401 - Streets,00-2083401 - Cap Projects & Strategic In Mgr,Active
+"LAMBERT, SANDRA B",5725,2023-03-27,1967-01-10,306 - Commercial Collection,00-2064306 - Admin Support Specialist,Active
+"ROSARIO, ADONNY D",5726,2023-04-03,2005-02-24,200  - Police Admin,00-4014200 - Police Officer,Active
+"PELLEGRINO, HEATHER M",5728,2023-04-17,1988-04-23,110 - Public Affairs and Communication,00-6026110 - CSR I - Staff Assistant I,Active
+"ROBELTO FLORIAN, JUAN J",5729,2023-04-05,1998-05-18,312 - Parks & Grounds,00-7008312 - Irrigation Specialist II,Active
+"MALDONADO, LARI",5731,2023-04-17,1978-07-26,401 - Streets,00-8039401 - Streets Maintenance II,Active
+"MILLER, CHELSEA R",5732,2023-04-17,1993-09-03,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"RADFORD, ANDREW J",5735,2023-04-24,2003-08-19,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"CHAVES, RAFAEL A",5736,2023-05-01,1994-11-08,306 - Commercial Collection,00-8003306 - Commercial Refuse Operator,Active
+"SCHOONMAKER, HEATHER D",5737,2023-05-01,1975-11-20,111 - Finance,00-6008111 - Procurement Specialist,Active
+"WELLS, ROBERT N",5739,2023-05-01,1953-08-13,216 - Building / Permitting,00-3001216 - Building Inspector,Active
+"WINSTON, VIOLA L",5745,2023-06-05,2000-01-07,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"VON LEUE, SHARON D",5749,2024-03-15,2006-04-18,703 - Aquatics,00-5008703 - Lifeguard (PT) - Aquatics,Active
+"REICHERT, ANDERSON J",5751,2024-05-25,2006-10-18,703 - Aquatics,00-5008703 - Lifeguard (PT) - Aquatics,Active
+"SIMMONS, EMMA R",5752,2023-05-26,2005-03-02,703 - Aquatics,00-5008703 - Lifeguard (PT) - Aquatics,Active
+"BARAHONA, DANIEL E",5759,2024-03-04,1988-09-10,705 - Fieldhouse and Conference Center,00-8041705 - Building Service Worker - PT,Active
+"HENNESSY, MARY P",5761,2023-06-12,1967-08-16,200  - Police Admin,00-6045200 - Police Records Clerk,Active
+"SANCHEZ, GABRIEL J",5762,2023-06-15,1999-06-02,200  - Police Admin,00-4014200 - Police Officer,Active
+"GONZALEZ, RAUL Jr.",5766,2023-06-20,2004-05-25,728 - Library Services,00-6033728 - CSR II - Library Assistant II,Active
+"ZHANG, WEN",5768,2023-06-20,2001-05-21,923 - Technology Services,00-2069923 - Business Tech Support Specialist,Active
+"GRIFFITH, DAVID D",5771,2023-07-10,1968-11-19,401 - Streets,00-7042401 - Traffic Sign Technician,Active
+"HERNANDEZ JR., DAVID",5774,2023-07-24,1979-04-06,322 - Utility Services Maintenance,00-1048322 - Superintendent - Water Maint,Active
+"FAIRBANKS, KEVIN D",5776,2023-08-07,1972-02-18,907 - Fleet Maintenance,00-7016907 - Mechanic II - Fleet Maint.,Active
+"KHAN, AIZAN D",5777,2023-08-14,1967-05-07,971 - Dark Fiber Enterprise,00-3052971 - Fiber Enterprise Manager,Active
+"CONRAD, CODY R",5780,2023-09-05,2005-01-01,301 - Water Plants,00-7038301 - Water Plant Operator Trainee,Active
+"BACARRA, NICHOLAS M",5783,2023-08-28,2000-12-29,711 - Activity Fields / Stadium,00-8012711 - Maint. Operator I - Act Fields,Active
+"CRUZ, JOSE R",5784,2023-09-05,1963-07-20,322 - Utility Services Maintenance,00-7029322 - Utility Servicer II,Active
+"PIOTROWSKI, GREGORY M",5785,2025-03-17,1969-12-22,906 - Facility Maintenance,00-7013906 - Maint. Mechanic II - Facilities,Active
+"PARKER, V'ASIAH M",5786,2023-09-18,1998-09-13,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"FRANK, KENNETH A",5787,2023-09-18,1963-05-28,401 - Streets,00-8044401 - Public Works Apprentice,Active
+"SMALL, CARLINGTON A",5790,2023-09-18,1978-05-18,322 - Utility Services Maintenance,00-7029322 - Utility Servicer II,Active
+"HERNANDEZ, MARIANNE J",5791,2023-10-02,1982-12-24,307 - Residential Collection,00-8004307 - Driver Collector,Active
+"SCIOLARO, BRITTANY L",5792,2023-10-02,1996-09-03,200  - Police Admin,00-4013200 - Police Officer Trainee,Active
+"HUSIK, OLIVIA J",5793,2023-10-02,2002-02-04,300 - Stormwater Quality,00-2049300 - Environmental Scientist I,Active
+"WILLIAMS, BENJAMIN W",5795,2023-10-02,1995-03-03,316 - Wastewater Treatment Plant  3,00-7013316 - Maint. Mechanic II - WWTP 3,Active
+"WADE, ALARIS E",5799,2023-10-16,2003-10-25,200  - Police Admin,00-5000200 - Community Service Officer,Active
+"HERNANDEZ-OLGUIN, ESMERALDA",5800,2023-10-16,2003-10-30,200  - Police Admin,00-4014200 - Police Officer,Active
+"OUTLAW, ADAM P",5801,2023-10-16,1999-08-26,200  - Police Admin,00-4014200 - Police Officer,Active
+"JAROENWAI, WASAN",5802,2023-10-16,2002-10-05,200  - Police Admin,00-4014200 - Police Officer,Active
+"MARTINEZ, LYN M",5803,2023-10-16,1984-01-28,200  - Police Admin,00-4014200 - Police Officer,Active
+"TITUS, CORINNE A",5806,2023-11-14,1996-11-24,728 - Library Services,00-2020728 - Librarian II,Active
+"FETTER, COLIN J",5809,2023-10-30,2004-11-07,323 - Lift Stations / WW Maintenance,00-7051323 - Utility Servicer Trainee,Active
+"ROBERTS, WILLIAM G",5810,2023-11-03,2004-07-20,410 - Airport,00-8045410 - Airport Operations Tech-(PT),Active
+"ZENTENO, NELSON D Jr.",5814,2023-11-06,2003-02-03,410 - Airport,00-8037410 - Airport Operations Technician II,Active
+"ISAAC, TERESA A",5815,2023-11-13,1975-12-27,301 - Water Plants,00-7038301 - Water Plant Operator Trainee,Active
+"HART, JESSICA",5817,2023-11-28,1987-06-15,216 - Building / Permitting,00-6026216 - CSR I - Staff Assistant I,Active
+"WINDER, DAEKWON L",5819,2023-12-11,1997-01-09,919 - Meter Services,00-7018919 - Meter Repair Technician I,Active
+"ABDELJAWAD, AHMAD Z",5823,2023-12-11,1993-03-21,901 - Engineering Services,00-1086901 - Assistant City Engineer,Active
+"FERNANDEZ, RAMON",5824,2023-12-13,1972-02-29,216 - Building / Permitting,00-6019216 - Permit Specialist,Active
+"LOVING, BLAKE A",5825,2023-12-12,1994-10-20,200  - Police Admin,00-4014200 - Police Officer,Active
+"ROECKER SERRANO, ROSENID",5826,2024-01-08,1996-10-04,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"MUNOZ, KEVIN R",5827,2024-01-02,1997-11-07,110 - Public Affairs and Communication,00-6013110 - Communications Assistance,Active
+"MITCHELL, SHANE A",5828,2024-01-08,1988-03-29,400 - Public Service Buildings,00-8041400 - Building Service Worker - PT,Active
+"BROWN, PARKER J",5829,2023-12-27,2005-04-20,323 - Lift Stations / WW Maintenance,00-7012323 - Maint. Mech. I  - Lift Stations,Active
+"DOLLISON, CLIFTON E",5830,2023-12-11,1959-03-27,101 - City Commission,02-1009101 - City Commissioner,Active
+"DEW, JEREMIAH L",5832,2023-12-27,1984-08-27,410 - Airport,00-6047410 - CSR I - Staff Assistant,Active
+"GILES, MAGGIE",5833,2023-12-27,2001-05-20,110 - Public Affairs and Communication,00-6013110 - Communications Assistance,Active
+"THOMPSON, JESSE W",5834,2024-01-08,2004-06-29,301 - Water Plants,00-7038301 - Water Plant Operator Trainee,Active
+"DOPP, RUTH A",5835,2024-01-10,1989-10-30,728 - Library Services,00-6033728 - CSR II - Library Assistant II,Active
+"SARGENT, DALTON G",5836,2024-01-22,2002-01-14,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"MONROE, VANCE",5837,2024-02-05,1968-06-03,200  - Police Admin,00-1037200 - Police Chief,Active
+"RIVERS, THOMAS C",5839,2024-01-25,1971-02-25,311 - Cemeteries,00-8001311 - MO I - Cemetery Operator,Active
+"MOSTELLO, ROBYN N",5840,2024-02-05,1980-05-25,918 - Customer Account Services,00-6056918 - Customer Service Rep I - Utl Ser,Active
+"COX, CEDRIC H",5842,2024-02-05,1965-09-21,218 - Growth Management/ Planning,00-1051218 - Asst Econ Opp & Comm Inv Dir,Active
+"THOMPSON, JANEAN R",5844,2024-02-20,1997-07-24,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"DAVIS, JOCELYN S",5845,2024-02-20,1991-06-20,306 - Commercial Collection,00-2008306 - Bus. and Spl. Init. Analyst,Active
+"GARAY, ELI J",5847,2024-03-04,2003-10-03,323 - Lift Stations / WW Maintenance,00-7028323 - Utility Servicer I,Active
+"BELL, TYLER W",5848,2024-02-20,1999-09-10,200  - Police Admin,00-4014200 - Police Officer,Active
+"GONZALEZ-RIOS, JOSE A",5851,2024-03-04,1993-10-08,919 - Meter Services,00-7018919 - Meter Repair Technician I,Active
+"BUSSIERE, BRANDON C",5853,2024-03-18,1991-12-27,111 - Finance,01-2042111 - Financial Grant Manager,Active
+"RAMIREZ, JESUS R",5854,2024-03-18,1996-11-23,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"EZELL, JENNIFER J",5855,2024-03-18,1987-10-23,410 - Airport,00-8037410 - Airport Operations Technician II,Active
+"MOFFITT, GABRIELLA N",5856,2024-04-15,2000-06-29,200  - Police Admin,00-4014200 - Police Officer,Active
+"CARDONA, EDISBERTO JR.",5857,2024-04-02,1993-11-15,200  - Police Admin,00-4014200 - Police Officer,Active
+"CARTER, DRAKE E",5858,2024-04-02,2003-03-05,200  - Police Admin,00-4014200 - Police Officer,Active
+"MONTIE, DAVID M",5860,2024-04-02,1999-09-26,200  - Police Admin,00-4014200 - Police Officer,Active
+"CARRIL AROCHO, EVARISTO",5861,2024-04-01,1979-04-22,213 - Fire Stations,00-7040213 - Maint Logistics Officer,Active
+"REYNOSO, YENNI I",5863,2024-04-01,1987-01-19,307 - Residential Collection,00-8004307 - Driver Collector,Active
+"GREEN, CHASE J",5865,2024-04-01,1998-03-31,312 - Parks & Grounds,00-8012312 - Maint. Operator I - Landscape,Active
+"ALBARRAN, SILBANO",5866,2024-04-03,1993-07-03,307 - Residential Collection,00-8004307 - Driver Collector,Active
+"MACCALLA, HOWARD E II",5867,2024-04-01,2002-06-18,410 - Airport,00-8037410 - Airport Operations Technician II,Active
+"TAYLOR, CHRISTOPHER L",5868,2024-04-01,1997-05-24,923 - Technology Services,00-2058923 - Smart City Computer Engineer,Active
+"DUCLOS, CHRISTOPHER J",5869,2024-04-01,2001-01-07,923 - Technology Services,00-2057923 - Smart City Computer Scientist,Active
+"SANCHEZ, ALEJANDRO P",5870,2024-04-02,1997-07-19,200  - Police Admin,00-4014200 - Police Officer,Active
+"STARK, DAVID K Jr.",5871,2024-04-02,1987-05-10,200  - Police Admin,00-4014200 - Police Officer,Active
+"RODRIGUEZ, ELIZET",5872,2024-04-02,2002-04-20,200  - Police Admin,00-4014200 - Police Officer,Active
+"MOSTAFA, RYAN M",5873,2024-04-02,2004-01-20,200  - Police Admin,00-4014200 - Police Officer,Active
+"SCOTT, JY'LEN D",5877,2024-04-17,1998-08-09,200  - Police Admin,00-4014200 - Police Officer,Active
+"MORRISON, JENNIFER M",5878,2024-04-29,1991-06-04,217 - Safe Neighborhoods,01-3002217 - Code Compliance Officer I,Active
+"KEMKER, JASON T",5879,2024-05-13,1984-04-09,304 - Wastewater Treatment Plant  2,00-7034304 - WWTP Op. Trainee-WWTP 2,Active
+"CHANDLER, BILYNDA O",5880,2024-04-29,1968-04-05,217 - Safe Neighborhoods,00-2064217 - Admin Support Specialist,Active
+"CRISMAN, LYDIA E",5881,2024-05-06,2006-01-21,703 - Aquatics,00-5008703 - Lifeguard (PT) - Aquatics,Active
+"ALLEN, JOHNNY H",5882,2024-05-13,1995-02-12,213 - Fire Stations,00-4004213 - Firefighter,Active
+"GOMEZ FUENTES, JESUS",5883,2024-05-15,1967-09-06,312 - Parks & Grounds,00-7007312 - Irrigation Specialist I,Active
+"VICEDOMINI, JOSEPH M",5884,2024-05-13,1955-10-31,301 - Water Plants,00-7012301 - Maintenance Mechanic I,Active
+"ROBAUS, RYAN J",5885,2024-05-20,1999-03-20,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"RAMOS RIVERA, WENSLY",5886,2024-05-28,1993-03-29,401 - Streets,00-3014401 - Pub Works-Engineering Intern,Active
+"GABANY, TRAI C",5887,2024-05-28,2002-05-22,301 - Water Plants,00-7038301 - Water Plant Operator Trainee,Active
+"MURRAY, JEREMY J",5889,2024-06-10,1975-07-25,307 - Residential Collection,00-8028307 - Trashmaster Operator,Active
+"VANGUNDY, ISABELLA G",5891,2025-04-28,2007-04-18,703 - Aquatics,00-5008703 - Lifeguard (PT) - Aquatics,Active
+"OLEWINE, ABIGAIL G",5894,2025-04-28,2008-08-21,703 - Aquatics,00-5008703 - Lifeguard (PT) - Aquatics,Active
+"IBARRA-CONTRERAS, ALFONSO",5910,2024-06-10,1967-11-02,299 - Stormwater Maintenance,00-8038299 - Drainage Maintenance I,Active
+"ARNOLD, BRENDA F",5917,2024-06-10,1966-09-06,200  - Police Admin,00-6045200 - Police Records Clerk,Active
+"PHAN, NICKOLAS V",5918,2024-06-12,1999-07-03,923 - Technology Services,00-2075923 - Data Analyst,Active
+"BOTTEGA MENDOZA, ADRIANA R",5922,2024-06-12,2001-07-11,923 - Technology Services,00-2037923 - Technology Srvs Student Intern,Active
+"RUFFEN, KAILAH L",5923,2024-06-24,1997-09-19,910 - Human Resources,00-2073910 - Organization Dev. Administrator,Active
+"MILLER, NOLAN A",5925,2024-06-24,2004-11-09,301 - Water Plants,00-7038301 - Water Plant Operator Trainee,Active
+"WHITE, KATHERINE E",5926,2024-07-08,1988-12-18,700 - Parks & Recreation Admin.,00-2036700 - Project Development Coord.,Active
+"KITHCART, CHLOE E",5927,2024-06-24,2004-08-04,728 - Library Services,00-6033728 - CSR II - Library Assistant II,Active
+"WASHINGTON, MYRON O",5928,2024-06-24,1987-08-12,919 - Meter Services,00-7018919 - Meter Repair Technician I,Active
+"CROSBY, TOMMY W",5931,2024-07-08,1964-06-22,306 - Commercial Collection,00-7050306 - Container Technician,Active
+"MELNITZKE, MICHAEL C",5932,2024-07-08,2006-03-03,322 - Utility Services Maintenance,00-7051322 - Utility Servicer Trainee,Active
+"CORBY, LUANN",5933,2024-07-08,1963-03-26,307 - Residential Collection,00-6073307 - Litter Control Coordinator,Active
+"PAMEE, JUSTIN N",5934,2024-07-22,1995-05-13,304 - Wastewater Treatment Plant  2,00-7034304 - WWTP Op. Trainee-WWTP 2,Active
+"BEST, TYLER J",5936,2024-07-29,2001-09-27,910 - Human Resources,00-2069910 - HR System & Security Analyst,Active
+"GALVEZ, ADRIAN D",5937,2024-08-05,1994-01-29,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"CRUZ, DAVID",5938,2024-08-05,1994-11-30,213 - Fire Stations,00-5009213 - Firefighter Cadet,Active
+"AGUIRRE, MARIO",5939,2024-08-06,2002-03-06,410 - Airport,00-8045410 - Airport Operations Tech-(PT),Active
+"MAXWELL, TRISTON H",5940,2024-08-05,1996-10-26,213 - Fire Stations,00-4004213 - Firefighter,Active
+"ROBERTS, JAMES W",5941,2024-08-05,1994-06-20,322 - Utility Services Maintenance,00-7051322 - Utility Servicer Trainee,Active
+"CLAYTON, MICHAEL A",5942,2024-08-05,1997-06-15,907 - Fleet Maintenance,00-7015907 - Mechanic I - Fleet Maint.,Active
+"RIGBY, CHRISTOPHER",5943,2024-08-19,1986-11-03,907 - Fleet Maintenance,00-7015907 - Mechanic I - Fleet Maint.,Active
+"FREEMAN, KRISTEN N",5945,2024-08-19,1992-10-05,700 - Parks & Recreation Admin.,00-2064700 - Admin. Support Specialist,Active
+"JAGROO, ANTHONY K",5946,2024-08-27,2007-03-10,400 - Public Service Buildings,00-6026400 - CSR I - Staff Assistant I - PT,Active
+"WINGARD, ASHLEY H",5947,2024-09-09,1986-07-31,200  - Police Admin,00-5000200 - Community Service Officer,Active
+"ALLEVA, WYLAND S",5948,2024-09-30,2001-02-06,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"JACKSON, OCTAVIA L",5950,2024-09-30,2001-11-06,728 - Library Services,00-6032728 - CSR I - Library Assistant I (PT),Active
+"GARCIA, LUIS E Jr.",5951,2024-10-01,2001-01-30,200  - Police Admin,00-4013200 - Police Officer Trainee,Active
+"BRIGGS, WILLIAM J",5952,2024-10-01,1999-10-20,200  - Police Admin,00-4013200 - Police Officer Trainee,Active
+"BRASWELL, DANIEL A",5953,2024-10-01,1992-12-10,200  - Police Admin,00-4013200 - Police Officer Trainee,Active
+"HOLBROOK, SETH M",5954,2024-10-01,1988-05-23,200  - Police Admin,00-4013200 - Police Officer Trainee,Active
+"NATION, CALEB A",5955,2024-10-01,2004-09-12,200  - Police Admin,00-4013200 - Police Officer Trainee,Active
+"MAVER, DEVON F",5956,2024-09-30,1992-10-01,728 - Library Services,00-6033728 - CSR II - Library Assistant II,Active
+"VOSE, THOMAS A",5957,2024-09-30,1967-04-02,312 - Parks & Grounds,00-8012312 - Maint. Operator I - Landscape,Active
+"ORELLANA ENAMORADO, MICHAEL A",5958,2024-10-14,2003-12-20,310 - Utility Services Administration,00-6055310 - Utility Info Systems Intern,Active
+"BROWN, MICHAEL J",5959,2024-09-30,1972-05-23,323 - Lift Stations / WW Maintenance,00-7051323 - Utility Servicer Trainee,Active
+"GURNEY, JOHN J",5963,2024-11-12,1959-07-10,705 - Fieldhouse and Conference Center,00-8041705 - Building Service Worker - PT,Active
+"SAUNDERS, THOMAS R",5964,2024-11-12,1985-07-08,400 - Public Service Buildings,00-8041400 - Building Service Worker - PT,Active
+"SINGH, VADEWANTIE",5965,2025-01-21,1986-06-10,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"BHAWANIDIN, RICHARD",5966,2024-12-09,1998-04-07,306 - Commercial Collection,00-8003306 - Commercial Refuse Operator,Active
+"NEUBRAND, DREW W",5967,2025-01-06,1980-06-26,213 - Fire Stations,00-1023213 - Fire Chief,Active
+"GALINDO, VICTORIA M",5969,2024-12-26,2004-05-06,918 - Customer Account Services,00-6057918 - Customer Service Rep II,Active
+"HODGSON, CHARLES K",5970,2024-12-26,1969-09-12,323 - Lift Stations / WW Maintenance,00-7051323 - Utility Servicer Trainee,Active
+"LENTINI, ZARIAANN S",5971,2025-01-06,1996-05-27,200  - Police Admin,00-3016200 - Evidence/Property Technician,Active
+"PAUL, MASON T",5972,2025-01-06,2000-04-10,323 - Lift Stations / WW Maintenance,00-7051323 - Utility Servicer Trainee,Active
+"WOODHAM, WILLIAM L",5973,2025-01-06,1965-10-02,711 - Activity Fields / Stadium,00-3046711 - Spray Technician,Active
+"CAMILO, BELICIA",5974,2025-01-21,2005-05-12,200  - Police Admin,00-5000200 - Community Service Officer,Active
+"HAMMOND, MERCEDES M",5975,2025-01-21,1969-06-10,105 - City Clerk,01-6026105 - CSR I - Staff Assistant I,Active
+"CADET, GARY",5976,2025-01-21,1961-04-25,299 - Stormwater Maintenance,00-8039299 - Drainage Maintenance II,Active
+"HUBBARD, CANISE N",5977,2025-02-03,1985-06-08,910 - Human Resources,00-1077910 - Assistant Human Resources DIr.,Active
+"BROOKS, KEVIN L",5978,2025-02-03,1968-03-30,200  - Police Admin,00-6050200 - Body Worn Camera Redactor,Active
+"FITCH, BRANNYN N",5979,2025-02-03,1999-01-28,200  - Police Admin,00-5000200 - Community Service Officer,Active
+"CRAWFORD, ANETRA T",5980,2025-02-03,1973-02-22,709 - WH Rec and Cultural Center,00-8030709 - Rec. Attendant (PT) - WHRCC,Active
+"CHAVARRIA, ADRIAN E",5981,2025-02-03,2000-07-24,322 - Utility Services Maintenance,00-7051322 - Utility Servicer Trainee,Active
+"LOPEZ, SERGIO C",5982,2025-02-18,1977-09-21,322 - Utility Services Maintenance,00-7051322 - Utility Servicer Trainee,Active
+"OPPOLD, ANTHONY M",5983,2025-02-18,1997-07-24,323 - Lift Stations / WW Maintenance,00-7051323 - Utility Servicer Trainee,Active
+"KING, DANIEL B",5984,2025-02-03,1973-09-16,312 - Parks & Grounds,00-8012312 - Maint. Operator I - Landscape,Active
+"BRASWELL, HANNAH J",5985,2025-02-18,1999-01-13,711 - Activity Fields / Stadium,00-8012711 - Maint. Operator I - Act Fields,Active
+"FERNANDEZ, AZIRIA",5987,2025-02-11,2004-03-14,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"GALLOWAY, DARRELLE D",5988,2025-02-18,1987-04-10,299 - Stormwater Maintenance,00-8043299 - Debris Control Maint. Oper. III,Active
+"DANIELS, CORRINN D",5990,2025-02-18,1982-08-10,316 - Wastewater Treatment Plant  3,00-7034316 - WWTP Op. Trainee-WWTP 3,Active
+"STUTZ, GENIVIEVE O",5991,2025-02-18,2002-11-15,300 - Stormwater Quality,00-8034300 - Natural Resources Aid,Active
+"CRUZ, CRISTOFER",5992,2025-03-03,1999-12-01,312 - Parks & Grounds,00-7013312 - Maint. Mechanic II - Landscape,Active
+"PAULY, HAYDEN",5994,2025-02-26,2008-12-04,711 - Activity Fields / Stadium,00-8007711 - CSR I - Food Service Worker (PT),Active
+"JOSEPH, JUNAIYA",5995,2025-02-26,2007-01-23,711 - Activity Fields / Stadium,00-8007711 - CSR I - Food Service Worker (PT),Active
+"DAVIS, DAWSON",5996,2025-02-26,2001-12-04,711 - Activity Fields / Stadium,00-8012711 - Maint. Operator I - Act Fields,Active
+"MCDUFFIE, JAMES W",5997,2025-03-03,1966-08-23,323 - Lift Stations / WW Maintenance,00-7051323 - Utility Servicer Trainee,Active
+"TAYLOR, DANIEL",5998,2025-03-03,2004-05-20,923 - Technology Services,00-2037923 - Technology Srvs Student Intern,Active
+"OLSON, GARY",5999,2025-03-03,1956-03-08,711 - Activity Fields / Stadium,00-8013711 - Maintenance Operator I (PT),Active
+"TERRELL, DEVIN J",6000,2025-03-17,1995-12-09,301 - Water Plants,00-7038301 - Water Plant Operator Trainee,Active
+"VAUGHAN, ADRIAN R",6001,2025-03-17,2003-03-12,711 - Activity Fields / Stadium,00-8012711 - Maint. Operator I - Act Fields,Active
+"FOLGAR, KATHLEEN R",6002,2025-03-17,2003-06-17,217 - Safe Neighborhoods,00-3061217 - Code Compliance Trainee,Active
+"PARKS, BARRY Jr.",6003,2025-03-17,2001-11-29,301 - Water Plants,00-7038301 - Water Plant Operator Trainee,Active
+"PIQUET, GARY M",6004,2025-03-17,1962-11-18,906 - Facility Maintenance,00-7013906 - Maint. Mechanic II - Facilities,Active
+"SANTIAGO RODRIGUEZ, ABEL D",6005,2025-03-17,1998-10-01,919 - Meter Services,00-7018919 - Meter Repair Technician I,Active
+"CARMONA, DEVIN",6006,2025-03-17,2004-09-27,711 - Activity Fields / Stadium,00-8007711 - CSR I - Food Service Worker (PT),Active
+"TENA, RUBEN",6007,2025-03-17,1971-04-06,200  - Police Admin,00-6045200 - Police Records Clerk,Active
+"DYAR, ALLEN P",6008,2025-03-17,1995-09-04,311 - Cemeteries,00-8001311 - MO I - Cemetery Operator,Active
+"CLIFTON, KALEB S",6009,2025-03-17,1996-10-05,919 - Meter Services,00-7044919 - Meter Auditor,Active
+"SEAY, BEVERLEY R",6010,2025-03-17,1953-10-25,711 - Activity Fields / Stadium,00-8007711 - CSR I - Food Service Worker (PT),Active
+"ENFINGER, JENNINGS L",6011,2025-03-31,1953-03-10,901 - Engineering Services,00-3005901 - Construction Inspector,Active
+"OSBORNE, SCOTT A",6012,2025-03-31,1971-03-02,322 - Utility Services Maintenance,00-1048322 - Superintendent - Water Maint,Active
+"CHINNERY, JISELLE M",6013,2025-04-10,2005-07-09,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"ALVARADO-OCASIO, JOSE A",6014,2025-04-14,1996-01-05,213 - Fire Stations,00-4005213 - Firefighter I,Active
+"FLORES, DAVID B",6015,2025-04-14,2000-12-21,907 - Fleet Maintenance,00-7015907 - Mechanic I - Fleet Maint.,Active
+"FORBES, SOLOMON",6016,2025-04-15,1986-05-12,200  - Police Admin,00-5007200 - Police Officer Cadet,Active
+"PEREZ SILALAI, JESUS R",6017,2025-04-15,1997-11-11,200  - Police Admin,00-5007200 - Police Officer Cadet,Active
+"CORDERO HOMS, OCTAVIO J",6018,2025-04-14,1992-10-15,200  - Police Admin,00-4013200 - Police Officer Trainee,Active
+"LAST, JULIAN",6019,2025-04-28,2002-03-26,705 - Fieldhouse and Conference Center,00-8041705 - Building Service Worker - PT,Active
+"HOGAN, MARINO",6020,2025-04-28,1993-10-18,709 - WH Rec and Cultural Center,00-8000709 - Bldg. Svc. Worker - WHRCC,Active
+"VALDES, MARIAM",6021,2025-05-12,1976-03-26,111 - Finance,00-2063111 - Payroll Specialist,Active
+"MAHALIK, DAVID D",6022,2025-04-28,1958-11-30,216 - Building / Permitting,00-3001216 - Building Inspector,Active
+"JENKINS, TAIZHAUNA",6023,2025-04-28,1999-10-18,307 - Residential Collection,00-8004307 - Driver Collector,Active
+"MACIAS, FRANKY",6024,2025-04-28,2003-09-18,312 - Parks & Grounds,00-8012312 - Maint. Operator I - Landscape,Active
+"JENKINS, DOMINIC",6025,2025-05-16,1999-03-21,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"MORALES, DANDY",6026,2025-05-16,1986-09-24,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"GABRIEL, MILANI",6027,2025-05-16,2005-02-04,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"MAULTSBY, KEYONNA",6028,2025-05-16,1996-03-06,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"ENCARNACION CALDERON, LIZAIDA",6029,2025-05-16,1999-05-23,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"JAGROO, YORELIZ",6030,2025-05-16,2005-01-13,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"POTTER, TATIYANAH",6031,2025-05-16,2002-05-01,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"WALDEN, REGINA",6032,2025-05-16,1980-01-17,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"COOPER, MADDEN",6033,2025-05-16,2007-05-21,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"THOMPSON, CATERA",6034,2025-05-16,1997-06-28,705 - Fieldhouse and Conference Center,00-8030705 - CSR I - PT Rec Attendant (FldHs),Active
+"GILLIAM, CORYN",6035,2025-05-09,2005-10-07,703 - Aquatics,00-5008703 - Lifeguard (PT) - Aquatics,Active
+"WATSON, KARMYN",6036,2025-05-12,1986-11-17,307 - Residential Collection,00-8004307 - Driver Collector,Active
+"JARAMILLO, STEPHANIE",6037,2025-05-12,1993-07-13,918 - Customer Account Services,00-6056918 - Customer Service Rep I - Utl Ser,Active
+"CROWLEY, MICHAEL",6038,2025-05-12,1991-01-11,323 - Lift Stations / WW Maintenance,00-7013323 - Maintenance Mechanic II,Active
+"TANNER, GRADY",6039,2025-05-12,1973-09-21,307 - Residential Collection,00-8004307 - Driver Collector,Active
+"SANCHEZ-GONZALEZ, KENNY",6040,2025-05-12,2002-10-23,200  - Police Admin,00-5000200 - Community Service Officer,Active
