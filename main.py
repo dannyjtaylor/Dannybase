@@ -11,21 +11,20 @@ import os
 import io
 import logging
 import re
-import asyncio
 import base64
-import datetime
+from datetime import datetime, timedelta
 from contextlib import asynccontextmanager
-import aiosqlite
-from fastapi import FastAPI, Request, Form, HTTPException, UploadFile, File
+import asyncpg
+from fastapi import FastAPI, Request, Form, HTTPException, UploadFile, File, Depends, status
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from starlette.exceptions import HTTPException as StarletteHTTPException
+
+from config import settings
+from userauth import create_access_token, get_current_user_from_cookie, verify_password
 
 logging.basicConfig(level=logging.INFO)
-
-# Use a lock to prevent race conditions when reading/writing the CSV file
-DB_LOCK = asyncio.Lock()
-DB_PATH = os.path.join(os.path.dirname(__file__), "dannybase.db")
 
 CANONICAL_COLS = [
     'EmployeeID', 'Username', 'FirstName', 'LastName', 'Nickname', 'DepartmentCode', 'Department',
@@ -38,33 +37,64 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
+app.state.pool = None # Placeholder for the connection pool
+
+@app.exception_handler(StarletteHTTPException)
+async def custom_http_exception_handler(request: Request, exc: StarletteHTTPException):
+    """
+    If a 401 Unauthorized error is raised, redirect the user to the login page.
+    This provides blanket protection for all routes using the auth dependency.
+    """
+    if exc.status_code == status.HTTP_401_UNAUTHORIZED:
+        # For API calls, return a proper JSON 401 response
+        if request.url.path.startswith("/api/") or request.url.path.startswith("/import/"):
+            return JSONResponse(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                content={"detail": exc.detail},
+            )
+        # For page views, redirect to the login screen
+        return RedirectResponse(url="/login")
+    return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
+
 @asynccontextmanager
-async def db_connection():
-    db = await aiosqlite.connect(DB_PATH)
-    db.row_factory = aiosqlite.Row
+async def db_connection(request: Request):
+    """Acquires a connection from the pool."""
+    pool = request.app.state.pool
     try:
-        yield db
+        async with pool.acquire() as connection:
+            yield connection
     finally:
-        await db.close()
+        # The connection is automatically released back to the pool
+        pass
 
 @app.on_event("startup")
-async def startup_db():
-    async with db_connection() as db:
-        await db.execute(f"""
-            CREATE TABLE IF NOT EXISTS employees (
-                {', '.join([f'{col} TEXT' for col in CANONICAL_COLS])},
-                PRIMARY KEY (EmployeeID)
-            )
-        """)
-        await db.commit()
-    logging.info("Database connection established and table verified.")
+async def startup_event():
+    """Create a database connection pool and ensure the table exists on startup."""
+    try:
+        app.state.pool = await asyncpg.create_pool(settings.DATABASE_URL)
+        # Verify connection and ensure the table exists
+        async with app.state.pool.acquire() as connection:
+            await connection.execute(f"""
+                CREATE TABLE IF NOT EXISTS employees (
+                    {', '.join([f'"{col}" TEXT' for col in CANONICAL_COLS])},
+                    PRIMARY KEY ("EmployeeID")
+                )
+            """)
+        logging.info("Database connection pool created and 'employees' table verified.")
+    except Exception as e:
+        logging.critical(f"FATAL: Could not connect to database or create table: {e}")
 
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Close the database connection pool on shutdown."""
+    await app.state.pool.close()
+    logging.info("Database connection pool closed.")
 # --- Database Helpers ---
-async def load_employees():
-    async with db_connection() as db:
-        cursor = await db.execute("SELECT * FROM employees")
-        rows = await cursor.fetchall()
-        employees = [dict(row) for row in rows]
+async def load_employees(request: Request):
+    async with db_connection(request) as db:
+        # Use db.fetch() for SELECT queries. It directly returns a list of records.
+        rows = await db.fetch("SELECT * FROM employees")
+        employees = [dict(row) for row in rows] # asyncpg.Record is already dict-like
     
     enriched_employees = [enrich_employee_row(emp) for emp in employees]
     return enriched_employees
@@ -88,8 +118,8 @@ def enrich_employee_row(row):
     if join_date_str and join_date_str not in ['N/A', '']:
         try:
             # Accommodate different date formats if necessary, but stick to MM/DD/YYYY
-            join_date = datetime.datetime.strptime(join_date_str, '%m/%d/%Y')
-            today = datetime.datetime.today()
+            join_date = datetime.strptime(join_date_str, '%m/%d/%Y')
+            today = datetime.today()
             # This logic correctly calculates full years passed
             years = today.year - join_date.year - ((today.month, today.day) < (join_date.month, join_date.day))
             row['YearsOfService'] = str(years)
@@ -102,14 +132,15 @@ def enrich_employee_row(row):
 
 # --- Import/Export (AJAX/JSON for modal) ---
 @app.post("/import/preview")
-async def import_preview(file: UploadFile = File(...)):
+async def import_preview(file: UploadFile = File(...), user: str = Depends(get_current_user_from_cookie)):
     """AJAX: Upload file, return preview and columns as JSON."""
     import pandas as pd
     try:
         if file.filename.endswith('.csv'):
             import io
             raw = file.file.read()
-            df_new = pd.read_csv(io.BytesIO(raw))
+            # Read all columns as strings to prevent pandas from inferring types (e.g., '918' as 918.0)
+            df_new = pd.read_csv(io.BytesIO(raw), dtype=str)
         else:
             return JSONResponse({"error": "Only CSV import is supported."}, status_code=400)
         # Always strip spaces from all column names after reading
@@ -139,7 +170,7 @@ async def import_preview(file: UploadFile = File(...)):
         return JSONResponse({"error": str(e)}, status_code=400)
 
 @app.post("/import/confirm")
-async def import_confirm(request: Request):
+async def import_confirm(request: Request, user: str = Depends(get_current_user_from_cookie)):
     """AJAX: Confirm import from base64 encoded CSV, save data."""
     import pandas as pd
     try:
@@ -150,7 +181,9 @@ async def import_confirm(request: Request):
             raise HTTPException(status_code=400, detail="Missing csv_b64 data in request body.")
 
         csv_bytes = base64.b64decode(csv_b64)
-        df_new = pd.read_csv(io.BytesIO(csv_bytes))
+
+        # Read all columns as strings for consistency and to prevent type inference issues.
+        df_new = pd.read_csv(io.BytesIO(csv_bytes), dtype=str)
         # Always strip spaces from all column names after reading
         df_new.columns = [c.strip() for c in df_new.columns]
         # Do NOT strip spaces from values; allow values to have spaces
@@ -161,13 +194,17 @@ async def import_confirm(request: Request):
         
         employees_to_import = [normalize_for_db(row) for row in df_new.to_dict(orient='records')]
 
-        async with db_connection() as db:
+        async with db_connection(request) as db:
             for emp in employees_to_import:
-                placeholders = ', '.join(['?'] * len(CANONICAL_COLS))
-                cols = ', '.join(CANONICAL_COLS)
-                sql = f"INSERT OR REPLACE INTO employees ({cols}) VALUES ({placeholders})"
-                await db.execute(sql, tuple(emp.values()))
-            await db.commit()
+                # Use PostgreSQL's "UPSERT" functionality
+                cols = ', '.join([f'"{c}"' for c in CANONICAL_COLS])
+                placeholders = ', '.join([f'${i+1}' for i in range(len(CANONICAL_COLS))])
+                # On conflict, update all columns except the primary key
+                update_cols = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in CANONICAL_COLS if col != 'EmployeeID'])
+                
+                sql = f'INSERT INTO employees ({cols}) VALUES ({placeholders}) ON CONFLICT ("EmployeeID") DO UPDATE SET {update_cols}'
+                
+                await db.execute(sql, *emp.values())
 
         logging.info(f"[Import Confirm] Confirmed import of {len(df_new)} employees.")
         return JSONResponse({"message": f"Imported {len(df_new)} employees."})
@@ -178,77 +215,106 @@ async def import_confirm(request: Request):
 
 # POST (create new employee)
 @app.post("/api/employees")
-async def api_create_employee(emp: dict):
+async def api_create_employee(request: Request, emp: dict, user: str = Depends(get_current_user_from_cookie)):
     emp_id = emp.get("EmployeeID")
     if not emp_id:
         raise HTTPException(status_code=400, detail="EmployeeID is required.")
 
     normalized_emp = normalize_for_db(emp)
     
-    async with db_connection() as db:
-        placeholders = ', '.join(['?'] * len(CANONICAL_COLS))
-        cols = ', '.join(CANONICAL_COLS)
+    async with db_connection(request) as db:
+        cols = ', '.join([f'"{c}"' for c in CANONICAL_COLS])
+        placeholders = ', '.join([f'${i+1}' for i in range(len(CANONICAL_COLS))])
         sql = f"INSERT INTO employees ({cols}) VALUES ({placeholders})"
-        await db.execute(sql, tuple(normalized_emp.values()))
-        await db.commit()
+        await db.execute(sql, *normalized_emp.values())
 
     logging.info(f"[API] Employee added: {emp}")
     return {"message": "Employee created"}
 
 # --- PUT (upsert employee) ---
 @app.put("/api/employees/{emp_id}")
-async def api_update_employee(emp_id: str, emp: dict):
+async def api_update_employee(request: Request, emp_id: str, emp: dict, user: str = Depends(get_current_user_from_cookie)):
     """
     Upsert an employee by EmployeeID:
-     - If exists, update fields.
-     - If not, create new row.
+    - If exists, update fields.
+    - If not, create new row.
     """
     logging.info(f"[Upsert Employee] Received PUT for EmployeeID={emp_id}")
     
-    # Filter out derived fields from the incoming payload
-    update_data = {k: v for k, v in emp.items() if k in CANONICAL_COLS}
+    # Prepare a full record for potential insertion
+    normalized_emp = normalize_for_db(emp)
+    normalized_emp['EmployeeID'] = emp_id # Ensure EmployeeID is set from the URL
 
-    if not update_data:
-        raise HTTPException(status_code=400, detail="No valid fields to update.")
-
-    set_clause = ', '.join([f"{key} = ?" for key in update_data.keys()])
-    values = list(update_data.values())
-    values.append(emp_id)
-
-    sql = f"UPDATE employees SET {set_clause} WHERE EmployeeID = ?"
-
-    async with db_connection() as db:
-        cursor = await db.execute(sql, tuple(values))
-        if cursor.rowcount == 0:
-            # If no rows were updated, it means the employee doesn't exist. Let's create it.
-            normalized_emp = normalize_for_db(emp)
-            await api_create_employee(normalized_emp)
-            return {"message": "Employee created via PUT"}
-        await db.commit()
+    async with db_connection(request) as db:
+        # Use PostgreSQL's "UPSERT" for a single, atomic operation
+        cols = ', '.join([f'"{c}"' for c in CANONICAL_COLS])
+        placeholders = ', '.join([f'${i+1}' for i in range(len(CANONICAL_COLS))])
+        update_cols = ', '.join([f'"{col}" = EXCLUDED."{col}"' for col in CANONICAL_COLS if col != 'EmployeeID'])
+        sql = f'INSERT INTO employees ({cols}) VALUES ({placeholders}) ON CONFLICT ("EmployeeID") DO UPDATE SET {update_cols}'
+        
+        await db.execute(sql, *normalized_emp.values())
 
     return {"message": "Employee updated"}
 
 # --- DELETE employee ---
 @app.delete("/api/employees/{emp_id}")
-async def api_delete_employee(emp_id: str):
+async def api_delete_employee(request: Request, emp_id: str, user: str = Depends(get_current_user_from_cookie)):
     """
     Delete an employee by EmployeeID.
     """
     logging.info(f"[Delete Employee] Received DELETE for EmployeeID={emp_id}")
-    async with db_connection() as db:
-        cursor = await db.execute("DELETE FROM employees WHERE EmployeeID = ?", (emp_id,))
-        await db.commit()
-        if cursor.rowcount == 0:
+    async with db_connection(request) as db:
+        result = await db.execute('DELETE FROM employees WHERE "EmployeeID" = $1', emp_id)
+        if result == 'DELETE 0':
             logging.warning(f"[Delete Employee] EmployeeID={emp_id} not found")
             raise HTTPException(status_code=404, detail="Employee not found")
 
     return JSONResponse({"message": "Employee deleted"}, status_code=200)
 
+# --- Authentication Routes ---
+@app.get("/login", response_class=HTMLResponse)
+async def login_page(request: Request):
+    """Serves the login page."""
+    return templates.TemplateResponse("login.html", {"request": request})
+
+@app.post("/login")
+async def login_for_access_token(request: Request, username: str = Form(...), password: str = Form(...)):
+    """Processes login form, sets cookie on success."""
+    if not verify_password(password, settings.AUTH_PASSWORD) or username.lower() != settings.AUTH_USERNAME.lower():
+        return templates.TemplateResponse("login.html", {"request": request, "error": "Invalid username or password"})
+
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": settings.AUTH_USERNAME}, expires_delta=access_token_expires
+    )
+
+    # Set the token in a secure, HttpOnly cookie
+    response = RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+    response.set_cookie(
+        key="access_token",
+        value=access_token,
+        httponly=True, # Prevents client-side JS from accessing the cookie
+        samesite="lax",
+        max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60
+    )
+    logging.info(f"User '{username}' logged in at {datetime.now().isoformat()}")
+    return response
+
+@app.get("/logout")
+async def logout(request: Request, user: str = Depends(get_current_user_from_cookie)):
+    """Logs the user out by clearing the cookie."""
+    response = RedirectResponse(url="/login", status_code=status.HTTP_303_SEE_OTHER)
+    response.delete_cookie("access_token")
+    # The `user` is the username from the token, available via the dependency
+    logging.info(f"User '{user}' logged out at {datetime.now().isoformat()}")
+    return response
+
+
 # --- Page-serving Routes (HTML out) ---
 @app.get("/export")
-async def export():
+async def export(request: Request, user: str = Depends(get_current_user_from_cookie)):
     """Export all employees as a CSV file (even if empty)."""
-    df = await load_employees()
+    df = await load_employees(request)
     # Ensure export matches canonical headers
     export_cols = [
         'EmployeeID', 'Username', 'WorkEmail', 'FirstName', 'LastName', 'Nickname', 'DepartmentCode', 'Department',
@@ -270,11 +336,11 @@ async def export():
     return response
 
 @app.get("/", response_class=HTMLResponse)
-async def index(request: Request, q: str = ""):
+async def index(request: Request, q: str = "", user: str = Depends(get_current_user_from_cookie)):
     """
     Home page: View/search employee table
     """
-    employees = await load_employees()
+    employees = await load_employees(request)
     if q:
         q_lower = q.lower()
         employees = [emp for emp in employees if any(str(val).lower().find(q_lower) != -1 for val in emp.values())]
@@ -283,7 +349,7 @@ async def index(request: Request, q: str = ""):
 
 # Step 1: Enter Employee ID
 @app.get("/add", response_class=HTMLResponse)
-async def add_employee_id_form(request: Request):
+async def add_employee_id_form(request: Request, user: str = Depends(get_current_user_from_cookie)):
     """
     Step 1: Ask for Employee ID
     """
@@ -294,7 +360,8 @@ async def add_employee_id_form(request: Request):
 async def add_employee_id(
     request: Request, 
     emp_id: str = Form(...),
-    work_email: str = Form(...)):
+    work_email: str = Form(...),
+    user: str = Depends(get_current_user_from_cookie)):
     """
     Step 2: Redirect to full form with Employee ID
     """
@@ -322,7 +389,8 @@ async def add_employee_fields(
     mobile_phone: str = Form(None),
     employment_type: str = Form(None),
     employment_status: str = Form(None),
-    years_of_service: str = Form(None)
+    years_of_service: str = Form(None),
+    user: str = Depends(get_current_user_from_cookie)
 ):
     """
     Add new employee with all fields
@@ -411,12 +479,11 @@ async def add_employee_fields(
         }
 
         normalized_emp = normalize_for_db(new_row)
-        async with db_connection() as db:
-            placeholders = ', '.join(['?'] * len(CANONICAL_COLS))
-            cols = ', '.join(CANONICAL_COLS)
+        async with db_connection(request) as db:
+            cols = ', '.join([f'"{c}"' for c in CANONICAL_COLS])
+            placeholders = ', '.join([f'${i+1}' for i in range(len(CANONICAL_COLS))])
             sql = f"INSERT INTO employees ({cols}) VALUES ({placeholders})"
-            await db.execute(sql, tuple(normalized_emp.values()))
-            await db.commit()
+            await db.execute(sql, *normalized_emp.values())
 
         # Redirect to home page to show updated database
         return RedirectResponse("/", status_code=303)
