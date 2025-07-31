@@ -1,5 +1,6 @@
 // dannybase.js - All main interactive logic for Dannybase UI
 
+
 // ---- Toast Notification Logic ----
 function showToast(message, type = 'success') {
     const container = document.getElementById('toast-container');
