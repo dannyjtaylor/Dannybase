@@ -47,6 +47,7 @@
             empIdError.textContent = '';
             empIdError.style.display = 'none';
           }
+          
           // Work Email: strictly lowercase letters, trim
           workEmail.value = trimInput(workEmail);
           if (!/^[a-z]+$/.test(workEmail.value)) {
